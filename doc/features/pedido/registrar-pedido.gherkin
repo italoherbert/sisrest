@@ -1,0 +1,17 @@
+Feature: Registrar pedido
+
+    Essa função se refere a simples inserção de pedido na fila 
+    de pedidos
+
+Scenario: Pedido registrado
+    Given que o usuário caixa está logado no sistema
+    When o usuário receber do garçom os códigos do itens de cardápio e as quantidades
+        And os itens de cardápio existirem todos no sistema
+    Then o pedido é inserido no fim da fila
+        And uma mensagem é mostrada informando o sucesso na inserção
+
+Scenario: Item de cardápio não encontrado
+    Given que o usuário caixa está logado no sistema
+    When o usuário receber do garçom os códigos do itens de cardápio e as quantidades
+        And pelo menos um item de cardápio não existir no sistema
+    Then o sistema mostra uma mensagem informando qual item não foi encontrado no cardápio

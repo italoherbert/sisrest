@@ -1,0 +1,9 @@
+Feature: Visualizar carcápio
+
+    Esta função se refere a listagem de todos os itens do cardápio. A listagem de cada item 
+    deve mostrar a descrição e o preço do ítem/prato.
+
+Scenario: Cardápio visualizado com sucesso
+    Given que o usuário está logado no sistema
+    When o usuário selecionar a opção visualizar cardápio
+    Then é mostrado o cardápio em formato PDF

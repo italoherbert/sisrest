@@ -1,0 +1,28 @@
+Feature: Registrar novo item de cardápio
+
+    Essa função se refere a inserção de um novo item no cardápio do estabelecimento
+
+Scenario: Item de cardápio registrado com sucesso
+    Given que o usuário está logado no sistema
+        And o usuário tem perfil de gerente
+    When o usuário preencher o formulário
+        And o usuário clicar no botão de adicionar novo item
+        And a descrição não está em branco
+        And o preço é um valor maior que zero
+    Then o sistema adiciona o novo item ao cardápio
+        And o sistema mostra uma mensagem informando o sucesso na adição
+
+Scenario: Descrição em branco
+    Given que o usuário está logado no sistema
+        And o usuário tem perfil de gerente
+    When o usuáro preencher o formulário
+        And o usuário clicar no botão adicionar novo item
+        And a descrição estiver em branco
+    Then o sistema mostra uma mensagem de erro conforme as regras de validação do campo descrição
+
+Scenario: Valor de preço não numérico ou menor ou igual a zero
+    Given que o usuário está logado no sistema
+    When o usuáro preencher o formulário
+        And o usuário clicar no botão adicionar novo item
+        And o preço é um valor não numérico ou menor ou igual a zero
+    Then o sistema mostra uma mensagem de erro conforme as regras de validação do campo preço

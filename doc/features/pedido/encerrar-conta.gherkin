@@ -1,0 +1,11 @@
+Feature: Encerrar conta
+
+    Essa função se refere ao encerramento da conta que inclui o cálculo do total 
+    e remoção dos pedidos vinculados à mesa
+
+Scenario: Conta encerrada
+    Given que o usuário está logado no sistema
+    When o usuário executa a função encerrar conta
+    Then o sistema calcula o total a pagar de todos os pedidos atendidos da mesa
+        And o sistema remove todos os pedidos vinculados a mesa
+        And o sistema mostra uma mensagem informando que a conta foi encerrada com sucesso

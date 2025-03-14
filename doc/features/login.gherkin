@@ -1,0 +1,20 @@
+Feature: Login no sistema
+
+    Login onde o usuário entra com username e senha para se autenticar e obter acesso 
+    ao sistema
+
+Scenario: Login bem sucedido
+    Given que o usuário deseja logar no sistema
+    When o usuário informar username
+        And o usuário informar a senha
+        And o usuário clicar no botão de Login
+        And o usuário existe no banco de dados com username e senha informados
+    Then o login é bem sucedido
+        And o usuário é redirecionado para a tela do sistema correspondente ao seu usuário
+
+Scenario: Usuário não existe
+    Given que o usuário deseja logar no sistema
+    When o usuário informar o username
+        And o usuário informar a senha
+        And o username e a senha não correspondem a algum usuário registrado no sistema
+    Then o sistema mostra uma mensagem de login mal sucedido

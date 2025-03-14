@@ -1,0 +1,26 @@
+Feature: Alterar item de cardápio
+
+    Essa função se refere a alteração de um item de cardápio já registrado antes
+
+Scenario: Item de cardápio alterado com sucesso
+    Given que o usuário está logado no sistema
+    When o usuário preencher o formulário
+        And o usuário clicar no botão de Salvar item
+        And a descrição não está em branco
+        And o preço é um valor maior que zero
+    Then o sistema altear o novo item de cardápio
+        And o sistema mostra uma mensagem informando o sucesso na alteração
+
+Scenario: Descrição em branco
+    Given que o usuário está logado no sistema
+    When o usuáro preencher o formulário
+        And o usuário clicar no botão adicionar novo item
+        And a descrição estiver em branco
+    Then o sistema mostra uma mensagem de erro conforme as regras de validação do campo descrição
+
+Scenario: Valor de preço não numérico ou menor ou igual a zero
+    Given que o usuário está logado no sistema
+    When o usuáro preencher o formulário
+        And o usuário clicar no botão adicionar novo item
+        And o preço é um valor não numérico ou menor ou igual a zero
+    Then o sistema mostra uma mensagem de erro conforme as regras de validação do campo preço

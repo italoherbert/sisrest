@@ -1,0 +1,19 @@
+Feature: Remover item de cardápio
+
+    Essa função se refere a remoção de um item do cardápio
+
+Scenario: Item removido com sucesso
+    Given que o usuário está logado no sistema
+    When o usuário selecionar o item de cardápio a ser removido
+        And o usuário clicar na opção Remover
+        And o sistema solicitar a confirmação da remoção
+        And o usuário confirmar a remoção    
+    Then o sistema remove o item do cardápio
+
+Scenario: Remoção cancelada
+    Given que o usuário está logado no sistema
+    When o usuário selecionar o item de cardápio a ser removido
+        And o usuário clicar na opção Remover
+        And o sistema solicitar a confirmação da remoção
+        And o usuário cancelar remoção
+    Then o sistema mostra uma mensagem informando o sucesso no cancelamento.

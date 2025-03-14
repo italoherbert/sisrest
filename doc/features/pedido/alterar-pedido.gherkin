@@ -1,0 +1,12 @@
+Feature: Alterar pedido
+
+    Essa função se refere a alteração do pedido pelo ID 
+
+Scenario: Pedido alterado
+    Given que o usuário está logado no sistema
+        And existe o pedido vinculado ao ID
+    When o usuário selecionar o pedido
+        And o usuário alterar os dados do pedido
+        And o usuário clicar na opção alterar
+    Then o pedido é registrado
+        And uma mensagem é mostrada informando que o registro foi realizado

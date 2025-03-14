@@ -1,0 +1,17 @@
+Feature: Filtrar pedidos
+
+    Essa função se refere ao filtro de pedidos por status que pode ser: atendido ou não atendido 
+    e permite, também, filtrar todos os pedidos independente do status
+
+Scenario: Pedidos listados com sucesso
+    Given que o usuário está logado no sistema
+    When o usuário configurar o filtro de usuários
+        And o usuário clicar no botão filtrar
+    Then os pedidos são listados conforme o filtro
+
+Scenario: Nenhum pedido encontrado
+    Given que o usuário está logado no sistema
+    When o usuário configurar o filtro de usuários
+        And o usuário clicar no botão filtrar
+        And não for encontrado nenhum pedido pela configuração do filtro
+    Then o sistema mostra uma mensagem informando que nenhum pedido foi encontrado 
