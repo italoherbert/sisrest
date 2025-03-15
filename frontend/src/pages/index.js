@@ -1,7 +1,7 @@
+import Login from "./login";
+
 const Index = () => (
-    <div>
-        <h1>Home...</h1>
-    </div>
+    <Login />
 );
 
 export default Index;

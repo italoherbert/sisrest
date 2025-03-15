@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 import Button from '../components/Button';
 import InputText from '../components/InputText';
@@ -9,12 +10,13 @@ import Message from '../components/Message';
 
 const Login = () => {
 
+    const router = useRouter();
+
     const [errorMessage, setErrorMessage] = useState( null );
     const [infoMessage, setInfoMessage] = useState( null );
 
     const [username, setUsername] = useState( "" );
     const [password, setPassword] = useState( "" );
-    const [token, setToken] = useState( null );
 
     const login = async () => {
         setErrorMessage( null );
@@ -24,8 +26,8 @@ const Login = () => {
             username: username,
             password: password
         } ).then( response => {
-            setToken( response.data.token );
-            setInfoMessage( response.data.token );
+            localStorage.setItem( "token", response.data.token );
+            router.push( '/cardapio-item' );
         } ).catch( error => {
             setErrorMessage( error.response.data.mensagem );
         } );
