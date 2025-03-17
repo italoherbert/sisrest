@@ -10,6 +10,9 @@ import ButtonLink from "../../components/buttons/ButtonLink";
 import PageTitle from '../../components/PageTitle';
 import { RealFormatter } from "../../components/NumberFormatter";
 import Spinner from "../../components/Spinner";
+import Label from "../../components/Label";
+import InputText from "../../components/InputText";
+import Button from "../../components/buttons/Button";
 
 const CardapioItemTela = ({}) => {
 
@@ -19,13 +22,18 @@ const CardapioItemTela = ({}) => {
 
     const [cardapioItemList, setCardapioItemList] = useState( [] );
     const [pageCardapioItemList, setPageCardapioItemList] = useState( [] );
+    const [filterDescricao, setFilterDescricao] = useState( '*' );
 
     useEffect( () => {
+        filtra();
+    }, [] );
+
+    const filtra = async () => {
         setErrorMessage( null );
         setInfoMessage( null );
         setSpinnerVisible( true );
 
-        axios.get( BASE_URL + "/cardapioitem/list", { 
+        axios.get( BASE_URL + "/cardapioitem/filter?descricao="+filterDescricao, { 
             headers: {
                 Authorization: `Bearer ${localStorage.getItem( 'token' )}`
             }
@@ -36,7 +44,7 @@ const CardapioItemTela = ({}) => {
             setErrorMessage( error.response.data.mensagem );
             setSpinnerVisible( false );
         } );
-    }, [] );
+    };
 
     return (
         <Painel className="columns-1 w-2/3 p-5 bg-blue-50">
@@ -45,6 +53,26 @@ const CardapioItemTela = ({}) => {
             </ButtonLink>
             <PageTitle>Cardápio</PageTitle>
             <br />
+
+            <div className="flex justify-center">
+                <Painel className="d-inline w-1/2 p-3 bg-white mb-3">                
+                    <div className="flex flex-row items-center">
+                        <span className="mx-2">
+                            <Label>Descrição: </Label>
+                        </span>
+                        <span className="mx-2 w-full">
+                            <InputText type="text" 
+                                    value={filterDescricao} 
+                                    onChange={ (e) => setFilterDescricao( e.target.value ) } />
+                        </span>
+                        <span className="mx-2">
+                            <Button variant="default" onClick={filtra}>
+                                Filtrar
+                            </Button>
+                        </span>
+                    </div>                
+                </Painel>
+            </div>
 
             <Message message={errorMessage} type="error" />
             <Message message={infoMessage} type="info" />
@@ -79,7 +107,7 @@ const CardapioItemTela = ({}) => {
                 <Paginator 
                     datalist={cardapioItemList} 
                     pageSize={2} 
-                    maxPagesGroupSize={3}
+                    maxPagesByGroup={3}
                     onUpdateDataList={ ( pageDataList ) => setPageCardapioItemList( pageDataList ) } />
             </div>     
         </Painel>

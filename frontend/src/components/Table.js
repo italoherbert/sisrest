@@ -100,9 +100,9 @@ export const TableTH = ({bgColor, textColor, children}) => {
     )
 };
 
-export const Paginator = ({datalist, onUpdateDataList, pageSize, maxPagesGroupSize}) => {
+export const Paginator = ({datalist, onUpdateDataList, pageSize, maxPagesByGroup}) => {
 
-    const [firstPageNumber, setFirstPageNumber] = useState( 0 );
+    const [currentPageGroup, setCurrentPageGroup] = useState( 0 );
     const [pageNumbers, setPageNumbers] = useState( [] );
     
     const onPageClick = async ( number ) => {
@@ -123,68 +123,71 @@ export const Paginator = ({datalist, onUpdateDataList, pageSize, maxPagesGroupSi
     };
 
     const onBackClick = async () => {
-        let fpNumber = firstPageNumber;
-
-        const currentPageGroup = calcCurrentPageGroup( fpNumber );
+        let currPageGroup = currentPageGroup;
         
-        if ( currentPageGroup > 1 ) {
-            fpNumber -= maxPagesGroupSize;
-            setFirstPageNumber( fpNumber );
-            geraPageNumbers( fpNumber );
+        if ( currPageGroup > 1 ) {
+            currPageGroup--;
+            setCurrentPageGroup( currPageGroup );
+            geraPageNumbers( currPageGroup );
         }
     };
 
     const onNextClick = async () => {                
-        let fpNumber = firstPageNumber;
+        let currPageGroup = currentPageGroup;
 
-        const quantPagesGroups = calcQuantPagesGroups();
-        const currentPageGroup = calcCurrentPageGroup( fpNumber );
+        let quantPageGroups = calcQuantPageGroups();
 
-        if ( currentPageGroup < quantPagesGroups ) {
-            fpNumber += maxPagesGroupSize;
-            setFirstPageNumber( fpNumber );
-            geraPageNumbers( fpNumber );
+        if ( currPageGroup < quantPageGroups ) {
+            currPageGroup++;
+            setCurrentPageGroup( currPageGroup );
+            geraPageNumbers( currPageGroup );
         }
     };
 
-    useEffect( () => {             
-        if ( datalist.length > 0 ) {
-            setFirstPageNumber( 1 );
-            onPageClick( 1 ); 
-            geraPageNumbers( 1 );           
+    useEffect( () => {           
+        let currPageGroup = ( datalist.length > 0 ? 1 : 0 );  
+        setCurrentPageGroup( currPageGroup );
+
+        if ( currPageGroup > 0 ) {
+            onPageClick( currPageGroup );
         } else {
-            setFirstPageNumber( 0 );
+            onUpdateDataList( [] );
         }
+
+        geraPageNumbers( currPageGroup );                   
     }, [datalist] );
 
-    const geraPageNumbers = async ( fpNumber ) => {
+    const geraPageNumbers = async ( currPageGroup ) => {
         let pageNumbersList = [];
-       
-        if ( fpNumber > 0 ) {
+               
+        if ( currPageGroup > 0 ) {
+            const quantPageGroups = calcQuantPageGroups();
+
+            let firstPageNumber = ( ( currPageGroup - 1 ) * maxPagesByGroup ) + 1;
 
             let lastPageNumber;
-            if ( ( fpNumber * pageSize ) + ( maxPagesGroupSize * pageSize ) < datalist.length ) {
-                lastPageNumber = fpNumber + maxPagesGroupSize - 1;
+            if ( currPageGroup < quantPageGroups ) {                
+                lastPageNumber = firstPageNumber + maxPagesByGroup - 1;
             } else {
-                lastPageNumber = fpNumber + ( datalist.length - ( fpNumber * pageSize ) );
+                lastPageNumber = calcQuantPages();
             }
 
-            for( let i = fpNumber; i <= lastPageNumber; i++ )
+            for( let i = firstPageNumber; i <= lastPageNumber; i++ )
                 pageNumbersList.push( i );
         }
 
         setPageNumbers( pageNumbersList );
     };
 
-    const calcQuantPagesGroups = () => {
-        let quantPagesGroups = parseInt( datalist.length / ( pageSize * maxPagesGroupSize ) );
-        if ( datalist.length % ( pageSize * maxPagesGroupSize ) != 0 )
-            quantPagesGroups++;
-        return quantPagesGroups;
-    };
+    const calcQuantPages = () => {
+        return parseInt( datalist.length / pageSize ) + datalist.length % pageSize;
+    }
 
-    const calcCurrentPageGroup = ( fpNumber ) => {
-        return parseInt( fpNumber / maxPagesGroupSize ) + 1
+    const calcQuantPageGroups = () => {
+        let quantPageGroups = parseInt( datalist.length / ( pageSize * maxPagesByGroup ) );
+        if ( datalist.length % ( pageSize * maxPagesByGroup ) != 0 )
+            quantPageGroups++;
+        return quantPageGroups;
     };
 
     return (

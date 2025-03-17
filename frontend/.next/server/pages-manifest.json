@@ -2,7 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
   "/cardapio-item": "pages/cardapio-item.js",
-  "/cardapio-item/novo": "pages/cardapio-item/novo.js"
+  "/cardapio-item/novo": "pages/cardapio-item/novo.js",
+  "/login": "pages/login.js"
 }

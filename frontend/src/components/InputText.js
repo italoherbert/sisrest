@@ -1,6 +1,6 @@
 
 const InputText = ({
-    placeholder, type, value, onChange
+    type, value, placeholder, onChange
 }) => {
     return (
         <input 

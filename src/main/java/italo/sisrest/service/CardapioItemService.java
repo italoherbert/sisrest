@@ -17,7 +17,11 @@ public class CardapioItemService {
     
     private final CardapioItemRepository cardapioItemRepository;
 
-    public void insert( CardapioItem item ) {        
+    public void insert( CardapioItem item ) {    
+        Optional<CardapioItem> itemOp = cardapioItemRepository.findByDescricao( item.getDescricao() );
+        if ( itemOp.isPresent() )
+            throw new BusinessException( Errors.CARDAPIO_ITEM_JA_EXISTE );
+
         cardapioItemRepository.save( item );
     }
 
@@ -31,6 +35,14 @@ public class CardapioItemService {
             throw new BusinessException( Errors.CARDAPIO_ITEM_NAO_ENCONTRADO );
 
         return itemOp;
+    }
+
+    public List<CardapioItem> filtra( String descricao ) {
+        if ( descricao.equals( "*" ) ) {
+            return cardapioItemRepository.findAll();
+        } else {
+            return cardapioItemRepository.filtra( descricao );
+        }
     }
 
     public void update( String itemId, CardapioItem item ) {

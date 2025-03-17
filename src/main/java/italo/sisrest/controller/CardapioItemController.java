@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import italo.sisrest.controller.dto.request.CardapioItemRequest;
@@ -60,6 +61,14 @@ public class CardapioItemController {
     @PreAuthorize("hasAuthority('cardapioItemREAD')")
     public ResponseEntity<List<CardapioItemResponse>> list() {
         List<CardapioItemResponse> resps = cardapioItemService.list().stream().map( cardapioItemMapper::map ).toList();
+        return ResponseEntity.ok( resps );
+    }
+
+    @GetMapping("/filter")
+    @PreAuthorize("hasAuthority('cardapioItemREAD')") 
+    public ResponseEntity<List<CardapioItemResponse>> filtra( @RequestParam String descricao ) {
+        List<CardapioItemResponse> resps = cardapioItemService.filtra( descricao )
+                .stream().map( cardapioItemMapper::map ).toList();
         return ResponseEntity.ok( resps );
     }
 

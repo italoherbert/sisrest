@@ -2,6 +2,7 @@ package italo.sisrest.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,11 +36,28 @@ public class CardapioItemServiceTests {
     void deveRegistrarComSucesso() {
         CardapioItem item = CardapioItemMocks.mockCardapioItem();
 
+        when( cardapioItemRepository.findByDescricao( item.getDescricao() ) ).thenReturn( Optional.empty() );
         when( cardapioItemRepository.save( item ) ).thenReturn( item ); 
 
         cardapioItemService.insert( item );
 
+        verify( cardapioItemRepository ).findByDescricao( item.getDescricao() );
         verify( cardapioItemRepository ).save( item );        
+    }
+
+    @Test
+    @DisplayName("Deve não registrar com sucesso porque descrição já existe")
+    void deveNaoRegistrarPorqueDescricaoJaExiste() {
+        CardapioItem item = CardapioItemMocks.mockCardapioItem();
+        CardapioItem regItem = CardapioItemMocks.mockCardapioItem();
+
+        when( cardapioItemRepository.findByDescricao( item.getDescricao() ) ).thenReturn( Optional.of( regItem ) );
+
+        Throwable ex = catchThrowable( () -> cardapioItemService.insert( item ) );
+
+        assertThat( ex ).isNotNull();
+        assertThat( ex ).isInstanceOf( BusinessException.class );
+        assertThat( ((BusinessException)ex).response().getMensagem() ).isEqualTo( "Já existe um item de cardápio com a descrição informada." );
     }
 
     @Test
@@ -117,6 +135,51 @@ public class CardapioItemServiceTests {
     }
 
     @Test
+    @DisplayName("Deve filtrar items de cardápio com sucesso")
+    void deveFiltrarItemsComSucesso() {
+        List<CardapioItem> regItems = Arrays.asList( 
+            CardapioItemMocks.mockCardapioItem(),
+            CardapioItemMocks.mockCardapioItem(),
+            CardapioItemMocks.mockCardapioItem(),
+            CardapioItemMocks.mockCardapioItem()
+        );
+
+        String desc = "abc";
+
+        when( cardapioItemRepository.filtra( desc ) ).thenReturn( regItems );
+
+        List<CardapioItem> items = cardapioItemService.filtra( desc );
+
+        assertThat( items ).isNotNull();
+        assertThat( items ).isEqualTo( regItems );
+
+        verify( cardapioItemRepository ).filtra( anyString() );
+    }
+
+    @Test
+    @DisplayName("Deve filtrar listando todos os items com sucesso")
+    void deveFiltrarListandoTodosItemsComSucesso() {
+        List<CardapioItem> regItems = Arrays.asList( 
+            CardapioItemMocks.mockCardapioItem(),
+            CardapioItemMocks.mockCardapioItem(),
+            CardapioItemMocks.mockCardapioItem(),
+            CardapioItemMocks.mockCardapioItem()
+        );
+
+        String desc = "*";
+
+        when( cardapioItemRepository.findAll() ).thenReturn( regItems );
+
+        List<CardapioItem> items = cardapioItemService.filtra( desc );
+
+        assertThat( items ).isNotNull();
+        assertThat( items ).isEqualTo( regItems );
+
+        verify( cardapioItemRepository ).findAll();
+    }
+
+    @Test
+    @DisplayName("Deve buscar items de cardápio com sucesso.")
     void deveBuscarItemComSucesso() {
         CardapioItem item = CardapioItemMocks.mockCardapioItem();
 
