@@ -13,6 +13,7 @@ import Spinner from "../../components/Spinner";
 import Label from "../../components/Label";
 import InputText from "../../components/InputText";
 import Button from "../../components/buttons/Button";
+import SimpleButton from "../../components/buttons/SimpleButton";
 
 const CardapioItemTela = ({}) => {
 
@@ -97,7 +98,8 @@ const CardapioItemTela = ({}) => {
                                 <TableTD>
                                     <RealFormatter value={item.preco} />
                                 </TableTD>
-                                <TableTD>editar</TableTD>                    
+                                <TableTD>
+                                </TableTD>                   
                             </TableTR>
                         </>
                     ) ) }
