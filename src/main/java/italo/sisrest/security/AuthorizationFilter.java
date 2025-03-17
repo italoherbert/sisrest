@@ -60,7 +60,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 					SecurityContextHolder.getContext().setAuthentication( userPassToken );
 				}
 			} catch ( SignatureException e ) {
-				
+				return;
 			} catch ( ExpiredJwtException e ) {
 				String resp = "{ \"mensagem\" : \"Token expirado, por favor faça login novamente.\" }";
 				response.setContentType( "application/json" );

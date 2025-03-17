@@ -24,6 +24,11 @@ globalThis.__BUILD_MANIFEST = {
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/cardapio-item.js"
+    ],
+    "/cardapio-item/novo": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/cardapio-item/novo.js"
     ]
   },
   "ampFirstPages": []

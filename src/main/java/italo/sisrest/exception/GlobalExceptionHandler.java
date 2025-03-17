@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-	public ResponseEntity<Object> trataAccessDeniedException( AccessDeniedException e ) {
+	public ResponseEntity<ErrorResponse> trataAccessDeniedException( AccessDeniedException e ) {
 		return ResponseEntity.status( 403 ).body( new ErrorResponse( Errors.ACESSO_NAO_AUTORIZADO ) );		
 	}
 

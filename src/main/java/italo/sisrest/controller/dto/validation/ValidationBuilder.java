@@ -3,6 +3,7 @@ package italo.sisrest.controller.dto.validation;
 import java.util.ArrayList;
 import java.util.List;
 
+import italo.sisrest.controller.dto.validation.validator.MaiorQueZeroValidator;
 import italo.sisrest.controller.dto.validation.validator.RequiredValidator;
 
 public class ValidationBuilder {
@@ -23,6 +24,11 @@ public class ValidationBuilder {
 
     public ValidationBuilder required() {
         validators.add( new RequiredValidator( fieldName, fieldValue ) );
+        return this;
+    }
+
+    public ValidationBuilder deveSerMaiorQueZero() {
+        validators.add( new MaiorQueZeroValidator( fieldName, fieldValue ) );
         return this;
     }
 

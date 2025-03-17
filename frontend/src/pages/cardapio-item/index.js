@@ -1,6 +1,6 @@
 
 import MainLayout from "../../components/layouts/main/main-layout";
-import CardapioItemTela from "./cardapio-item-tela";
+import CardapioItemTela from "./tela";
 
 const CardapioItemIndex = () => {
     return (

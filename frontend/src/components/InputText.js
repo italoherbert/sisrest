@@ -1,10 +1,10 @@
 
 const InputText = ({
-    placeholder, value, onChange
+    placeholder, type, value, onChange
 }) => {
     return (
         <input 
-            type="text"
+            type={type ?? 'text'}
             placeholder={placeholder} 
             value={value}
             onChange={onChange} 

@@ -66,7 +66,7 @@ public class JwtTokenUtil {
 		return Jwts.builder()
                 .subject( subject )
                 .claims( claims )
-                .issuedAt( new Date() )
+                .issuedAt( new Date() )				
                 .expiration( new Date( System.currentTimeMillis() + expirationMS ) ) 								
 				.signWith( secretKey )
 				.compact();

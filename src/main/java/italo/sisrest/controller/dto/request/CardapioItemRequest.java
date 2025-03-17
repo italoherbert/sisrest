@@ -27,8 +27,14 @@ public class CardapioItemRequest implements Validator {
         List<Validator> validators = new ArrayList<>();        
         validators.addAll(
             ValidationBuilder.of( "descrição", descricao )
-                .required()
+                .required()                
                 .build() 
+        );        
+        validators.addAll(
+            ValidationBuilder.of( "preço", String.valueOf( preco ) )
+                .required()
+                .deveSerMaiorQueZero()
+                .build()
         );
         validators.forEach( v -> v.validate() );
     }

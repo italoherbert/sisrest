@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
-import Button from '../components/Button';
+import Button from '../components/buttons/Button';
 import InputText from '../components/InputText';
 import Label from '../components/Label';
 import Painel from '../components/Painel';
 import Message from '../components/Message';
+import Spinner from '../components/Spinner';
 
 const Login = () => {
 
@@ -17,10 +18,16 @@ const Login = () => {
 
     const [username, setUsername] = useState( "" );
     const [password, setPassword] = useState( "" );
+    const [spinnerVisible, setSpinnerVisible] = useState( false );
+
+    useEffect( () => {
+        localStorage.setItem( 'token', null );
+    } );
 
     const login = async () => {
         setErrorMessage( null );
         setInfoMessage( null );
+        setSpinnerVisible( true );
 
         axios.post( "http://localhost:8080/api/sisrest/v1/login", {
             username: username,
@@ -30,6 +37,7 @@ const Login = () => {
             router.push( '/cardapio-item' );
         } ).catch( error => {
             setErrorMessage( error.response.data.mensagem );
+            setSpinnerVisible( false );
         } );
     };
 
@@ -48,6 +56,11 @@ const Login = () => {
                 </div>
                 <Message message={errorMessage} type="error" />
                 <Message message={infoMessage} type="info" />
+
+                <div className="flex justify-center">
+                    <Spinner visible={spinnerVisible} />
+                </div>
+
                 <div className="py-2">
                     <Button onClick={login}>
                         Logar
