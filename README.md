@@ -36,7 +36,7 @@ O arquivo index.js pode ter inicialmente o seguinte conteúdo:
 
 ```
 const Index = () => (
-    &lt;h1&gt;Funcionou!&lt;/h1&gt;
+    <h1>Funcionou!</h1>;
 );
 
 export default Index;
@@ -55,7 +55,7 @@ import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
     return (
-        &lt;Component {...pageProps} /&gt;
+        <Component {...pageProps} />;
     );
 }
 
