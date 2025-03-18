@@ -1,7 +1,24 @@
 
 # Sistema de restaurante
 
-## Criação do projeto
+## Tecnologias
+
+Está sendo utilizado no backend as seguintes tecnologias:
+
+Java 23
+Spring Boot 3.5.0-M2
+MongoDB 8.0.5
+JUnit/Mockito
+Docker
+
+Está sendo utilizado no frontend as seguintes tecnologias:
+
+React 19.0.0
+Nextjs 15.2.2
+tailwind 4.0.14
+axios
+
+## Criação do projeto frontend
 
 ```
 mkdir frontend
@@ -62,7 +79,7 @@ function MyApp({ Component, pageProps }) {
 export default MyApp;
 ```
 
-## Instalando o tailwind
+### Instalando o tailwind
 
 Execute os seguintes comandos no terminal:
 
@@ -89,7 +106,7 @@ Edite o arquivo "styles/globals.css" e adicione a seguinte linha no início:
 
 Agora o tailwind pode ser utilizado nas páginas da aplicação.
 
-## Instalando o axios
+### Instalando o axios
 
 Execute o seguinte comando:
 
@@ -97,7 +114,7 @@ Execute o seguinte comando:
 npm i axios
 ```
 
-## Rodando em modo de desenvolvimento
+### Rodando em modo de desenvolvimento
 
 Para rodar em modo de desenvolvimento basta executar na raiz do projeto, pelo terminal, o seguite comando:
 
