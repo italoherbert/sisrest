@@ -1,8 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
 
-import { useRouter } from 'next/router';
-
 import Form from "../../components/Form";
 import InputText from "../../components/InputText";
 import Label from "../../components/Label";
@@ -13,19 +11,19 @@ import Button from "../../components/buttons/Button";
 import { BASE_URL } from "../../constants/api-constants";
 import MainLayout from "../../components/layouts/main/main-layout";
 import PageTitle from "../../components/PageTitle";
-import ButtonOutline from "../../components/buttons/ButtonOutline";
+import BackButton from "../../components/buttons/BackButton";
 import Spinner from "../../components/Spinner";
+import { DivItemsCenter } from "../../components/Divs";
+import InputReal from "../../components/InputReal";
 
 const CardapioItemNovo = () => {
-
-    const router = useRouter();
 
     const [errorMessage, setErrorMessage] = useState( null );
     const [infoMessage, setInfoMessage] = useState( null );
     const [spinnerVisible, setSpinnerVisible] = useState( false );
 
     const [descricao, setDescricao] = useState( '' );
-    const [preco, setPreco] = useState( '' );
+    const [preco, setPreco] = useState( 0 );
 
     const registrar = async () => {
         setInfoMessage( null );
@@ -40,6 +38,8 @@ const CardapioItemNovo = () => {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
         } ).then( response => {
+            setDescricao( '' );
+            setPreco( '' );
             setInfoMessage( "Item registrado com sucesso!")
             setSpinnerVisible( false );
         } ).catch( error => {
@@ -60,28 +60,26 @@ const CardapioItemNovo = () => {
                             <Label>Descrição: </Label>
                             <InputText value={descricao} onChange={ (e) => setDescricao( e.target.value ) } />
                         </div>
+
                         <div className="py-2">
                             <Label>Preço: </Label>
-                            <InputText type="number" value={preco} onChange={ (e) => setPreco( e.target.value ) } />
+                            <InputReal value={preco} onValueChange={setPreco} placeholder="Preço" />
                         </div>
                         
                         <Message type="error" message={errorMessage} />
                         <Message type="info" message={infoMessage} />
 
-                        <div className="flex justify-center">
+                        <DivItemsCenter>
                             <Spinner visible={spinnerVisible} />
-                        </div>
+                        </DivItemsCenter>
                         
                         <div className="py-2">
                             <Button onClick={registrar}>
                                 Registrar
                             </Button>
-                        </div>
-                        <div>
-                            <ButtonOutline onClick={ () => router.back() }>
-                                Voltar
-                            </ButtonOutline>
-                        </div>
+                        </div>                                                
+                        
+                        <BackButton />                        
                     </div>
                 </Form>
             </Painel>

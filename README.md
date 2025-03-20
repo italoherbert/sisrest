@@ -114,6 +114,43 @@ Execute o seguinte comando:
 npm i axios
 ```
 
+### Instalando o jest para testes unitários
+
+Executar os seguintes comandos:
+
+```
+npm install --save-dev jest babel-jest @babel/preset-env @babel/preset-react
+npm install -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom ts-node
+
+npm install @types/jest
+
+npm init jest@latest
+```
+
+Criar o arquivo "jsconfig.json" com o seguinte conteúdo:
+
+```
+{
+    "typeAcquisition": {
+        "include": [
+            "jest"
+        ]
+    }
+}
+```
+
+Criar o arquivo "next.config.js" com o seguinte conteúdo:
+
+```
+module.exports = {
+    experimental: {
+      forceSwcTransforms: true,
+    },
+}
+```
+
+Criar a pasta "test" na raiz do projeto. É nela onde ficam os testes
+
 ### Rodando em modo de desenvolvimento
 
 Para rodar em modo de desenvolvimento basta executar na raiz do projeto, pelo terminal, o seguite comando:

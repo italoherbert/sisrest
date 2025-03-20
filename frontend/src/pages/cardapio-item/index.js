@@ -4,9 +4,7 @@ import CardapioItemTela from "./tela";
 
 const CardapioItemIndex = () => {
     return (
-        <MainLayout>
-            <CardapioItemTela />
-        </MainLayout>        
+        <CardapioItemTela />
     )
 };
 

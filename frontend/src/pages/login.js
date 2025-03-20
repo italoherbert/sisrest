@@ -8,6 +8,7 @@ import Label from '../components/Label';
 import Painel from '../components/Painel';
 import Message from '../components/Message';
 import Spinner from '../components/Spinner';
+import { DivItemsCenter } from '../components/Divs';
 
 const Login = () => {
 
@@ -42,7 +43,7 @@ const Login = () => {
     };
 
     return (
-        <div className="flex justify-center justify-items-center mt-20">
+        <DivItemsCenter className="mt-20">
             <Painel className="columns-1 w-1/3 p-3">                
                 <h1>Login</h1>
                 
@@ -57,9 +58,9 @@ const Login = () => {
                 <Message message={errorMessage} type="error" />
                 <Message message={infoMessage} type="info" />
 
-                <div className="flex justify-center">
+                <DivItemsCenter>
                     <Spinner visible={spinnerVisible} />
-                </div>
+                </DivItemsCenter>
 
                 <div className="py-2">
                     <Button onClick={login}>
@@ -67,7 +68,7 @@ const Login = () => {
                     </Button>            
                 </div>                
             </Painel>
-        </div>
+        </DivItemsCenter>
     );
 };
 

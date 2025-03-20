@@ -1,4 +1,4 @@
-const Painel = ({children, className}) => {
+const Painel = ({className, children}) => {
     let classNames = "border border-gray-300 rounded";
     if ( className !== undefined )
         classNames += " "+className;

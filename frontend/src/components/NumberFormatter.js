@@ -1,5 +1,5 @@
 
-export const RealFormatter = ({value}) => {
+export const RealFormatter = ({value, isBold}) => {
 
     const formattedValue = Intl.NumberFormat( "pt-BR", {
         style: "currency",
@@ -7,7 +7,7 @@ export const RealFormatter = ({value}) => {
     } ).format( value );
 
     return (
-        <span className="text-red-500">
+        <span className={`${isBold == true ? 'font-bold' : 'font-normal'} text-red-500`}>
             {formattedValue}
         </span>
     )
