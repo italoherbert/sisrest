@@ -136,6 +136,7 @@ const CardapioItemTela = ({}) => {
                                 <span className="mx-2">
                                     <InputText type="text" 
                                             value={filterDescricao} 
+                                            onEnterTyped={ (e) => filtra() } 
                                             onChange={ (e) => setFilterDescricao( e.target.value ) } />
                                 </span>
                                 <span className="mx-2">

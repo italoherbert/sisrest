@@ -5,7 +5,7 @@ import Painel from "./Painel";
 export const Modal = ({visible, className, children}) => {
 
     return (        
-        <div className={`absolute z-10 flex flex-col justify-center w-full h-screen items-center ${visible === true ? 'block' : 'hidden'}`}>
+        <div className={`absolute z-10 flex flex-col justify-center w-full h-screen items-center bg-gray-500/50 ${visible === true ? 'block' : 'hidden'}`}>
             <Painel className={`bg-white ${className ?? ''}`}>
                 {children}
             </Painel>

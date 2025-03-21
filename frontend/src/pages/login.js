@@ -49,11 +49,18 @@ const Login = () => {
                 
                 <div className="py-2">
                     <Label>Nome de usuário: </Label>
-                    <InputText value={username} onChange={(e) => setUsername( e.target.value ) } />
+                    <InputText 
+                        value={username} 
+                        onChange={(e) => setUsername( e.target.value ) } 
+                        onEnterTyped={(e) => login()}/>
                 </div>
                 <div className="py-2">
                     <Label>Senha: </Label>
-                    <InputText value={password} onChange={(e) => setPassword( e.target.value ) } />
+                    <InputText 
+                        type="password"
+                        value={password} 
+                        onChange={(e) => setPassword( e.target.value ) } 
+                        onEnterTyped={(e) => login()}/>
                 </div>
                 <Message message={errorMessage} type="error" />
                 <Message message={infoMessage} type="info" />
