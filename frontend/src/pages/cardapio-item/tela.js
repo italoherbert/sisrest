@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Link from 'next/link';
 import axios from "axios";
 
 import { BASE_URL } from '../../constants/api-constants';
@@ -15,10 +14,10 @@ import Label from "../../components/Label";
 import InputText from "../../components/InputText";
 import Button from "../../components/buttons/Button";
 import Paginator from "../../components/Paginator";
-import { FaCircleInfo, FaPenToSquare, FaX } from "react-icons/fa6";
-import { DivItemsCenter } from "../../components/Divs";
+import { DivItemMX1, DivItemsCenter } from "../../components/Divs";
 import MainLayout from "../../components/layouts/main/main-layout";
 import ActionItems from "../../components/ActionItems";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "../../components/Modal";
 
 const CardapioItemTela = ({}) => {
 
@@ -29,6 +28,10 @@ const CardapioItemTela = ({}) => {
     const [cardapioItemList, setCardapioItemList] = useState( [] );
     const [pageCardapioItemList, setPageCardapioItemList] = useState( [] );
     const [filterDescricao, setFilterDescricao] = useState( '*' );
+
+    const [deleteModalVisible, setDeleteModalVisible] = useState( false );
+    const [deleteId, setDeleteId] = useState( '' );
+    const [deleteCardapioItemDescricao, setDeleteCardapioItemDescricao] = useState( '' );
 
     useEffect( () => {
         filtra();
@@ -52,19 +55,20 @@ const CardapioItemTela = ({}) => {
         } );
     };
 
-    const remover = async ( id ) => {
+    const remover = async () => {
         setErrorMessage( null );
         setInfoMessage( null );
         setSpinnerVisible( true );
 
-        axios.delete( BASE_URL + "/cardapioitem/"+id, { 
+        axios.delete( BASE_URL + "/cardapioitem/"+deleteId, { 
             headers: {
                 Authorization: `Bearer ${localStorage.getItem( 'token' )}`
             }
         } ).then( response => {
             filtra();
-
-            setInfoMessage( 'Item deletado com sucesso.')            
+            
+            setDeleteModalVisible( false );           
+            setInfoMessage( 'Item deletado com sucesso.');            
             setSpinnerVisible( false );
         } ).catch( error => {
             setErrorMessage( error.response.data.mensagem );
@@ -73,80 +77,119 @@ const CardapioItemTela = ({}) => {
     };
 
     const perguntarSeRemover = async ( id ) => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+        setSpinnerVisible( true );
 
+        axios.get( BASE_URL + "/cardapioitem/"+id, { 
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem( 'token' )}`
+            }
+        } ).then( response => {
+            setDeleteCardapioItemDescricao( response.data.descricao );
+            setDeleteId( id );
+            setDeleteModalVisible( true );           
+
+            setSpinnerVisible( false );
+        } ).catch( error => {
+            setErrorMessage( error.response.data.mensagem );
+            setSpinnerVisible( false );
+        } );
     };
 
     return (
-        <MainLayout>
-            <Painel className="columns-1 w-2/3 p-5 bg-blue-50">
-                <ButtonLink href="/cardapio-item/novo">
-                    Registrar
-                </ButtonLink>
-                <PageTitle>Cardápio</PageTitle>
-                <br />
+        <>
+            <Modal visible={deleteModalVisible} className="w-1/3">
+                <ModalHeader title="Remoção de items" onModalVisible={setDeleteModalVisible} />
+                <ModalBody>
+                    Confirme se deseja remover o ítem de cardápio de descrição: 
+                    <span className="mx-1 text-red-500"> 
+                        {deleteCardapioItemDescricao}
+                    </span>
+                    ?
+                </ModalBody>
+                <ModalFooter>                    
+                    <DivItemMX1>
+                        <Button onClick={() => setDeleteModalVisible( false )}>
+                            Fechar
+                        </Button>
+                    </DivItemMX1>                    
+                    <Button variant="red" onClick={remover}>
+                        Remover
+                    </Button>
+                </ModalFooter>
+            </Modal>
+            <MainLayout>            
+                <Painel className="columns-1 w-2/3 p-5 bg-blue-50">
+                    <ButtonLink href="/cardapio-item/novo">
+                        Registrar
+                    </ButtonLink>
+                    <PageTitle>Cardápio</PageTitle>
+                    <br />
 
-                <DivItemsCenter>
-                    <Painel className="w-1/2 p-3 bg-white mb-3">                
-                        <div className="flex flex-row items-center">
-                            <span className="mx-2">
-                                <Label>Descrição: </Label>
-                            </span>
-                            <span className="mx-2">
-                                <InputText type="text" 
-                                        value={filterDescricao} 
-                                        onChange={ (e) => setFilterDescricao( e.target.value ) } />
-                            </span>
-                            <span className="mx-2">
-                                <Button variant="default" onClick={filtra}>
-                                    Filtrar
-                                </Button>
-                            </span>
-                        </div>                
-                    </Painel>
-                </DivItemsCenter>
+                    <DivItemsCenter>
+                        <Painel className="w-1/2 p-3 bg-white mb-3">                
+                            <div className="flex flex-row items-center">
+                                <span className="mx-2">
+                                    <Label>Descrição: </Label>
+                                </span>
+                                <span className="mx-2">
+                                    <InputText type="text" 
+                                            value={filterDescricao} 
+                                            onChange={ (e) => setFilterDescricao( e.target.value ) } />
+                                </span>
+                                <span className="mx-2">
+                                    <Button variant="default" onClick={filtra}>
+                                        Filtrar
+                                    </Button>
+                                </span>
+                            </div>                
+                        </Painel>
+                    </DivItemsCenter>
 
-                <Message message={errorMessage} type="error" />
-                <Message message={infoMessage} type="info" />
+                    <Message message={errorMessage} type="error" />
+                    <Message message={infoMessage} type="info" />
 
-                <DivItemsCenter>
-                    <Spinner visible={spinnerVisible} />
-                </DivItemsCenter>
+                    <DivItemsCenter>
+                        <Spinner visible={spinnerVisible} />
+                    </DivItemsCenter>
 
-                <Table>
-                    <TableHead>
-                        <TableTHR bgColor="bg-blue-200" textColor="text-gray-500">
-                            <TableTH>Descrição</TableTH>
-                            <TableTH>Preço</TableTH>
-                            <TableTH>Ações</TableTH>
-                        </TableTHR>                    
-                    </TableHead>
-                    <TableBody>
-                        {pageCardapioItemList.map( (item, index) => (
-                            <TableTR key={index} bgColor="bg-white" textColor="text-gray-500">
-                                <TableTD>{item.descricao}</TableTD>
-                                <TableTD>
-                                    <RealFormatter value={item.preco} />
-                                </TableTD>
-                                <TableTD>
-                                    <ActionItems 
-                                        detailsHref={`/cardapio-item/detalhes/${item.id}`} 
-                                        editarHref={`/cardapio-item/editar/${item.id}`} 
-                                        removerOnClick={() => perguntarSeRemover( item.id )} />                                    
-                                </TableTD>                   
-                            </TableTR>                        
-                        ) ) }
-                    </TableBody>
-                </Table>      
+                    <Table>
+                        <TableHead>
+                            <TableTHR bgColor="bg-blue-200" textColor="text-gray-500">
+                                <TableTH>Descrição</TableTH>
+                                <TableTH>Preço</TableTH>
+                                <TableTH>Ações</TableTH>
+                            </TableTHR>                    
+                        </TableHead>
+                        <TableBody>
+                            {pageCardapioItemList.map( (item, index) => (
+                                <TableTR key={index} bgColor="bg-white" textColor="text-gray-500">
+                                    <TableTD>{item.descricao}</TableTD>
+                                    <TableTD>
+                                        <RealFormatter value={item.preco} />
+                                    </TableTD>
+                                    <TableTD>
+                                        <ActionItems 
+                                            detailsHref={`/cardapio-item/detalhes/${item.id}`} 
+                                            editarHref={`/cardapio-item/editar/${item.id}`} 
+                                            removerOnClick={() => perguntarSeRemover( item.id )} />                                    
+                                    </TableTD>                   
+                                </TableTR>                        
+                            ) ) }
+                        </TableBody>
+                    </Table>      
 
-                <DivItemsCenter className="mt-2">
-                    <Paginator 
-                        datalist={cardapioItemList} 
-                        pageSize={2} 
-                        maxPagesByGroup={3}
-                        onUpdateDataList={ ( pageDataList ) => setPageCardapioItemList( pageDataList ) } />
-                </DivItemsCenter>
-            </Painel>
-        </MainLayout>
+                    <DivItemsCenter className="mt-2">
+                        <Paginator
+                            datalist={cardapioItemList} 
+                            pageSize={2} 
+                            maxPagesByGroup={3}
+                            onUpdateDataList={ ( pageDataList ) => setPageCardapioItemList( pageDataList ) } />
+                    </DivItemsCenter>
+                </Painel>            
+            </MainLayout>
+        </>
     )
 };
 

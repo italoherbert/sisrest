@@ -10,3 +10,27 @@ export const DivItemsCenter = ({className, children}) => {
         </div>
     )
 };
+
+export const DivItemMX2 = ({children}) => {
+    return (
+        <div className="mx-2">
+            {children}
+        </div>
+    );
+};
+
+export const DivItemMX1 = ({children}) => {
+    return (
+        <div className="mx-1">
+            {children}
+        </div>
+    );
+};
+
+export const DivItemP2 = ({children}) => {
+    return (
+        <div className="p-2">
+            {children}
+        </div>
+    );
+};

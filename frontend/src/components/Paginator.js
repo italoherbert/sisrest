@@ -3,7 +3,11 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 import SimpleButton from "./buttons/SimpleButton";
 
-const Paginator = ({datalist, onUpdateDataList, pageSize, maxPagesByGroup}) => {
+const Paginator = ({
+    datalist, 
+    onUpdateDataList, 
+    pageSize, maxPagesByGroup,
+    nextButtonLabel, backButtonLabel}) => {
 
     const [currentPageGroup, setCurrentPageGroup] = useState( 0 );
     const [pageNumbers, setPageNumbers] = useState( [] );
@@ -97,15 +101,15 @@ const Paginator = ({datalist, onUpdateDataList, pageSize, maxPagesByGroup}) => {
         <nav>
             <ul className="inline-flex -space-x-px text-sm">
                 <li>
-                    <SimpleButton onClick={onBackClick}>
+                    <SimpleButton onClick={onBackClick} data-testid="back">
                         <span className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">                    
-                            <FaChevronLeft />
-                        </span>
-                    </SimpleButton>
+                            { backButtonLabel ? backButtonLabel : <FaChevronLeft /> }                        
+                        </span>                             
+                        </SimpleButton>
                 </li>                                
                 { pageNumbers.map( (number, index) => (                    
                     <li key={index}>
-                        <SimpleButton onClick={() =>onPageClick( number )}>
+                        <SimpleButton onClick={() =>onPageClick( number )}>                        
                             <span className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                 {number}     
                             </span>
@@ -115,7 +119,7 @@ const Paginator = ({datalist, onUpdateDataList, pageSize, maxPagesByGroup}) => {
                 <li>
                     <SimpleButton onClick={onNextClick}>
                         <span className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                            <FaChevronRight />
+                            { nextButtonLabel ? nextButtonLabel : <FaChevronRight /> }                        
                         </span>
                     </SimpleButton>
                 </li>                                

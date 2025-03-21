@@ -41,7 +41,7 @@ describe( 'test InputReal', () => {
         fireEvent.keyDown( inputreal, { key: 'a' } );
         expect( value ).toBe( 1012.51 );
 
-        fireEvent.keyDown( inputreal, { key : '', keyCode : 46, target : { selectionStart : 4 } } );
+        fireEvent.keyDown( inputreal, { keyCode : 46, target : { selectionStart : 5 } } );
         expect( value ).toBe( 112.51 );
 
         fireEvent.keyDown( inputreal, { keyCode : 8, target : { selectionStart : 6 } } );
