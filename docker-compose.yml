@@ -1,19 +1,18 @@
 
 services:
-  mongo:
-    image: mongo
+  postgresql:
+    image: postgres:latest
+    container_name: sisrest-db
     restart: always
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
+      - POSTGRES_DB=sisrest
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     ports:
-      - 27017:27017
+      - 5432:5432
     volumes:
-      - mongodb-data:/data/db/
-      - mongodb-log:/var/log/mongodb/
+      - postgresql-data:/var/lib/postgresql/data
 
 volumes:
-  mongodb-data:
-    driver: local
-  mongodb-log:
-    driver: local
+  postgresql-data:
+    driver: local  

@@ -2,9 +2,13 @@ package italo.sisrest.model;
 
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,16 +20,19 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@Document("Pedido")
+@Entity
+@Table(name="pedido")
 public class Pedido {
     
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private int mesa;
 
     private boolean atendido;
 
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<PedidoItem> items;
 
 }

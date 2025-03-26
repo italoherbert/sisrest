@@ -1,7 +1,7 @@
 package italo.sisrest.controller;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -81,7 +81,7 @@ public class CardapioItemControllerTests {
 
         String id = "123";
 
-        doNothing().when( cardapioItemService ).update( anyString(), any( CardapioItem.class ) ); 
+        doNothing().when( cardapioItemService ).update( anyLong(), any( CardapioItem.class ) ); 
 
         mockMvc.perform(
             put( "/api/sisrest/v1/cardapioitem/"+id )                
@@ -89,7 +89,7 @@ public class CardapioItemControllerTests {
                 .content( content ) )
             .andExpect( status().isOk() );
 
-        verify( cardapioItemService ).update( anyString(), any( CardapioItem.class ) );
+        verify( cardapioItemService ).update( anyLong(), any( CardapioItem.class ) );
     }
 
     @Test
@@ -131,7 +131,7 @@ public class CardapioItemControllerTests {
     @DisplayName("Deve deletar um item de cardápio com sucesso.")
     @WithMockUser(username = "italo", authorities = { "cardapioItemDELETE" })
     void deveDeletarItemComSucesso() throws Exception {
-        doNothing().when( cardapioItemService ).delete( anyString() );
+        doNothing().when( cardapioItemService ).delete( anyLong() );
 
         String id = "123";
 
@@ -139,7 +139,7 @@ public class CardapioItemControllerTests {
             delete( "/api/sisrest/v1/cardapioitem/"+id )
         ).andExpect( status().isOk() );
 
-        verify( cardapioItemService ).delete( anyString() ); 
+        verify( cardapioItemService ).delete( anyLong() ); 
     }
 
 

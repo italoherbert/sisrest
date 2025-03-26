@@ -11,7 +11,7 @@ public class CardapioItemMocks {
 
     public static CardapioItem mockCardapioItem() {
         return CardapioItem.builder()
-                .id( faker.random().hex() ) 
+                .id( faker.random().nextLong() ) 
                 .descricao( faker.name().title() )
                 .preco( faker.random().nextDouble() )
                 .build();

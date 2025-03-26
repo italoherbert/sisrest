@@ -42,7 +42,7 @@ public class CardapioItemController {
 
     @PutMapping("/{itemId}")
     @PreAuthorize("hasAuthority('cardapioItemWRITE')")
-    public ResponseEntity<Object> update( @PathVariable String itemId, @RequestBody CardapioItemRequest request ) {
+    public ResponseEntity<Object> update( @PathVariable Long itemId, @RequestBody CardapioItemRequest request ) {
         request.validate();
         
         CardapioItem item = cardapioItemMapper.map( request );
@@ -52,7 +52,7 @@ public class CardapioItemController {
 
     @GetMapping("/{itemId}")
     @PreAuthorize("hasAuthority('cardapioItemREAD')")
-    public ResponseEntity<CardapioItemResponse> find( @PathVariable String itemId ) {
+    public ResponseEntity<CardapioItemResponse> find( @PathVariable Long itemId ) {
         CardapioItemResponse resp = cardapioItemService.find( itemId ).map( cardapioItemMapper::map ).get();
         return ResponseEntity.ok( resp );
     }
@@ -74,7 +74,7 @@ public class CardapioItemController {
 
     @DeleteMapping("/{itemId}")
     @PreAuthorize("hasAuthority('cardapioItemDELETE')")
-    public ResponseEntity<Object> delete( @PathVariable String itemId ) {
+    public ResponseEntity<Object> delete( @PathVariable Long itemId ) {
         cardapioItemService.delete( itemId );
         return ResponseEntity.ok().build();
     }

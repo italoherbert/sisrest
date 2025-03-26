@@ -29,7 +29,7 @@ public class CardapioItemService {
         return cardapioItemRepository.findAll();
     }
 
-    public Optional<CardapioItem> find( String itemId ) {
+    public Optional<CardapioItem> find( Long itemId ) {
         Optional<CardapioItem> itemOp = cardapioItemRepository.findById( itemId );
         if ( !itemOp.isPresent() )
             throw new BusinessException( Errors.CARDAPIO_ITEM_NAO_ENCONTRADO );
@@ -41,11 +41,11 @@ public class CardapioItemService {
         if ( descricao.equals( "*" ) ) {
             return cardapioItemRepository.findAll();
         } else {
-            return cardapioItemRepository.filtra( descricao );
+            return cardapioItemRepository.filtra( descricao+"%" );
         }
     }
 
-    public void update( String itemId, CardapioItem item ) {
+    public void update( Long itemId, CardapioItem item ) {
         Optional<CardapioItem> itemOp = cardapioItemRepository.findById( itemId );
         if ( !itemOp.isPresent() )
             throw new BusinessException( Errors.CARDAPIO_ITEM_NAO_ENCONTRADO );
@@ -60,7 +60,7 @@ public class CardapioItemService {
         cardapioItemRepository.save( item );
     }
 
-    public void delete( String itemId ) {
+    public void delete( Long itemId ) {
         Optional<CardapioItem> itemOp = cardapioItemRepository.findById( itemId );
         if ( !itemOp.isPresent() )
             throw new BusinessException( Errors.CARDAPIO_ITEM_NAO_ENCONTRADO );
