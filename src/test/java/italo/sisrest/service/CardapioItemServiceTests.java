@@ -146,7 +146,7 @@ public class CardapioItemServiceTests {
 
         String desc = "abc";
 
-        when( cardapioItemRepository.filtra( desc ) ).thenReturn( regItems );
+        when( cardapioItemRepository.filtra( anyString() ) ).thenReturn( regItems );
 
         List<CardapioItem> items = cardapioItemService.filtra( desc );
 

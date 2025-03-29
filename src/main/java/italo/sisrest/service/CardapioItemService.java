@@ -41,7 +41,7 @@ public class CardapioItemService {
         if ( descricao.equals( "*" ) ) {
             return cardapioItemRepository.findAll();
         } else {
-            return cardapioItemRepository.filtra( descricao+"%" );
+            return cardapioItemRepository.filtra( "%"+descricao+"%" );
         }
     }
 
