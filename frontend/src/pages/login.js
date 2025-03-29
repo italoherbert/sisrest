@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Button from '../components/buttons/Button';
@@ -9,37 +8,32 @@ import Painel from '../components/Painel';
 import Message from '../components/Message';
 import Spinner from '../components/Spinner';
 import { DivItemsCenter } from '../components/Divs';
+import { useLoginViewModel } from '../viewModels/useLoginViewModel';
 
 const Login = () => {
 
     const router = useRouter();
 
-    const [errorMessage, setErrorMessage] = useState( null );
-    const [infoMessage, setInfoMessage] = useState( null );
-
     const [username, setUsername] = useState( "" );
     const [password, setPassword] = useState( "" );
-    const [spinnerVisible, setSpinnerVisible] = useState( false );
+
+    const {logar, limpaToken, errorMessage, infoMessage, loading} = useLoginViewModel();
 
     useEffect( () => {
-        localStorage.setItem( 'token', null );
-    } );
+        limpaToken();
+    }, [] );
 
     const login = async () => {
-        setErrorMessage( null );
-        setInfoMessage( null );
-        setSpinnerVisible( true );
-
-        axios.post( "http://localhost:8080/api/sisrest/v1/login", {
-            username: username,
-            password: password
-        } ).then( response => {
-            localStorage.setItem( "token", response.data.token );
+        try {
+            await logar( {
+                username: username,
+                password: password
+            } );
+            
             router.push( '/cardapio-item' );
-        } ).catch( error => {
-            setErrorMessage( error.response.data.mensagem );
-            setSpinnerVisible( false );
-        } );
+        } catch ( error ) {
+            
+        }
     };
 
     return (
@@ -66,7 +60,7 @@ const Login = () => {
                 <Message message={infoMessage} type="info" />
 
                 <DivItemsCenter>
-                    <Spinner visible={spinnerVisible} />
+                    <Spinner visible={loading} />
                 </DivItemsCenter>
 
                 <div className="py-2">
@@ -75,7 +69,7 @@ const Login = () => {
                     </Button>            
                 </div>                
             </Painel>
-        </DivItemsCenter>
+        </DivItemsCenter>    
     );
 };
 

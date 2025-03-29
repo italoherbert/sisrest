@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 import { BASE_URL } from "../../../constants/api-constants";
@@ -15,61 +15,44 @@ import Spinner from "../../../components/Spinner";
 import Button from "../../../components/buttons/Button";
 import BackButton from "../../../components/buttons/BackButton";
 import InputReal from "../../../components/InputReal";
+import { extractErrorMessage } from "../../../util/SistemaUtil";
+import { AuthContext } from "../../../context/AuthProvider";
+import useEditarCardapioItemViewModel from "../../../viewModels/cardapio-item/useEditarCardapioItemViewModel";
 
 const CardapioItemEditar = (props) => {
-
-    const [errorMessage, setErrorMessage] = useState( null );
-    const [infoMessage, setInfoMessage] = useState( null );
-    const [spinnerVisible, setSpinnerVisible] = useState( false );
 
     const [descricao, setDescricao] = useState( '' );
     const [preco, setPreco] = useState( 0 );
 
-    useEffect( () => {
-        setErrorMessage( null );
-        setInfoMessage( null );
-        setSpinnerVisible( true );
+    const {loadItem, saveItem, errorMessage, infoMessage, loading } = useEditarCardapioItemViewModel();
 
-        const id = props.id;
-
-        axios.get( BASE_URL + "/cardapioitem/"+id, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem( 'token' ) }`
-            }
-        } ).then( response => {
-            let item = response.data;
-            setDescricao( item.descricao );
-            setPreco( item.preco );
-
-            setSpinnerVisible( false );
-        } ).catch( error => {
-            setErrorMessage( error.response.data.mensagem );
-            setSpinnerVisible( false );
-        } );
+    useEffect( () => {        
+        onLoadItem();
     }, [] );
 
-    const salvar = async () => {
-        setErrorMessage( null );
-        setInfoMessage( null );
-        setSpinnerVisible( true );
-
+    const onLoadItem = async () => {
         const id = props.id;
 
-        axios.put( BASE_URL + "/cardapioitem/"+id, {
-            descricao: descricao,
-            preco: preco
-        }, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem( 'token' )}`
-            }
-        }).then( response => {
-            setInfoMessage( 'Item salvo com sucesso.' );
-            setSpinnerVisible( false );
-        } ).catch( error => {
-            console.log( error );
-            setErrorMessage( error.response.data.mensagem );
-            setSpinnerVisible( false );
-        } );
+        try {
+            const item = await loadItem( id );
+            setDescricao( item.descricao );
+            setPreco( item.preco );
+        } catch ( error ) {
+
+        }
+    };
+
+    const onSalvar = async () => {       
+        const id = props.id;
+
+        try {
+            await saveItem( id, {
+                descricao: descricao,
+                preco: preco
+            } );
+        } catch ( error ) {
+
+        }
     };
 
     return (
@@ -92,11 +75,11 @@ const CardapioItemEditar = (props) => {
                     <Message type="info" message={infoMessage} />
 
                     <DivItemsCenter>
-                        <Spinner visible={spinnerVisible} />
+                        <Spinner visible={loading} />
                     </DivItemsCenter>
 
                     <div className="py-2">
-                        <Button variant="default" onClick={salvar}>
+                        <Button variant="default" onClick={onSalvar}>
                             Salvar
                         </Button>
                     </div>

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 
-import { BASE_URL } from '../../constants/api-constants';
+import useTelaCardapioItemViewModel from "../../viewModels/cardapio-item/useTelaCardapioItemViewModel";
 
 import Painel from "../../components/Painel";
 import Message from "../../components/Message";
@@ -19,11 +18,9 @@ import MainLayout from "../../components/layouts/main/main-layout";
 import ActionItems from "../../components/ActionItems";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "../../components/Modal";
 
-const CardapioItemTela = ({}) => {
 
-    const [errorMessage, setErrorMessage] = useState( null );
-    const [infoMessage, setInfoMessage] = useState( null );
-    const [spinnerVisible, setSpinnerVisible] = useState( false );
+
+const CardapioItemTela = ({}) => {
 
     const [cardapioItemList, setCardapioItemList] = useState( [] );
     const [pageCardapioItemList, setPageCardapioItemList] = useState( [] );
@@ -33,68 +30,41 @@ const CardapioItemTela = ({}) => {
     const [deleteId, setDeleteId] = useState( '' );
     const [deleteCardapioItemDescricao, setDeleteCardapioItemDescricao] = useState( '' );
 
+    const { filtra, remove, buscaDescricao, errorMessage, infoMessage, loading} = useTelaCardapioItemViewModel();
+
     useEffect( () => {
-        filtra();
+        onFiltrar();
     }, [] );
 
-    const filtra = async () => {
-        setErrorMessage( null );
-        setInfoMessage( null );
-        setSpinnerVisible( true );
+    const onFiltrar = async () => {
+        try {
+            const response = await filtra( filterDescricao );
+            setCardapioItemList( response );
+        } catch ( error ) {
 
-        axios.get( BASE_URL + "/cardapioitem/filter?descricao="+filterDescricao, { 
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem( 'token' )}`
-            }
-        } ).then( response => {
-            setCardapioItemList( response.data );
-            setSpinnerVisible( false );
-        } ).catch( error => {
-            setErrorMessage( error.response.data.mensagem );
-            setSpinnerVisible( false );
-        } );
+        }       
     };
 
-    const remover = async () => {
-        setErrorMessage( null );
-        setInfoMessage( null );
-        setSpinnerVisible( true );
+    const onRemover = async () => {
+        try {
+            await remove( deleteId );
 
-        axios.delete( BASE_URL + "/cardapioitem/"+deleteId, { 
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem( 'token' )}`
-            }
-        } ).then( response => {
-            filtra();
-            
-            setDeleteModalVisible( false );           
-            setInfoMessage( 'Item deletado com sucesso.');            
-            setSpinnerVisible( false );
-        } ).catch( error => {
-            setErrorMessage( error.response.data.mensagem );
-            setSpinnerVisible( false );
-        } );
+            onFiltrar();            
+            setDeleteModalVisible( false );
+        } catch ( error ) {
+
+        }        
     };
 
-    const perguntarSeRemover = async ( id ) => {
-        setErrorMessage( null );
-        setInfoMessage( null );
-        setSpinnerVisible( true );
-
-        axios.get( BASE_URL + "/cardapioitem/"+id, { 
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem( 'token' )}`
-            }
-        } ).then( response => {
-            setDeleteCardapioItemDescricao( response.data.descricao );
+    const onPerguntarSeRemover = async ( id ) => {
+        try {
+            const response = await buscaDescricao( id );
+            setDeleteCardapioItemDescricao( response );
             setDeleteId( id );
-            setDeleteModalVisible( true );           
+            setDeleteModalVisible( true ); 
+        } catch ( error ) {
 
-            setSpinnerVisible( false );
-        } ).catch( error => {
-            setErrorMessage( error.response.data.mensagem );
-            setSpinnerVisible( false );
-        } );
+        }
     };
 
     return (
@@ -114,7 +84,7 @@ const CardapioItemTela = ({}) => {
                             Fechar
                         </Button>
                     </DivItemMX1>                    
-                    <Button variant="red" onClick={remover}>
+                    <Button variant="red" onClick={onRemover}>
                         Remover
                     </Button>
                 </ModalFooter>
@@ -136,11 +106,11 @@ const CardapioItemTela = ({}) => {
                                 <span className="mx-2">
                                     <InputText type="text" 
                                             value={filterDescricao} 
-                                            onEnterTyped={ (e) => filtra() } 
+                                            onEnterTyped={ (e) => onFiltrar() } 
                                             onChange={ (e) => setFilterDescricao( e.target.value ) } />
                                 </span>
                                 <span className="mx-2">
-                                    <Button variant="default" onClick={filtra}>
+                                    <Button variant="default" onClick={onFiltrar}>
                                         Filtrar
                                     </Button>
                                 </span>
@@ -152,7 +122,7 @@ const CardapioItemTela = ({}) => {
                     <Message message={infoMessage} type="info" />
 
                     <DivItemsCenter>
-                        <Spinner visible={spinnerVisible} />
+                        <Spinner visible={loading} />
                     </DivItemsCenter>
 
                     <Table>
@@ -174,7 +144,7 @@ const CardapioItemTela = ({}) => {
                                         <ActionItems 
                                             detailsHref={`/cardapio-item/detalhes/${item.id}`} 
                                             editarHref={`/cardapio-item/editar/${item.id}`} 
-                                            removerOnClick={() => perguntarSeRemover( item.id )} />                                    
+                                            removerOnClick={() => onPerguntarSeRemover( item.id )} />                                    
                                     </TableTD>                   
                                 </TableTR>                        
                             ) ) }

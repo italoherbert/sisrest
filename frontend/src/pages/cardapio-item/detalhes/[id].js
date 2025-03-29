@@ -1,7 +1,4 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-
-import { BASE_URL } from '../../../constants/api-constants';
+import { useEffect } from 'react';
 
 import Painel from '../../../components/Painel';
 import PageTitle from '../../../components/PageTitle';
@@ -12,31 +9,25 @@ import Spinner from '../../../components/Spinner';
 
 import MainLayout from '../../../components/layouts/main/main-layout';
 import BackButton from '../../../components/buttons/BackButton';
+import useDetalhesCardapioItemViewModel from '../../../viewModels/cardapio-item/useDetalhesCardapioItemViewModel';
 
 const CardapioItemDetalhes = props => {
 
-    const [errorMessage, setErrorMessage] = useState( null );
-    const [spinnerVisible, setSpinnerVisible] = useState( false );
-    const [item, setItem] = useState( { id : '', descricao: '', preco: '' } ); 
-    
-    useEffect( () => {
-        setErrorMessage( null );
-        setSpinnerVisible( true );
+    const { loadItem, item, errorMessage, loading } = useDetalhesCardapioItemViewModel();
 
+    useEffect( () => {        
+        onLoadItem();
+    }, [] );
+
+    const onLoadItem = async () => {
         const id = props.id;
 
-        axios.get( BASE_URL + "/cardapioitem/"+id, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem( 'token' )}`
-            }
-        } ).then( response => {
-            setItem( response.data );
-            setSpinnerVisible( false );
-        } ).catch( error => {
-            setErrorMessage( error.response.data.mensagem );
-            setSpinnerVisible( false );
-        } );
-    }, [] );
+        try {
+            await loadItem( id );            
+        } catch ( error ) {
+
+        }
+    }
 
     return (
         <MainLayout>
@@ -47,7 +38,7 @@ const CardapioItemDetalhes = props => {
                 <Message type="error" message={errorMessage} />
                 
                 <div className="flex justify-center">
-                    <Spinner visible={spinnerVisible} />
+                    <Spinner visible={loading} />
                 </div>
 
                 <div className="columns-2 w-1/2">

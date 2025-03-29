@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 
 import Form from "../../components/Form";
@@ -15,37 +15,29 @@ import BackButton from "../../components/buttons/BackButton";
 import Spinner from "../../components/Spinner";
 import { DivItemsCenter } from "../../components/Divs";
 import InputReal from "../../components/InputReal";
+import { extractErrorMessage } from "../../util/SistemaUtil";
+import { AuthContext } from "../../context/AuthProvider";
+import useNovoCardapioItemViewModel from "../../viewModels/cardapio-item/useNovoCardapioItemViewModel";
 
 const CardapioItemNovo = () => {
-
-    const [errorMessage, setErrorMessage] = useState( null );
-    const [infoMessage, setInfoMessage] = useState( null );
-    const [spinnerVisible, setSpinnerVisible] = useState( false );
 
     const [descricao, setDescricao] = useState( '' );
     const [preco, setPreco] = useState( 0 );
 
-    const registrar = async () => {
-        setInfoMessage( null );
-        setErrorMessage( null );
-        setSpinnerVisible( true );
+    const {save, errorMessage, infoMessage, loading } = useNovoCardapioItemViewModel();
 
-        axios.post( BASE_URL + '/cardapioitem', {
-            descricao: descricao,
-            preco: preco
-        }, { 
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        } ).then( response => {
+    const onSave = async () => {
+        try {
+            await save( {
+                descricao: descricao,
+                preco: preco
+            } );
+
             setDescricao( '' );
             setPreco( '' );
-            setInfoMessage( "Item registrado com sucesso!")
-            setSpinnerVisible( false );
-        } ).catch( error => {
-            setErrorMessage( error.response.data.mensagem );
-            setSpinnerVisible( false );
-        } );
+        } catch( error ) {
+        
+        }
     };
 
     return (
@@ -70,11 +62,11 @@ const CardapioItemNovo = () => {
                         <Message type="info" message={infoMessage} />
 
                         <DivItemsCenter>
-                            <Spinner visible={spinnerVisible} />
+                            <Spinner visible={loading} />
                         </DivItemsCenter>
                         
                         <div className="py-2">
-                            <Button onClick={registrar}>
+                            <Button onClick={onSave}>
                                 Registrar
                             </Button>
                         </div>                                                

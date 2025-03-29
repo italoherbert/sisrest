@@ -66,6 +66,21 @@ const InputReal = ({value, prefix, decimalLength, placeholder, className, onValu
         const textVal = numberToRealText( val );
         setValueString( textVal );       
 
+        if ( isNumber( ch ) === true || e.keyCode === 8 || e.keyCode === 46 ) {
+            let pos = cursorPos;
+            if ( isNumber( ch ) === true ) {
+                pos = cursorPos+1;
+            } else if ( e.keyCode == 8 ) {
+                pos = cursorPos-1;
+            } else if ( e.keyCode == 46 ) {
+                pos = cursorPos;
+            }
+
+            setTimeout( () => {
+                inputRef.current.setSelectionRange( pos, pos );
+            }, 0 );
+        }
+
         onValueChange( val );
     }
 
@@ -115,8 +130,8 @@ const InputReal = ({value, prefix, decimalLength, placeholder, className, onValu
         <input type="text"
             ref={inputRef}
             placeholder={placeholder}
-            onChange={ () => {} }
             value={valueString}
+            onChange={ () => {} }
             onKeyDown={handleOnKeyTyped}      
             onSelect={handleOnSelect}       
             className={classNames}
