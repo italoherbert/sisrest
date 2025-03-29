@@ -14,10 +14,10 @@ export const Modal = ({visible, className, children}) => {
 
 };
 
-export const ModalHeader = ({title, titleClassName, onModalVisible, className}) => {
+export const ModalHeader = ({title, titleClassName, setVisible, className}) => {
 
     const handleCloseOnClick = async () => {
-        onModalVisible( false );
+        setVisible( false );
     };
 
     return (

@@ -14,8 +14,12 @@ const useTelaCardapioItemViewModel = () => {
     const cardapioItemModel = new CardapioItemModel();
 
     const filtra = async ( filterDescricao ) => {
-        setErrorMessage( null );
         setInfoMessage( null );
+        setErrorMessage( null );
+        return apenasFiltra( filterDescricao );
+    };
+
+    const apenasFiltra = async ( filterDescricao ) => {
         setLoading( true );
 
         try {
@@ -49,10 +53,9 @@ const useTelaCardapioItemViewModel = () => {
     const buscaDescricao = async ( itemId ) => {
         setErrorMessage( null );
         setInfoMessage( null );
-        setSpinnerVisible( true );
+        setLoading( true );
 
         try {
-            alert( itemId );
             let response = await cardapioItemModel.get( itemId, token );                      
             
             setLoading( false );
@@ -66,6 +69,7 @@ const useTelaCardapioItemViewModel = () => {
 
     return {
         filtra,
+        apenasFiltra,
         remove,
         buscaDescricao,
         errorMessage,

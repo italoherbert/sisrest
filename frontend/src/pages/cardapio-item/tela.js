@@ -13,12 +13,10 @@ import Label from "../../components/Label";
 import InputText from "../../components/InputText";
 import Button from "../../components/buttons/Button";
 import Paginator from "../../components/Paginator";
-import { DivItemMX1, DivItemsCenter } from "../../components/Divs";
+import { DivItemsCenter } from "../../components/Divs";
 import MainLayout from "../../components/layouts/main/main-layout";
 import ActionItems from "../../components/ActionItems";
-import { Modal, ModalBody, ModalFooter, ModalHeader } from "../../components/Modal";
-
-
+import CardapioItemRemover from "./ModalRemover";
 
 const CardapioItemTela = ({}) => {
 
@@ -30,7 +28,7 @@ const CardapioItemTela = ({}) => {
     const [deleteId, setDeleteId] = useState( '' );
     const [deleteCardapioItemDescricao, setDeleteCardapioItemDescricao] = useState( '' );
 
-    const { filtra, remove, buscaDescricao, errorMessage, infoMessage, loading} = useTelaCardapioItemViewModel();
+    const { filtra, apenasFiltra, remove, buscaDescricao, errorMessage, infoMessage, loading} = useTelaCardapioItemViewModel();
 
     useEffect( () => {
         onFiltrar();
@@ -38,8 +36,8 @@ const CardapioItemTela = ({}) => {
 
     const onFiltrar = async () => {
         try {
-            const response = await filtra( filterDescricao );
-            setCardapioItemList( response );
+            const items = await filtra( filterDescricao );
+            setCardapioItemList( items );
         } catch ( error ) {
 
         }       
@@ -48,8 +46,10 @@ const CardapioItemTela = ({}) => {
     const onRemover = async () => {
         try {
             await remove( deleteId );
+            
+            const items = await apenasFiltra( filterDescricao );            
+            setCardapioItemList( items );
 
-            onFiltrar();            
             setDeleteModalVisible( false );
         } catch ( error ) {
 
@@ -63,32 +63,18 @@ const CardapioItemTela = ({}) => {
             setDeleteId( id );
             setDeleteModalVisible( true ); 
         } catch ( error ) {
-
+            
         }
     };
 
     return (
         <>
-            <Modal visible={deleteModalVisible} className="w-1/3">
-                <ModalHeader title="Remoção de items" onModalVisible={setDeleteModalVisible} />
-                <ModalBody>
-                    Confirme se deseja remover o ítem de cardápio de descrição: 
-                    <span className="mx-1 text-red-500"> 
-                        {deleteCardapioItemDescricao}
-                    </span>
-                    ?
-                </ModalBody>
-                <ModalFooter>                    
-                    <DivItemMX1>
-                        <Button onClick={() => setDeleteModalVisible( false )}>
-                            Fechar
-                        </Button>
-                    </DivItemMX1>                    
-                    <Button variant="red" onClick={onRemover}>
-                        Remover
-                    </Button>
-                </ModalFooter>
-            </Modal>
+            <CardapioItemRemover 
+                visible={deleteModalVisible}
+                setVisible={setDeleteModalVisible}
+                itemDesc={deleteCardapioItemDescricao}
+                onRemover={onRemover} />
+           
             <MainLayout>            
                 <Painel className="columns-1 w-2/3 p-5 bg-blue-50">
                     <ButtonLink href="/cardapio-item/novo">
@@ -154,7 +140,7 @@ const CardapioItemTela = ({}) => {
                     <DivItemsCenter className="mt-2">
                         <Paginator
                             datalist={cardapioItemList} 
-                            pageSize={2} 
+                            pageSize={5} 
                             maxPagesByGroup={3}
                             onUpdateDataList={ ( pageDataList ) => setPageCardapioItemList( pageDataList ) } />
                     </DivItemsCenter>
