@@ -1,6 +1,14 @@
 import Link from "next/link";
 
-const ButtonOutlineLink = ({href, variant, children}) => {
+import { ReactNode } from 'react';
+
+interface ButtonOutlineLinkProps {
+    variant?: "dark" | "blue";
+    href: string;
+    children: ReactNode;
+}
+
+const ButtonOutlineLink = ({href, variant, children} : ButtonOutlineLinkProps ) => {
     let className = "";
     switch( variant ) {
         case "dark":

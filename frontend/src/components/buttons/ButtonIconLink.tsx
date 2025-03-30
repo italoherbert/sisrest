@@ -1,6 +1,14 @@
 import Link from "next/link";
 
-const ButtonIconLink = ({variant, href, children}) => {
+import { ReactNode } from 'react';
+
+interface ButtonIconLinkProps {
+    variant?: "alternative" | "dark" | "light" | "blue";
+    href: string;
+    children: ReactNode;
+}
+
+const ButtonIconLink = ({variant, href, children} : ButtonIconLinkProps) => {
     let className = "";
     switch( variant ) {
         case 'alternative':

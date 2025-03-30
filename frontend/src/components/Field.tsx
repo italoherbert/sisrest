@@ -1,5 +1,13 @@
+import { ReactNode } from 'react';
 
-const Field = ({name, nameTextColor, valueTextColor, children}) => {
+interface FieldProps {
+    name: string;
+    nameTextColor?: string;   
+    valueTextColor?: string;
+    children: ReactNode;
+}
+
+const Field = ({name, nameTextColor, valueTextColor, children} : FieldProps ) => {
     return (
         <div className="flex flex-col">
             <div className={`${nameTextColor ?? 'text-gray-900'} text-sm`}>

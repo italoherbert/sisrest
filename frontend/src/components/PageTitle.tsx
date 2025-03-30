@@ -1,5 +1,10 @@
+import { ReactNode } from "react";
 
-const PageTitle = ({children}) => {
+interface PageTitleProps {
+    children: ReactNode;
+}
+
+const PageTitle = ({children}: PageTitleProps) => {
     return (
         <h1 className="text-2xl font-bold text-center">
             {children}

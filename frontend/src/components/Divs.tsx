@@ -1,5 +1,15 @@
+import { ReactNode } from 'react';
 
-export const DivItemsCenter = ({className, children}) => {
+interface DivItemsCenterProps {
+    className?: string;
+    children: ReactNode;
+}
+
+interface ChildrenOnly {
+    children: ReactNode;
+}
+
+export const DivItemsCenter = ({className, children} : DivItemsCenterProps) => {
     let classNames = "flex justify-center items-center";
     if ( className !== undefined && className !== null )
         classNames += " "+className;
@@ -11,7 +21,7 @@ export const DivItemsCenter = ({className, children}) => {
     )
 };
 
-export const DivItemMX2 = ({children}) => {
+export const DivItemMX2 = ({children} : ChildrenOnly) => {
     return (
         <div className="mx-2">
             {children}
@@ -19,7 +29,7 @@ export const DivItemMX2 = ({children}) => {
     );
 };
 
-export const DivItemMX1 = ({children}) => {
+export const DivItemMX1 = ({children} : ChildrenOnly) => {
     return (
         <div className="mx-1">
             {children}
@@ -27,7 +37,7 @@ export const DivItemMX1 = ({children}) => {
     );
 };
 
-export const DivItemP2 = ({children}) => {
+export const DivItemP2 = ({children} : ChildrenOnly) => {
     return (
         <div className="p-2">
             {children}

@@ -1,12 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, KeyboardEvent, SyntheticEvent } from "react";
 
-const InputReal = ({value, prefix, decimalLength, placeholder, className, onValueChange} ) => {
+interface InputRealProps {
+    value: number;
+    prefix?: string;
+    decimalLength?: number;
+    placeholder?: string;
+    className?: string;
+    onValueChange( v : number ): void;
+}
+
+const InputReal = ({value, prefix, decimalLength, placeholder, className, onValueChange} : InputRealProps ) => {
     
     const DEFAULT_DECIMAL_LENGTH = 2;
     const DEFAULT_PREFIX = 'R$ ';
 
-    const [valueString, setValueString] = useState( '' );
-    const inputRef = useRef(null);
+    const [valueString, setValueString] = useState<string>( '' );
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect( () => {          
         let valStr = numberToRealText( value ) ;              
@@ -14,12 +23,12 @@ const InputReal = ({value, prefix, decimalLength, placeholder, className, onValu
         onValueChange( value );
     }, [value] );
 
-    const handleOnKeyTyped = async (e) => {
-        if ( !isNumber( e.key ) && e.keyCode !== 8 && e.keyCode !== 46 )
+    const handleOnKeyTyped = async (e : KeyboardEvent<HTMLInputElement>) => {
+        if ( !isNumber( e.key ) && e.key !== 'Backspace' && e.key !== 'Delete' )
             return;
 
-        let ch = ( e.keyCode !== 8 && e.keyCode !== 46 ? e.key : '' );
-        let cursorPos = e.target.selectionStart;
+        let ch = ( e.key !== 'Backspace' && e.key !== 'Delete' ? e.key : '' );
+        let cursorPos = (e.target as HTMLInputElement).selectionStart!;
 
         let valStr;        
         if ( cursorPos > 2 && cursorPos < valueString.length ) {
@@ -35,8 +44,8 @@ const InputReal = ({value, prefix, decimalLength, placeholder, className, onValu
             }
         }
 
-        switch( e.keyCode ) {
-            case 8:
+        switch( e.key ) {
+            case 'Backspace':
                 if ( cursorPos > 3 && valueString.charAt( cursorPos-1 ) !== ',' ) {       
                     if ( cursorPos === valueString.length ) {
                         let pos = valueString.length-1;
@@ -56,7 +65,7 @@ const InputReal = ({value, prefix, decimalLength, placeholder, className, onValu
                     }                        
                 }                
                 break;
-            case 46:
+            case 'Delete':
                 if ( cursorPos > 2 && valueString.charAt( cursorPos ) !== ',' )
                     valStr = valStr.substring( 0, cursorPos ) + valStr.substring( cursorPos+1, valStr.length );
                 break;                
@@ -66,38 +75,39 @@ const InputReal = ({value, prefix, decimalLength, placeholder, className, onValu
         const textVal = numberToRealText( val );
         setValueString( textVal );       
 
-        if ( isNumber( ch ) === true || e.keyCode === 8 || e.keyCode === 46 ) {
+        if ( isNumber( ch ) === true || e.key === 'Backspace' || e.key === 'Delete' ) {
             let pos = cursorPos;
             if ( isNumber( ch ) === true ) {
                 pos = cursorPos+1;
-            } else if ( e.keyCode == 8 ) {
+            } else if ( e.key === 'Backspace') {
                 pos = cursorPos-1;
-            } else if ( e.keyCode == 46 ) {
+            } else if ( e.key === 'Delete' ) {
                 pos = cursorPos;
             }
 
             setTimeout( () => {
-                inputRef.current.setSelectionRange( pos, pos );
+                inputRef.current!.setSelectionRange( pos, pos );
             }, 0 );
         }
 
         onValueChange( val );
     }
 
-    const handleOnSelect = async (e) => {
-        if ( e.target.selectionStart < 3 )
-            inputRef.current.setSelectionRange( 3, 3 );
+    const handleOnSelect = async (e : SyntheticEvent<HTMLInputElement>) => {
+        const input = e.target as HTMLInputElement;
+        if ( input.selectionStart! < 3 )
+            inputRef.current!.setSelectionRange( 3, 3 );
     };
 
-    const textToRealNumber = ( text ) => {
-        return parseFloat( text.replace( (prefix ?? 'R$ '), '' ).replaceAll( '.', '' ).replace( ',', '.' ) );
+    const textToRealNumber = ( text : string ) => {
+        return parseFloat( text.replace( (prefix ?? 'R$ '), '' ).replace( /\./g, '' ).replace( ',', '.' ) );
     };
 
-    const numberToRealText = ( num ) => {
+    const numberToRealText = ( num : number ) => {
         const _decimalLength = decimalLength ?? DEFAULT_DECIMAL_LENGTH;
         const _prefix = DEFAULT_PREFIX ?? 'R$ ';
 
-        let n = ( isNumber( num ) ? num : 0 );
+        let n = ( !isNaN( num ) ? num : 0 );
         let textNum = n.toFixed( _decimalLength ).toString().replace( '.', ',' );
 
         let valStr = "";
@@ -118,7 +128,7 @@ const InputReal = ({value, prefix, decimalLength, placeholder, className, onValu
         return _prefix + valStr;
     };
 
-    const isNumber = ( text ) => {
+    const isNumber = ( text : string ) => {
         return !isNaN( parseFloat( text ) );
     };
 

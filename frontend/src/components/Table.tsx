@@ -1,5 +1,12 @@
+import { ReactNode } from "react";
 
-export const Table = ({bgColor, textColor, children}) => {
+interface TableProps {
+    bgColor?: string;
+    textColor?: string;
+    children: ReactNode;
+}
+
+export const Table = ({bgColor, textColor, children} : TableProps ) => {
     let className = "w-full text-sm text-left rtl:text-right dark:text-gray-400";
     if ( bgColor !== undefined && bgColor !== null )
         className += " "+bgColor;
@@ -14,7 +21,14 @@ export const Table = ({bgColor, textColor, children}) => {
     )
 };
 
-export const TableHead = ({bgColor, textColor, children}) => {
+
+interface TableHeadProps {
+    bgColor?: string;
+    textColor?: string;
+    children: ReactNode;
+}
+
+export const TableHead = ({bgColor, textColor, children} : TableHeadProps ) => {
     let className = "w-full text-sm text-left rtl:text-right dark:text-gray-400";
     if ( bgColor !== undefined && bgColor !== null )
         className += " "+bgColor;
@@ -27,7 +41,15 @@ export const TableHead = ({bgColor, textColor, children}) => {
     )
 };
 
-export const TableBody = ({bgColor, textColor, divideColor, children}) => {
+
+interface TableBodyProps {
+    bgColor?: string;
+    textColor?: string;
+    divideColor?: string;
+    children: ReactNode;
+}
+
+export const TableBody = ({bgColor, textColor, divideColor, children} : TableBodyProps ) => {
     let className = "divide-y";
     className += " "+(divideColor ?? 'divide-gray-200');
     className += " "+(bgColor ?? 'bg-white');    
@@ -41,7 +63,14 @@ export const TableBody = ({bgColor, textColor, divideColor, children}) => {
     )
 };
 
-export const TableTHR = ({bgColor, textColor, children}) => {
+
+interface TableTHRProps {
+    bgColor?: string;
+    textColor?: string;
+    children: ReactNode;
+}
+
+export const TableTHR = ({bgColor, textColor, children} : TableTHRProps ) => {
     let className = "";
     if ( bgColor !== undefined && bgColor !== null )
         className += " "+bgColor;
@@ -55,7 +84,14 @@ export const TableTHR = ({bgColor, textColor, children}) => {
     );
 };
 
-export const TableTR = ({bgColor, textColor, borderColor, children}) => {
+interface TableTRProps {
+    bgColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    children: ReactNode;
+}
+
+export const TableTR = ({bgColor, textColor, borderColor, children} : TableTRProps ) => {
     let className = "border-b dark:border-gray-700";
     if ( bgColor !== undefined && bgColor !== null )
         className += " "+bgColor;
@@ -70,7 +106,14 @@ export const TableTR = ({bgColor, textColor, borderColor, children}) => {
     )
 };
 
-export const TableTD = ({bgColor, textColor, children}) => {
+
+interface TableTDProps {
+    bgColor?: string;
+    textColor?: string;
+    children: ReactNode;
+}
+
+export const TableTD = ({bgColor, textColor, children} : TableTDProps ) => {
     let className = "px-6 py-4 font-medium whitespace-nowrap dark:text-white dark:bg-gray-800";
     if ( bgColor !== undefined && bgColor !== null )
         className += " "+bgColor;
@@ -83,7 +126,14 @@ export const TableTD = ({bgColor, textColor, children}) => {
     );
 };
 
-export const TableTH = ({bgColor, textColor, children}) => {
+
+interface TableTHProps {
+    bgColor?: string;
+    textColor?: string;
+    children: ReactNode;
+}
+
+export const TableTH = ({bgColor, textColor, children} : TableTHProps ) => {
     let className = "px-6 py-3";
     if ( bgColor !== undefined && bgColor !== null )
         className += " "+bgColor;

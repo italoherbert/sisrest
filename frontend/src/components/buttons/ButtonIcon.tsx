@@ -1,5 +1,13 @@
 
-const ButtonIcon = ({variant, onClick, children}) => {
+import { MouseEvent, ReactNode } from 'react';
+
+interface ButtonIconProps {
+    variant?: "alternative" | "dark" | "light" | "blue";
+    onClick?( e : MouseEvent<HTMLButtonElement> ): void;
+    children: ReactNode;
+}
+
+const ButtonIcon = ({variant, onClick, children} : ButtonIconProps ) => {
     let className = "";
     switch( variant ) {
         case 'alternative':

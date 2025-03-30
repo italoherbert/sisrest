@@ -1,10 +1,17 @@
+import { MouseEvent } from 'react';
 import Link from 'next/link';
 
 import { FaCircleInfo, FaPenToSquare, FaTrash } from "react-icons/fa6";
 
 import SimpleButton from "./buttons/SimpleButton";
 
-const ActionItems = ({detailsHref, editarHref, removerOnClick}) => {
+interface ActionItemsProps {
+    detailsHref: string;
+    editarHref: string;
+    removerOnClick( e : MouseEvent<HTMLButtonElement> ): void;
+}
+
+const ActionItems = ({detailsHref, editarHref, removerOnClick} : ActionItemsProps) => {
     return (
         <div className="flex flex-row">
             <div className="px-1 border-r border-gray-500">

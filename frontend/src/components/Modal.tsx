@@ -1,8 +1,15 @@
+import { ReactNode } from "react";
 import { FaX } from "react-icons/fa6";
 import SimpleButton from "./buttons/SimpleButton";
 import Painel from "./Painel";
 
-export const Modal = ({visible, className, children}) => {
+interface ModalProps {
+    visible: boolean;
+    className?: string;
+    children: ReactNode;
+}
+
+export const Modal = ({visible, className, children}: ModalProps) => {
 
     return (        
         <div className={`absolute z-10 flex flex-col justify-center w-full h-screen items-center bg-gray-500/50 ${visible === true ? 'block' : 'hidden'}`}>
@@ -14,7 +21,14 @@ export const Modal = ({visible, className, children}) => {
 
 };
 
-export const ModalHeader = ({title, titleClassName, setVisible, className}) => {
+interface ModalHeaderProps {
+    title: string;
+    titleClassName?: string;
+    className?: string;
+    setVisible( visible : boolean ): void;
+}
+
+export const ModalHeader = ({title, titleClassName, className, setVisible} : ModalHeaderProps) => {
 
     const handleCloseOnClick = async () => {
         setVisible( false );
@@ -32,7 +46,12 @@ export const ModalHeader = ({title, titleClassName, setVisible, className}) => {
     );
 };
 
-export const ModalBody = ({className, children}) => {
+interface ModalBodyProps {
+    className?: string;
+    children: ReactNode;
+}
+
+export const ModalBody = ({className, children} : ModalBodyProps) => {
     return (
         <div className={`p-3 ${className}`}>
             {children}
@@ -40,7 +59,12 @@ export const ModalBody = ({className, children}) => {
     );
 };
 
-export const ModalFooter = ({className, children}) => {
+interface ModalFooterProps {
+    className?: string;
+    children: ReactNode;
+}
+
+export const ModalFooter = ({className, children} : ModalBodyProps) => {
     return (
         <div className={`flex justify-end items-center p-3 border-t border-gray-100 ${className}`}>
             {children}

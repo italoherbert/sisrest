@@ -1,5 +1,10 @@
 
-const Message = ({message, type}) => {
+interface MessageProps {
+    message : string | null | undefined;
+    type: "error" | "info"; 
+}
+
+const Message = ({message, type} : MessageProps) => {
     return (
         <>
             { message === null || message === undefined ? 

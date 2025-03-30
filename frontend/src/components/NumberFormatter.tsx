@@ -1,5 +1,10 @@
 
-export const RealFormatter = ({value, isBold}) => {
+interface RealFormatterProps {
+    value: number;
+    isBold?: boolean;
+}
+
+export const RealFormatter = ({value, isBold} : RealFormatterProps) => {
 
     const formattedValue = Intl.NumberFormat( "pt-BR", {
         style: "currency",

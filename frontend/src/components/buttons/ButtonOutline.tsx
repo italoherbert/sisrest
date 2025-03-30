@@ -1,5 +1,13 @@
 
-const ButtonOutline = ({onClick, variant, children}) => {
+import { MouseEvent, ReactNode } from 'react';
+
+interface ButtonOutlineProps {
+    variant?: "dark" | "blue";
+    onClick?( e : MouseEvent<HTMLButtonElement> ): void;
+    children: ReactNode;
+}
+
+const ButtonOutline = ({onClick, variant, children} : ButtonOutlineProps) => {
     let className = "";
     switch( variant ) {
         case "dark":

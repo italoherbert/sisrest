@@ -1,11 +1,17 @@
+import { ChangeEvent, KeyboardEvent } from "react";
+
+interface InputTextProps {
+    type?: string;
+    value: string;
+    placeholder?: string;
+    onChange?( e : ChangeEvent<HTMLInputElement> ) : void;
+    onEnterTyped?( e : KeyboardEvent<HTMLInputElement> ) : void;
+};
 
 
-
-const InputText = ({
-    type, value, placeholder, onChange, onEnterTyped
-}) => {
-    const handleOnKeyDown = async ( e ) => {
-        if ( e.keyCode === 13 )
+const InputText = ({type, value, placeholder, onChange, onEnterTyped} : InputTextProps ) => {
+    const handleOnKeyDown = async ( e : KeyboardEvent<HTMLInputElement> ) => {
+        if ( e.key === 'Enter' )
             if ( onEnterTyped !== undefined && onEnterTyped != null )
                 onEnterTyped( e );
     };
