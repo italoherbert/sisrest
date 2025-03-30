@@ -1,4 +1,4 @@
-package italo.sisrest.model;
+package italo.sisrest.controller.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -12,7 +12,7 @@ import italo.sisrest.controller.dto.request.CardapioItemRequest;
 import italo.sisrest.exception.ValidationException;
 import italo.sisrest.mocks.CardapioItemMocks;
 
-public class CardapioItemTests {
+public class CardapioItemRequestTests {
     
     @Test
     void deveValidarComSucesso() {

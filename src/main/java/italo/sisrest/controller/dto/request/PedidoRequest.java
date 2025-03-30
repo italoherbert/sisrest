@@ -16,25 +16,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class LoginRequest implements Validator {
+public class PedidoRequest implements Validator {
     
-    private String username;
+    private int mesa;
 
-    private String password;
+    private List<PedidoItemRequest> items;
 
     @Override
     public void validate() {
-        List<Validator> validators = new ArrayList<>();    
+        List<Validator> validators = new ArrayList<>();
 
         validators.addAll( 
-            ValidationBuilder.of( "username", username )
-                .required()
-                .build() );
-
-        validators.addAll( 
-            ValidationBuilder.of( "password", password )
-                .required()
-                .build() );
+            ValidationBuilder.of( "mesa", String.valueOf( mesa ) )
+                .deveSerMaiorQueZero()
+                .build()
+        );
 
         validators.forEach( v -> v.validate() );
     }

@@ -11,4 +11,6 @@ public interface Errors {
     public final static String CARDAPIO_ITEM_NAO_ENCONTRADO = "Item de cardápio não encontrado.";
     public final static String CARDAPIO_ITEM_JA_EXISTE = "Já existe um item de cardápio com a descrição informada.";
 
+    public final static String CARDAPIO_ITEM_NAO_ENCONTRADO_ID = "O item de cardápio de ID: '$1' não foi encontrado.";
+
 }

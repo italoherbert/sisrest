@@ -24,7 +24,8 @@ public class LoginService {
             List<String> roles = Arrays.asList( 
                 "cardapioItemREAD",
                 "cardapioItemWRITE",
-                "cardapioItemDELETE" 
+                "cardapioItemDELETE",
+                "pedidoWRITE"
             );
             return jwtTokenUtil.geraToken( username, roles, uid );
         }

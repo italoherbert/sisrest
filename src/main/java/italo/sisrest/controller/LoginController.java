@@ -20,6 +20,8 @@ public class LoginController {
 
     @PostMapping
     public ResponseEntity<Object> login( @RequestBody LoginRequest request ) {
+        request.validate();
+
         String token = loginService.login( request );
         
         return ResponseEntity.ok( 
