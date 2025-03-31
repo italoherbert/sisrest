@@ -2,7 +2,14 @@ import Button from "../../components/buttons/Button";
 import { DivItemMX1 } from "../../components/Divs";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "../../components/Modal";
 
-const CardapioItemRemover = ({visible, setVisible, itemDesc, onRemover}) => {
+interface CardapioItemRemoverProps {
+    itemDesc: string;
+    visible: boolean;
+    setVisible( visible : boolean ): void;
+    onRemover(): void;
+}
+
+const CardapioItemRemover = ({itemDesc, visible, setVisible, onRemover} : CardapioItemRemoverProps) => {
     return (
         <Modal visible={visible} className="w-1/3">
             <ModalHeader title="Remoção de items" setVisible={setVisible} />

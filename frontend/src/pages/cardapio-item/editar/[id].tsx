@@ -1,7 +1,4 @@
-import { useContext, useEffect, useState } from "react";
-import axios from "axios";
-
-import { BASE_URL } from "../../../constants/api-constants";
+import { useEffect, useState } from "react";
 
 import MainLayout from "../../../components/layouts/main/main-layout";
 import PageTitle from "../../../components/PageTitle";
@@ -15,14 +12,19 @@ import Spinner from "../../../components/Spinner";
 import Button from "../../../components/buttons/Button";
 import BackButton from "../../../components/buttons/BackButton";
 import InputReal from "../../../components/InputReal";
-import { extractErrorMessage } from "../../../util/SistemaUtil";
-import { AuthContext } from "../../../context/AuthProvider";
 import useEditarCardapioItemViewModel from "../../../viewModels/cardapio-item/useEditarCardapioItemViewModel";
 
-const CardapioItemEditar = (props) => {
+import { SaveCardapioItem } from "../../../models/dtos/CardapioItem";
+import { NextPageContext } from "next";
 
-    const [descricao, setDescricao] = useState( '' );
-    const [preco, setPreco] = useState( 0 );
+interface Props {
+    id : number;
+}
+
+const CardapioItemEditar = (props : Props) => {
+
+    const [descricao, setDescricao] = useState<string>( '' );
+    const [preco, setPreco] = useState<number>( 0 );
 
     const {loadItem, saveItem, errorMessage, infoMessage, loading } = useEditarCardapioItemViewModel();
 
@@ -38,7 +40,7 @@ const CardapioItemEditar = (props) => {
             setDescricao( item.descricao );
             setPreco( item.preco );
         } catch ( error ) {
-
+            console.error( error );
         }
     };
 
@@ -46,12 +48,14 @@ const CardapioItemEditar = (props) => {
         const id = props.id;
 
         try {
-            await saveItem( id, {
+            const item : SaveCardapioItem = {
                 descricao: descricao,
-                preco: preco
-            } );
-        } catch ( error ) {
+                preco: preco                
+            };
 
+            await saveItem( id, item );
+        } catch ( error ) {
+            console.error( error );
         }
     };
 
@@ -79,7 +83,7 @@ const CardapioItemEditar = (props) => {
                     </DivItemsCenter>
 
                     <div className="py-2">
-                        <Button variant="default" onClick={onSalvar}>
+                        <Button onClick={onSalvar}>
                             Salvar
                         </Button>
                     </div>
@@ -91,7 +95,7 @@ const CardapioItemEditar = (props) => {
     )
 };
 
-CardapioItemEditar.getInitialProps = ({query}) => {
+CardapioItemEditar.getInitialProps = async ({query} : NextPageContext) => {
     return { 
         id : query.id 
     };

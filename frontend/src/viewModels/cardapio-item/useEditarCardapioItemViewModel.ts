@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 import { CardapioItemModel } from "../../models/CardapioItemModel";
 import { extractErrorMessage } from "../../util/SistemaUtil";
-import CardapioItem from "@/models/dtos/CardapioItem";
+import { CardapioItem, SaveCardapioItem } from "@/models/dtos/CardapioItem";
 
 
 
@@ -16,7 +16,7 @@ const useEditarCardapioItemViewModel = () => {
 
     const cardapioItemModel = new CardapioItemModel();
 
-    const loadItem = async ( itemId : number ) => {
+    const loadItem = async ( itemId : number ) : Promise<CardapioItem> => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
@@ -33,7 +33,7 @@ const useEditarCardapioItemViewModel = () => {
         }
     };
 
-    const saveItem = async ( itemId : number, item : CardapioItem ) => {
+    const saveItem = async ( itemId : number, item : SaveCardapioItem ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );

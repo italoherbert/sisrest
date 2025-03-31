@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 import { CardapioItemModel } from "../../models/CardapioItemModel";
 import { extractErrorMessage } from "../../util/SistemaUtil";
+import { CardapioItem } from "@/models/dtos/CardapioItem";
 
 const useTelaCardapioItemViewModel = () => {
     
@@ -13,13 +14,13 @@ const useTelaCardapioItemViewModel = () => {
 
     const cardapioItemModel = new CardapioItemModel();
 
-    const filtra = async ( filterDescricao : string ) => {
+    const filtra = async ( filterDescricao : string ) : Promise<CardapioItem[]> => {
         setInfoMessage( null );
         setErrorMessage( null );
         return apenasFiltra( filterDescricao );
     };
 
-    const apenasFiltra = async ( filterDescricao : string ) => {
+    const apenasFiltra = async ( filterDescricao : string ) : Promise<CardapioItem[]> => {
         setLoading( true );
 
         try {

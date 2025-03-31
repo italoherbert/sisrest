@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import { CardapioItemModel } from "../../models/CardapioItemModel";
-import CardapioItem from "@/models/dtos/CardapioItem";
+import { CardapioItem } from "@/models/dtos/CardapioItem";
 
 const useDetalhesCardapioItemViewModel = () => {
 

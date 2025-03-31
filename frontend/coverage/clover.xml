@@ -1,87 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1743448699050" clover="3.2.0">
-  <project timestamp="1743448699050" name="All files">
-    <metrics statements="78" coveredstatements="1" conditionals="67" coveredconditionals="0" methods="9" coveredmethods="0" elements="154" coveredelements="1" complexity="0" loc="78" ncloc="78" packages="1" files="1" classes="1"/>
-    <file name="InputReal.tsx" path="C:\Users\italo\workspace-java\sisrest\frontend\src\components\InputReal.tsx">
-      <metrics statements="78" coveredstatements="1" conditionals="67" coveredconditionals="0" methods="9" coveredmethods="0"/>
-      <line num="12" count="1" type="stmt"/>
-      <line num="14" count="0" type="stmt"/>
-      <line num="15" count="0" type="stmt"/>
-      <line num="17" count="0" type="stmt"/>
-      <line num="18" count="0" type="stmt"/>
-      <line num="20" count="0" type="stmt"/>
-      <line num="21" count="0" type="stmt"/>
-      <line num="22" count="0" type="stmt"/>
-      <line num="23" count="0" type="stmt"/>
-      <line num="26" count="0" type="stmt"/>
-      <line num="27" count="0" type="cond" truecount="0" falsecount="5"/>
-      <line num="28" count="0" type="stmt"/>
-      <line num="30" count="0" type="cond" truecount="0" falsecount="4"/>
-      <line num="31" count="0" type="stmt"/>
-      <line num="34" count="0" type="cond" truecount="0" falsecount="4"/>
-      <line num="35" count="0" type="stmt"/>
-      <line num="37" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="38" count="0" type="stmt"/>
-      <line num="39" count="0" type="stmt"/>
-      <line num="40" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="41" count="0" type="stmt"/>
-      <line num="43" count="0" type="stmt"/>
-      <line num="47" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="49" count="0" type="cond" truecount="0" falsecount="4"/>
-      <line num="50" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="51" count="0" type="stmt"/>
-      <line num="52" count="0" type="stmt"/>
-      <line num="53" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="54" count="0" type="cond" truecount="0" falsecount="5"/>
-      <line num="57" count="0" type="stmt"/>
-      <line num="59" count="0" type="stmt"/>
-      <line num="62" count="0" type="stmt"/>
-      <line num="64" count="0" type="stmt"/>
-      <line num="67" count="0" type="stmt"/>
-      <line num="69" count="0" type="cond" truecount="0" falsecount="4"/>
-      <line num="70" count="0" type="stmt"/>
-      <line num="71" count="0" type="stmt"/>
-      <line num="74" count="0" type="stmt"/>
-      <line num="75" count="0" type="stmt"/>
-      <line num="76" count="0" type="stmt"/>
-      <line num="78" count="0" type="cond" truecount="0" falsecount="5"/>
-      <line num="79" count="0" type="stmt"/>
-      <line num="80" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="81" count="0" type="stmt"/>
-      <line num="82" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="83" count="0" type="stmt"/>
-      <line num="84" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="85" count="0" type="stmt"/>
-      <line num="88" count="0" type="stmt"/>
-      <line num="89" count="0" type="stmt"/>
-      <line num="93" count="0" type="stmt"/>
-      <line num="96" count="0" type="stmt"/>
-      <line num="97" count="0" type="stmt"/>
-      <line num="98" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="99" count="0" type="stmt"/>
-      <line num="102" count="0" type="stmt"/>
-      <line num="103" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="106" count="0" type="stmt"/>
-      <line num="107" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="108" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="110" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="111" count="0" type="stmt"/>
-      <line num="113" count="0" type="stmt"/>
-      <line num="114" count="0" type="stmt"/>
-      <line num="115" count="0" type="stmt"/>
-      <line num="116" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="117" count="0" type="cond" truecount="0" falsecount="4"/>
-      <line num="118" count="0" type="stmt"/>
-      <line num="120" count="0" type="stmt"/>
-      <line num="122" count="0" type="stmt"/>
-      <line num="124" count="0" type="stmt"/>
-      <line num="128" count="0" type="stmt"/>
-      <line num="131" count="0" type="stmt"/>
-      <line num="132" count="0" type="stmt"/>
-      <line num="135" count="0" type="stmt"/>
-      <line num="136" count="0" type="cond" truecount="0" falsecount="4"/>
-      <line num="137" count="0" type="stmt"/>
-      <line num="139" count="0" type="stmt"/>
-    </file>
+<coverage generated="1743460994728" clover="3.2.0">
+  <project timestamp="1743460994729" name="All files">
+    <metrics statements="133" coveredstatements="126" conditionals="87" coveredconditionals="74" methods="20" coveredmethods="17" elements="240" coveredelements="217" complexity="0" loc="133" ncloc="133" packages="2" files="3" classes="3"/>
+    <package name="components">
+      <metrics statements="131" coveredstatements="124" conditionals="87" coveredconditionals="74" methods="19" coveredmethods="16"/>
+      <file name="InputReal.tsx" path="C:\Users\italo\workspace-java\sisrest\frontend\src\components\InputReal.tsx">
+        <metrics statements="78" coveredstatements="72" conditionals="67" coveredconditionals="58" methods="9" coveredmethods="6"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="14" count="8" type="stmt"/>
+        <line num="15" count="8" type="stmt"/>
+        <line num="17" count="8" type="stmt"/>
+        <line num="18" count="8" type="stmt"/>
+        <line num="20" count="8" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="26" count="8" type="stmt"/>
+        <line num="27" count="8" type="cond" truecount="5" falsecount="0"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="30" count="7" type="cond" truecount="4" falsecount="0"/>
+        <line num="31" count="7" type="stmt"/>
+        <line num="34" count="7" type="cond" truecount="4" falsecount="0"/>
+        <line num="35" count="5" type="stmt"/>
+        <line num="37" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="47" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="49" count="3" type="cond" truecount="4" falsecount="0"/>
+        <line num="50" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="53" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="54" count="1" type="cond" truecount="4" falsecount="1"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="62" count="1" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="67" count="3" type="stmt"/>
+        <line num="69" count="2" type="cond" truecount="4" falsecount="0"/>
+        <line num="70" count="1" type="stmt"/>
+        <line num="71" count="2" type="stmt"/>
+        <line num="74" count="7" type="stmt"/>
+        <line num="75" count="7" type="stmt"/>
+        <line num="76" count="7" type="stmt"/>
+        <line num="78" count="7" type="cond" truecount="4" falsecount="1"/>
+        <line num="79" count="7" type="stmt"/>
+        <line num="80" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="81" count="2" type="stmt"/>
+        <line num="82" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="83" count="3" type="stmt"/>
+        <line num="84" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="85" count="2" type="stmt"/>
+        <line num="88" count="7" type="stmt"/>
+        <line num="89" count="0" type="stmt"/>
+        <line num="93" count="7" type="stmt"/>
+        <line num="96" count="8" type="stmt"/>
+        <line num="97" count="0" type="stmt"/>
+        <line num="98" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="99" count="0" type="stmt"/>
+        <line num="102" count="8" type="stmt"/>
+        <line num="103" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="106" count="8" type="stmt"/>
+        <line num="107" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="108" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="110" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="111" count="9" type="stmt"/>
+        <line num="113" count="9" type="stmt"/>
+        <line num="114" count="9" type="stmt"/>
+        <line num="115" count="9" type="stmt"/>
+        <line num="116" count="52" type="cond" truecount="2" falsecount="0"/>
+        <line num="117" count="7" type="cond" truecount="4" falsecount="0"/>
+        <line num="118" count="2" type="stmt"/>
+        <line num="120" count="5" type="stmt"/>
+        <line num="122" count="7" type="stmt"/>
+        <line num="124" count="45" type="stmt"/>
+        <line num="128" count="9" type="stmt"/>
+        <line num="131" count="8" type="stmt"/>
+        <line num="132" count="24" type="stmt"/>
+        <line num="135" count="8" type="stmt"/>
+        <line num="136" count="8" type="cond" truecount="2" falsecount="2"/>
+        <line num="137" count="0" type="stmt"/>
+        <line num="139" count="8" type="stmt"/>
+      </file>
+      <file name="Paginator.tsx" path="C:\Users\italo\workspace-java\sisrest\frontend\src\components\Paginator.tsx">
+        <metrics statements="53" coveredstatements="52" conditionals="20" coveredconditionals="16" methods="10" coveredmethods="10"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="23" count="10" type="stmt"/>
+        <line num="24" count="10" type="stmt"/>
+        <line num="26" count="10" type="stmt"/>
+        <line num="27" count="6" type="stmt"/>
+        <line num="30" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="33" count="5" type="stmt"/>
+        <line num="36" count="6" type="stmt"/>
+        <line num="37" count="6" type="stmt"/>
+        <line num="38" count="19" type="stmt"/>
+        <line num="40" count="6" type="stmt"/>
+        <line num="43" count="10" type="stmt"/>
+        <line num="44" count="5" type="stmt"/>
+        <line num="46" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="47" count="3" type="stmt"/>
+        <line num="48" count="3" type="stmt"/>
+        <line num="49" count="3" type="stmt"/>
+        <line num="53" count="10" type="stmt"/>
+        <line num="54" count="4" type="stmt"/>
+        <line num="56" count="4" type="stmt"/>
+        <line num="58" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="59" count="3" type="stmt"/>
+        <line num="60" count="3" type="stmt"/>
+        <line num="61" count="3" type="stmt"/>
+        <line num="65" count="10" type="stmt"/>
+        <line num="66" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="67" count="2" type="stmt"/>
+        <line num="69" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="70" count="2" type="stmt"/>
+        <line num="72" count="0" type="stmt"/>
+        <line num="75" count="2" type="stmt"/>
+        <line num="78" count="10" type="stmt"/>
+        <line num="79" count="8" type="stmt"/>
+        <line num="81" count="8" type="cond" truecount="1" falsecount="1"/>
+        <line num="82" count="8" type="stmt"/>
+        <line num="84" count="8" type="stmt"/>
+        <line num="87" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="88" count="6" type="stmt"/>
+        <line num="90" count="2" type="stmt"/>
+        <line num="93" count="8" type="stmt"/>
+        <line num="94" count="24" type="stmt"/>
+        <line num="97" count="8" type="stmt"/>
+        <line num="100" count="10" type="stmt"/>
+        <line num="101" count="2" type="stmt"/>
+        <line num="104" count="10" type="stmt"/>
+        <line num="105" count="12" type="stmt"/>
+        <line num="106" count="12" type="cond" truecount="1" falsecount="1"/>
+        <line num="107" count="12" type="stmt"/>
+        <line num="108" count="12" type="stmt"/>
+        <line num="111" count="10" type="stmt"/>
+        <line num="122" count="24" type="stmt"/>
+        <line num="123" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.buttons">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="SimpleButton.tsx" path="C:\Users\italo\workspace-java\sisrest\frontend\src\components\buttons\SimpleButton.tsx">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="44" type="stmt"/>
+      </file>
+    </package>
   </project>
 </coverage>

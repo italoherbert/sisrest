@@ -21,7 +21,7 @@ const Login = () => {
 
     useEffect( () => {
         limpaToken();
-    } );
+    }, [] );
 
     const login = async () => {
         try {

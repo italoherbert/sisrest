@@ -10,8 +10,13 @@ import Spinner from '../../../components/Spinner';
 import MainLayout from '../../../components/layouts/main/main-layout';
 import BackButton from '../../../components/buttons/BackButton';
 import useDetalhesCardapioItemViewModel from '../../../viewModels/cardapio-item/useDetalhesCardapioItemViewModel';
+import { NextPageContext } from 'next';
 
-const CardapioItemDetalhes = props => {
+interface Props {
+    id : number;
+}
+
+const CardapioItemDetalhes = ( props : Props ) => {
 
     const { loadItem, item, errorMessage, loading } = useDetalhesCardapioItemViewModel();
 
@@ -25,7 +30,7 @@ const CardapioItemDetalhes = props => {
         try {
             await loadItem( id );            
         } catch ( error ) {
-
+            console.error( error );
         }
     }
 
@@ -62,7 +67,7 @@ const CardapioItemDetalhes = props => {
     )
 };
 
-CardapioItemDetalhes.getInitialProps = ({query}) => {
+CardapioItemDetalhes.getInitialProps = async ({query} : NextPageContext) => {
     return { 
         id : query.id,
     };

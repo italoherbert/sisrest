@@ -17,16 +17,17 @@ import { DivItemsCenter } from "../../components/Divs";
 import MainLayout from "../../components/layouts/main/main-layout";
 import ActionItems from "../../components/ActionItems";
 import CardapioItemRemover from "./ModalRemover";
+import { CardapioItem } from "@/models/dtos/CardapioItem";
 
 const CardapioItemTela = ({}) => {
 
-    const [cardapioItemList, setCardapioItemList] = useState( [] );
-    const [pageCardapioItemList, setPageCardapioItemList] = useState( [] );
-    const [filterDescricao, setFilterDescricao] = useState( '*' );
+    const [cardapioItemList, setCardapioItemList] = useState<CardapioItem[]>( [] );
+    const [pageCardapioItemList, setPageCardapioItemList] = useState<CardapioItem[]>( [] );
+    const [filterDescricao, setFilterDescricao] = useState<string>( '*' );
 
-    const [deleteModalVisible, setDeleteModalVisible] = useState( false );
-    const [deleteId, setDeleteId] = useState( '' );
-    const [deleteCardapioItemDescricao, setDeleteCardapioItemDescricao] = useState( '' );
+    const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>( false );
+    const [deleteId, setDeleteId] = useState<number>( -1 );
+    const [deleteCardapioItemDescricao, setDeleteCardapioItemDescricao] = useState<string>( '' );
 
     const { filtra, apenasFiltra, remove, buscaDescricao, errorMessage, infoMessage, loading} = useTelaCardapioItemViewModel();
 
@@ -36,10 +37,10 @@ const CardapioItemTela = ({}) => {
 
     const onFiltrar = async () => {
         try {
-            const items = await filtra( filterDescricao );
+            const items : CardapioItem[] = await filtra( filterDescricao );
             setCardapioItemList( items );
         } catch ( error ) {
-
+            console.error( error );
         }       
     };
 
@@ -52,18 +53,18 @@ const CardapioItemTela = ({}) => {
 
             setDeleteModalVisible( false );
         } catch ( error ) {
-
+            console.error( error );
         }        
     };
 
-    const onPerguntarSeRemover = async ( id ) => {
+    const onPerguntarSeRemover = async ( id : number ) => {
         try {
             const response = await buscaDescricao( id );
             setDeleteCardapioItemDescricao( response );
             setDeleteId( id );
             setDeleteModalVisible( true ); 
         } catch ( error ) {
-            
+            console.error( error );
         }
     };
 
@@ -92,11 +93,11 @@ const CardapioItemTela = ({}) => {
                                 <span className="mx-2">
                                     <InputText type="text" 
                                             value={filterDescricao} 
-                                            onEnterTyped={ (e) => onFiltrar() } 
+                                            onEnterTyped={ () => onFiltrar() } 
                                             onChange={ (e) => setFilterDescricao( e.target.value ) } />
                                 </span>
                                 <span className="mx-2">
-                                    <Button variant="default" onClick={onFiltrar}>
+                                    <Button onClick={onFiltrar}>
                                         Filtrar
                                     </Button>
                                 </span>
@@ -142,7 +143,7 @@ const CardapioItemTela = ({}) => {
                             datalist={cardapioItemList} 
                             pageSize={5} 
                             maxPagesByGroup={3}
-                            onUpdateDataList={ ( pageDataList ) => setPageCardapioItemList( pageDataList ) } />
+                            onUpdateDataList={ ( pageDataList : CardapioItem[] ) => setPageCardapioItemList( pageDataList ) } />
                     </DivItemsCenter>
                 </Painel>            
             </MainLayout>

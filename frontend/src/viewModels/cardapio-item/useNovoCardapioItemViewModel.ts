@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { CardapioItemModel } from "../../models/CardapioItemModel";
 import { AuthContext } from "../../context/AuthProvider";
 import { extractErrorMessage } from "../../util/SistemaUtil";
-import CardapioItem from "@/models/dtos/CardapioItem";
+import { SaveCardapioItem } from "@/models/dtos/CardapioItem";
 
 const useNovoCardapioItemViewModel = () => {
 
@@ -14,7 +14,7 @@ const useNovoCardapioItemViewModel = () => {
 
     const {token} = useContext(AuthContext);
 
-    const save = async ( item : CardapioItem ) => {
+    const save = async ( item : SaveCardapioItem ) => {
         setInfoMessage( null );
         setErrorMessage( null );
         setLoading( true );
