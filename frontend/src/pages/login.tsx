@@ -38,7 +38,7 @@ const Login = () => {
 
     return (
         <DivItemsCenter className="mt-20">
-            <Painel className="columns-1 w-1/3 p-3">                
+            <Painel className="columns-1 w-100 p-3">                
                 <h1>Login</h1>
                 
                 <div className="py-2">

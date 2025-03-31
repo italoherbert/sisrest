@@ -77,7 +77,7 @@ const CardapioItemTela = ({}) => {
                 onRemover={onRemover} />
            
             <MainLayout>            
-                <Painel className="columns-1 w-2/3 p-5 bg-blue-50">
+                <Painel className="p-5 w-300 bg-blue-50">
                     <ButtonLink href="/cardapio-item/novo">
                         Registrar
                     </ButtonLink>
@@ -85,7 +85,7 @@ const CardapioItemTela = ({}) => {
                     <br />
 
                     <DivItemsCenter>
-                        <Painel className="w-1/2 p-3 bg-white mb-3">                
+                        <Painel className="w-full p-3 bg-white mb-3">                
                             <div className="flex flex-row items-center">
                                 <span className="mx-2">
                                     <Label>Descrição: </Label>

@@ -61,7 +61,7 @@ const CardapioItemEditar = (props : Props) => {
 
     return (
         <MainLayout>
-            <Painel className="w-2/3 p-3">
+            <Painel className="w-200 p-3">
                 <PageTitle>Editar item de cardápio</PageTitle>
                 <br />
 

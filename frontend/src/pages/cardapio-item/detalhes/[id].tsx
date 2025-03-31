@@ -36,7 +36,7 @@ const CardapioItemDetalhes = ( props : Props ) => {
 
     return (
         <MainLayout>
-            <Painel className="w-1/2 p-3 bg-blue-50">
+            <Painel className="w-200 p-3 bg-blue-50">
                 <PageTitle>Detalhes do item</PageTitle>
                 <br />
 

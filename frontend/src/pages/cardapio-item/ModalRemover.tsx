@@ -11,7 +11,7 @@ interface CardapioItemRemoverProps {
 
 const CardapioItemRemover = ({itemDesc, visible, setVisible, onRemover} : CardapioItemRemoverProps) => {
     return (
-        <Modal visible={visible} className="w-1/3">
+        <Modal visible={visible} className="w-200">
             <ModalHeader title="Remoção de items" setVisible={setVisible} />
             <ModalBody>
                 Confirme se deseja remover o ítem de cardápio de descrição: 

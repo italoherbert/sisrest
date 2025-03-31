@@ -40,12 +40,12 @@ const CardapioItemNovo = () => {
 
     return (
         <MainLayout>
-            <Painel className="bg-white w-1/3 p-5">
+            <Painel className="bg-white w-200 p-5">
                 <PageTitle>Novo Item</PageTitle>
                 <br />
 
                 <Form>
-                    <div className="columns-1">
+                    <div>
                         <div className="py-2">
                             <Label>Descrição: </Label>
                             <InputText value={descricao} onChange={ (e) => setDescricao( e.target.value ) } />

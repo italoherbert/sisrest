@@ -17,7 +17,7 @@ const Navbar = ({onToggleSidebarVisible} : NavbarProps) => {
                         <FaBars className="text-3xl"/>
                     </SimpleButton>
                     <h1 className="mx-3 text-3xl font-bold text-gray-500">
-                        Sistema de restaurante
+                        SisRest
                     </h1>
                 </div>
                 <OptionsMenu />
