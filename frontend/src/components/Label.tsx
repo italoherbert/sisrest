@@ -2,11 +2,10 @@
 import { ReactNode } from 'react';
 
 interface LabelProps {
-    lfor?: string;
     children: ReactNode;
 }
 
-const Label = ({lfor, children} : LabelProps) => {
+const Label = ({children} : LabelProps) => {
     return (
         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             {children}

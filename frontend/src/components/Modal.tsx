@@ -64,7 +64,7 @@ interface ModalFooterProps {
     children: ReactNode;
 }
 
-export const ModalFooter = ({className, children} : ModalBodyProps) => {
+export const ModalFooter = ({className, children} : ModalFooterProps) => {
     return (
         <div className={`flex justify-end items-center p-3 border-t border-gray-100 ${className}`}>
             {children}

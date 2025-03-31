@@ -14,14 +14,14 @@ const Login = () => {
 
     const router = useRouter();
 
-    const [username, setUsername] = useState( "" );
-    const [password, setPassword] = useState( "" );
+    const [username, setUsername] = useState<string>( "" );
+    const [password, setPassword] = useState<string>( "" );
 
     const {logar, limpaToken, errorMessage, infoMessage, loading} = useLoginViewModel();
 
     useEffect( () => {
         limpaToken();
-    }, [] );
+    } );
 
     const login = async () => {
         try {
@@ -32,7 +32,7 @@ const Login = () => {
             
             router.push( '/cardapio-item' );
         } catch ( error ) {
-            
+            console.error( error );
         }
     };
 
@@ -46,7 +46,7 @@ const Login = () => {
                     <InputText 
                         value={username} 
                         onChange={(e) => setUsername( e.target.value ) } 
-                        onEnterTyped={(e) => login()}/>
+                        onEnterTyped={() => login()}/>
                 </div>
                 <div className="py-2">
                     <Label>Senha: </Label>
@@ -54,7 +54,7 @@ const Login = () => {
                         type="password"
                         value={password} 
                         onChange={(e) => setPassword( e.target.value ) } 
-                        onEnterTyped={(e) => login()}/>
+                        onEnterTyped={() => login()}/>
                 </div>
                 <Message message={errorMessage} type="error" />
                 <Message message={infoMessage} type="info" />

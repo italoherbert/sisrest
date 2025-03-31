@@ -3,17 +3,26 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 import SimpleButton from "./buttons/SimpleButton";
 
+interface PaginatorProps {
+    datalist: any[];
+    onUpdateDataList( pageDataList : any[] ): void;
+    pageSize: number;
+    maxPagesByGroup: number;
+    nextButtonLabel?: string;
+    backButtonLabel?: string;
+}
+
 const Paginator = ({
     datalist, 
     onUpdateDataList, 
     pageSize, maxPagesByGroup,
-    nextButtonLabel, backButtonLabel}) => {
+    nextButtonLabel, backButtonLabel} : PaginatorProps) => {
 
-    const [currentPageGroup, setCurrentPageGroup] = useState( 0 );
-    const [pageNumbers, setPageNumbers] = useState( [] );
+    const [currentPageGroup, setCurrentPageGroup] = useState<number>( 0 );
+    const [pageNumbers, setPageNumbers] = useState<number[]>( [] );
     
-    const onPageClick = async ( number ) => {
-        let i = (number-1) * pageSize;
+    const onPageClick = async ( num : number ) => {
+        let i = (num-1) * pageSize;
 
         let j;
         if ( i+pageSize > datalist.length ) {
@@ -22,7 +31,7 @@ const Paginator = ({
             j = i + pageSize - 1;
         }
 
-        let pageDataList = [];
+        let pageDataList : [] = [];
         for( let k = i; k <= j; k++ )
             pageDataList.push( datalist[ k ] );
 
@@ -64,8 +73,8 @@ const Paginator = ({
         geraPageNumbers( currPageGroup );                   
     }, [datalist] );
 
-    const geraPageNumbers = async ( currPageGroup ) => {
-        let pageNumbersList = [];
+    const geraPageNumbers = async ( currPageGroup : number ) => {
+        let pageNumbersList : number[] = [];
                
         if ( currPageGroup > 0 ) {
             const quantPageGroups = calcQuantPageGroups();
@@ -87,11 +96,11 @@ const Paginator = ({
     };
 
     const calcQuantPages = () => {
-        return parseInt( datalist.length / pageSize ) + datalist.length % pageSize;
+        return parseInt( (datalist.length / pageSize).toString() ) + datalist.length % pageSize;
     }
 
     const calcQuantPageGroups = () => {
-        let quantPageGroups = parseInt( datalist.length / ( pageSize * maxPagesByGroup ) );
+        let quantPageGroups = parseInt( (datalist.length / ( pageSize * maxPagesByGroup )).toString() );
         if ( datalist.length % ( pageSize * maxPagesByGroup ) != 0 )
             quantPageGroups++;
         return quantPageGroups;

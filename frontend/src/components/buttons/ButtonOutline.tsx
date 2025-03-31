@@ -1,5 +1,5 @@
 
-import { MouseEvent, ReactNode } from 'react';
+import React, { MouseEvent, ReactNode } from 'react';
 
 interface ButtonOutlineProps {
     variant?: "dark" | "blue";
@@ -7,7 +7,7 @@ interface ButtonOutlineProps {
     children: ReactNode;
 }
 
-const ButtonOutline = ({onClick, variant, children} : ButtonOutlineProps) => {
+const ButtonOutline = ({onClick, variant, children}: ButtonOutlineProps) => {
     let className = "";
     switch( variant ) {
         case "dark":

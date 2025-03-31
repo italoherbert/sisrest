@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 interface ButtonOutlineLinkProps {
     variant?: "dark" | "blue";
@@ -8,7 +8,7 @@ interface ButtonOutlineLinkProps {
     children: ReactNode;
 }
 
-const ButtonOutlineLink = ({href, variant, children} : ButtonOutlineLinkProps ) => {
+const ButtonOutlineLink = ({href, variant, children}: ButtonOutlineLinkProps) => {
     let className = "";
     switch( variant ) {
         case "dark":

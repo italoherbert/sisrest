@@ -1,11 +1,12 @@
-const { render, fireEvent } = require("@testing-library/react");
-const { default: Paginator } = require("../src/components/Paginator");
+import React from 'react';
 import '@testing-library/jest-dom'; 
+import { fireEvent, render } from '@testing-library/react';
+import Paginator from '../src/components/Paginator';
 
 
 describe( 'test Paginator.js', () => {
     it('test (1)', () => {
-        let itemDataList = [ 
+        const itemDataList = [ 
             { descricao : 'Café', preco: 8 },
             { descricao : 'Leite', preco: 5 },
             { descricao : 'Macarrão', preco: 10 },
@@ -15,9 +16,9 @@ describe( 'test Paginator.js', () => {
             { descricao : 'Mel', preco: 5 }        
         ];
 
-        let itemPageDataList = [];
+        let itemPageDataList : [] = [];
         
-        const onUpdate = ( pageDataList ) => {
+        const onUpdate = ( pageDataList : [] ) => {
             itemPageDataList = pageDataList;
         };
 
@@ -58,7 +59,7 @@ describe( 'test Paginator.js', () => {
     } );
 
     it( 'test (2)', () => {
-        let itemDataList = [];
+        const itemDataList = [];
         for( let i = 0; i < 101; i++ )
             itemDataList.push( { descricao: 'ABC', preco: 5 } );
 

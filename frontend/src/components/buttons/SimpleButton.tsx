@@ -1,5 +1,5 @@
 
-import { MouseEvent, ReactNode } from 'react';
+import React, { MouseEvent, ReactNode } from 'react';
 
 interface SimpleButtonProps {
     onClick?( e : MouseEvent<HTMLButtonElement> ): void;
@@ -7,7 +7,7 @@ interface SimpleButtonProps {
     children: ReactNode;
 }
 
-const SimpleButton = ({onClick, disabled, children} : SimpleButtonProps) => {
+const SimpleButton = ({onClick, disabled, children}: SimpleButtonProps) => {
     return (
         <button type="button" className="cursor-pointer" onClick={onClick} disabled={disabled}>
             {children}

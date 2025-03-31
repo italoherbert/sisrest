@@ -1,13 +1,15 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import React from 'react';
+
+import { fireEvent, render } from '@testing-library/react';
 import InputReal from '../src/components/InputReal';
 
 describe( 'test javascript', () => {
     it('test dec frac', () => {
-        let str = "1001.25";
-        let i = str.indexOf( '.' );
+        const str = "1001.25";
+        const i = str.indexOf( '.' );
     
-        let dec = str.substring( 0, i );
-        let frac = str.substring( i+1, str.length );
+        const dec = str.substring( 0, i );
+        const frac = str.substring( i+1, str.length );
     
         expect( dec ).toBe( '1001' );
         expect( frac ).toBe( '25' ); 
@@ -20,7 +22,7 @@ describe( 'test javascript', () => {
     } );
     
     it('test textToRealNumber', () => {                
-        const textToRealNumber = ( text ) => {
+        const textToRealNumber = ( text : string ) => {
             return parseFloat( text.replace( 'R$ ', '' ).replaceAll( '.', '' ).replace( ',', '.' ) );
         };
 

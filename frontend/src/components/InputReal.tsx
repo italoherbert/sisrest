@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, KeyboardEvent, SyntheticEvent } from "react";
+import React, { useEffect, useRef, useState, KeyboardEvent, SyntheticEvent } from "react";
 
 interface InputRealProps {
     value: number;
@@ -18,7 +18,7 @@ const InputReal = ({value, prefix, decimalLength, placeholder, className, onValu
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect( () => {          
-        let valStr = numberToRealText( value ) ;              
+        const valStr = numberToRealText( value ) ;              
         setValueString( valStr );
         onValueChange( value );
     }, [value] );
@@ -27,8 +27,8 @@ const InputReal = ({value, prefix, decimalLength, placeholder, className, onValu
         if ( !isNumber( e.key ) && e.key !== 'Backspace' && e.key !== 'Delete' )
             return;
 
-        let ch = ( e.key !== 'Backspace' && e.key !== 'Delete' ? e.key : '' );
-        let cursorPos = (e.target as HTMLInputElement).selectionStart!;
+        const ch = ( e.key !== 'Backspace' && e.key !== 'Delete' ? e.key : '' );
+        const cursorPos = (e.target as HTMLInputElement).selectionStart!;
 
         let valStr;        
         if ( cursorPos > 2 && cursorPos < valueString.length ) {
@@ -100,15 +100,15 @@ const InputReal = ({value, prefix, decimalLength, placeholder, className, onValu
     };
 
     const textToRealNumber = ( text : string ) => {
-        return parseFloat( text.replace( (prefix ?? 'R$ '), '' ).replace( /\./g, '' ).replace( ',', '.' ) );
+        return parseFloat( text.replace( (prefix ?? 'R$ '), '' ).replaceAll( ".", '' ).replace( ',', '.' ) );
     };
 
     const numberToRealText = ( num : number ) => {
         const _decimalLength = decimalLength ?? DEFAULT_DECIMAL_LENGTH;
         const _prefix = DEFAULT_PREFIX ?? 'R$ ';
 
-        let n = ( !isNaN( num ) ? num : 0 );
-        let textNum = n.toFixed( _decimalLength ).toString().replace( '.', ',' );
+        const n = ( !isNaN( num ) ? num : 0 );
+        const textNum = n.toFixed( _decimalLength ).toString().replace( '.', ',' );
 
         let valStr = "";
         let k = 0;

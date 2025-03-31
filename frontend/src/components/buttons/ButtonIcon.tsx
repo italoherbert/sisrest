@@ -1,5 +1,5 @@
 
-import { MouseEvent, ReactNode } from 'react';
+import React, { MouseEvent, ReactNode } from 'react';
 
 interface ButtonIconProps {
     variant?: "alternative" | "dark" | "light" | "blue";
@@ -7,7 +7,7 @@ interface ButtonIconProps {
     children: ReactNode;
 }
 
-const ButtonIcon = ({variant, onClick, children} : ButtonIconProps ) => {
+const ButtonIcon = ({variant, onClick, children}: ButtonIconProps) => {
     let className = "";
     switch( variant ) {
         case 'alternative':
