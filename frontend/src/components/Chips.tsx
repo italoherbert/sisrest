@@ -20,13 +20,13 @@ export const Chip = ({ text, onRemove, bgColor, textColor, hoverBGColor, hoverTe
         classNames += " "+( hoverTextColor !== undefined ? hoverTextColor : 'hover:text-white')
     }
 
-    const handleOnClick = async () => {
+    const handleOnClick = async () => {        
         if ( onSelect !== undefined )
             onSelect();
     };
 
     return (
-        <SimpleButton onClick={handleOnClick}>
+        <div onClick={handleOnClick}>
             <div className={classNames}>
                 <div className="flex items-center">
                     {text}
@@ -42,7 +42,7 @@ export const Chip = ({ text, onRemove, bgColor, textColor, hoverBGColor, hoverTe
                     ) }
                 </div>
             </div>
-        </SimpleButton>
+        </div>
     )
 
 };

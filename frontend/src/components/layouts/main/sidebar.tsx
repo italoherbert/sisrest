@@ -24,7 +24,7 @@ interface SidebarProps {
 
 const Sidebar = ({visible, onToggleVisible} : SidebarProps) => {    
     return (
-        <aside className={`absolute left-0 z-40 w-64 border-r border-gray-300 h-screen transition-transform -translate-x-full sm:translate-x-0 ${visible ? 'block' : 'hidden'}`} aria-label="Sidebar">
+        <aside className={`absolute left-0 z-40 w-64 border-r border-gray-300 h-screen ${visible ? 'block' : 'hidden'}`} aria-label="Sidebar">
             <div className="h-full py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
                 <ul className="font-medium">
                     <li className="pb-3">

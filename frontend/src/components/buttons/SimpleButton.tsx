@@ -1,8 +1,8 @@
 
-import React, { MouseEvent, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 interface SimpleButtonProps {
-    onClick?( e : MouseEvent<HTMLButtonElement> ): void;
+    onClick?(): void;
     disabled?: boolean;
     children: ReactNode;
 }

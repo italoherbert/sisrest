@@ -82,7 +82,7 @@ const PedidoNovo = () => {
         await createPedido( pedido );
     };
 
-    const onSetQuantidade = async () => {
+    const onSetQuantidade = async () => {        
         const quant = parseInt( quantidade  );
         if ( isNaN( quant ) ) {
             setErrorMessage( 'A quantidade deve ser um valor inteiro.' );
@@ -95,7 +95,7 @@ const PedidoNovo = () => {
     return (
         <>
             <MainLayout>
-                <Painel className="w-300 p-3">
+                <Painel className="w-200 p-3">
                     <PageTitle>Novo pedido</PageTitle>
 
                     <div className="my-2">
@@ -103,11 +103,11 @@ const PedidoNovo = () => {
                         <InputText value={mesa} onChange={(e) => setMesa( e.target.value ) } />
                     </div>
 
-                    <Painel className="p-2 bg-blue-50">
+                    <Painel className="p-2 bg-gray-50">
                         <h1 className="text-2xl font-bold">Adicione os pratos</h1>
                         <br />
 
-                        <Painel className="p-1 bg-blue-100">
+                        <Painel className="p-1 bg-blue-50">
                             <h1 className="text-3md font-bold">Pratos adicionados</h1>
                             { itemsAdded.map( (item, index) => (
                                 <div key={index} className="inline-block mx-1">
@@ -127,14 +127,18 @@ const PedidoNovo = () => {
                                     </span>
                                 </Field>
                             </div>
-                            <div className="flex flex-row items-center">
-                                <Label>Quantidade: </Label>
-                                <DivItemMX2>
-                                    <InputText width="w-50" value={quantidade} onChange={(e) => setQuantidade( e.target.value )} />
-                                </DivItemMX2>
+                            <div className="flex flex-col">
+                                <div className="flex flex-row items-center my-2">
+                                    <Label>Quantidade: </Label>
+                                    <DivItemMX2>
+                                        <InputText width="w-50" value={quantidade} onChange={(e) => setQuantidade( e.target.value )} />
+                                    </DivItemMX2>
+                                </div>
+                                <div>
                                 <Button onClick={onSetQuantidade}>
                                     Alterar quantidade
                                 </Button>
+                                </div>
                             </div>
                         </Painel>
 

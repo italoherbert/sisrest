@@ -58,14 +58,27 @@ const useNovoPedidoViewModel = () => {
         setErrorMessage( null );
         setInfoMessage( null );
 
+        const list = [];
+
+        let achou = false;
         for( let i = 0; i < itemsAdded.length; i++ ) {
-            if ( itemsAdded[ i ].id == itemId ) {
-                itemsQuantsAdded[ i ] = quantidade;
-                setInfoMessage( "Quantidade alterada com sucesso.")
-                return;
+            if ( itemsAdded[ i ].id === itemId ) {
+                list.push( quantidade );
+                achou = true;
+            } else {
+                list.push( itemsQuantsAdded[ i ] );
             }
         }
-        setErrorMessage( `O item de ID: ${itemId}, não foi encontrado.` );
+        console.log( itemsQuantsAdded );
+        console.log( list );
+        console.log( itemsAdded.length );
+        setItemsQuantsAdded( list );        
+
+        if ( achou === true ) {
+            setInfoMessage( "Quantidade alterada com sucesso.")
+        } else {
+            setErrorMessage( `O item de ID: ${itemId}, não foi encontrado.` );
+        }        
     };
 
     const getItemDescricao = ( itemId : number ) : string => {
