@@ -53,7 +53,7 @@ public class PedidoControllerTests {
         PedidoRequest request = PedidoMocks.mockPedidoRequest();
 
         PedidoItemRequest itemRequest = PedidoMocks.mockPedidoItemRequest();
-        request.getCardapioItems().add( itemRequest );
+        request.getItems().add( itemRequest );
 
         String content = objectMapper.writeValueAsString( request );
 

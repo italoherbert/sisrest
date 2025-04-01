@@ -29,7 +29,7 @@ public class PedidoController {
         request.validate();
 
         Pedido pedido = pedidoMapper.map( request );
-        PedidoItemDTO[] itemDTOs = pedidoMapper.map( request.getCardapioItems() );
+        PedidoItemDTO[] itemDTOs = pedidoMapper.map( request.getItems() );
 
         pedidoService.insert( pedido, itemDTOs );
 

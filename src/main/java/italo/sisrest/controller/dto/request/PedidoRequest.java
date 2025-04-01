@@ -20,7 +20,7 @@ public class PedidoRequest implements Validator {
     
     private int mesa;
 
-    private List<PedidoItemRequest> cardapioItems;
+    private List<PedidoItemRequest> items;
 
     @Override
     public void validate() {

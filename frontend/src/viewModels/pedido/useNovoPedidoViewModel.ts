@@ -5,6 +5,7 @@ import { extractErrorMessage } from "@/util/SistemaUtil";
 import { SavePedido } from "@/models/dtos/Pedido";
 import { AuthContext } from "@/context/AuthProvider";
 import { CardapioItemModel } from "@/models/CardapioItemModel";
+import { SavePedidoItem } from "@/models/dtos/PedidoItem";
 
 const useNovoPedidoViewModel = () => {
 
@@ -15,6 +16,7 @@ const useNovoPedidoViewModel = () => {
     const [items, setItems] = useState<CardapioItem[]>([]);
     const [itemsFiltered, setItemsFiltered] = useState<CardapioItem[]>([]);
     const [itemsAdded] = useState<CardapioItem[]>([]);
+    const [itemsQuantsAdded, setItemsQuantsAdded] = useState<number[]>([]);
 
     const pedidoModel = new PedidoModel();
     const cardapioItemModel = new CardapioItemModel();
@@ -26,29 +28,66 @@ const useNovoPedidoViewModel = () => {
             items.splice( 0, 1 );
     };
 
-    const addItem = ( itemId : number ) => {
+    const addItem = async ( itemId : number ) => {
         let added = false;
         for( let i = 0; added === false && i < items.length; i++ ) {
             if ( items[ i ].id === itemId ) {
                 const item = items[ i ];
                 items.splice( i, 1 );
                 itemsAdded.push( item );
+                itemsQuantsAdded.push( 1 );
                 added = true;
             }
         }
     };
 
-    const removeItem = ( itemId : number ) => {
+    const removeItem = async ( itemId : number ) => {
         let removed = false;
         for( let i = 0; removed === false && i < itemsAdded.length; i++ ) {
             if ( itemsAdded[ i ].id === itemId ) {
                 const item = itemsAdded[ i ];
                 itemsAdded.splice( i, 1 );
+                itemsQuantsAdded.splice( i, 1 );                
                 items.push( item );
                 removed = true;
             }
         }
     }
+
+    const alterItemQuantidade = async ( itemId : number, quantidade : number ) => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+
+        for( let i = 0; i < itemsAdded.length; i++ ) {
+            if ( itemsAdded[ i ].id == itemId ) {
+                itemsQuantsAdded[ i ] = quantidade;
+                setInfoMessage( "Quantidade alterada com sucesso.")
+                return;
+            }
+        }
+        setErrorMessage( `O item de ID: ${itemId}, não foi encontrado.` );
+    };
+
+    const getItemDescricao = ( itemId : number ) : string => {
+        for( let i = 0; i < itemsAdded.length; i++ )
+            if ( itemsAdded[ i ].id == itemId )
+                return itemsAdded[ i ].descricao;            
+        return 'Descrição desconhecida!';
+    };
+
+    const geraSavePedidoItems = async () : Promise<SavePedidoItem[]> => {
+        const pedidoItems : SavePedidoItem[] = [];
+        
+        itemsAdded.forEach( ( item, index ) => {     
+            const quantidade = itemsQuantsAdded[ index ];      
+            pedidoItems.push( {
+                cardapioItemId: item.id,
+                quantidade: quantidade
+            } );
+        } );
+
+        return pedidoItems;
+    };
 
     const filtraCardapioItems = async ( itemDesc : string ) => {
         const list : CardapioItem[] = [];
@@ -79,7 +118,8 @@ const useNovoPedidoViewModel = () => {
 
             setItems( response.data );
             setItemsFiltered( response.data );
-
+            setItemsQuantsAdded( [] );
+            
             setLoading( false );
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
@@ -109,9 +149,13 @@ const useNovoPedidoViewModel = () => {
         addItem,
         removeItem,
         filtraCardapioItems,
+        geraSavePedidoItems,
+        alterItemQuantidade,
+        getItemDescricao,
         items,
         itemsFiltered,
         itemsAdded,
+        itemsQuantsAdded,
         errorMessage,
         infoMessage,
         loading,

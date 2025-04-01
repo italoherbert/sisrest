@@ -2,7 +2,8 @@ import BackButton from "@/components/buttons/BackButton";
 import Button from "@/components/buttons/Button";
 import SimpleButton from "@/components/buttons/SimpleButton";
 import { Chip } from "@/components/Chips";
-import { DivItemsCenter } from "@/components/Divs";
+import { DivItemMX2, DivItemsCenter } from "@/components/Divs";
+import Field from "@/components/Field";
 import InputText from "@/components/InputText";
 import Label from "@/components/Label";
 import MainLayout from "@/components/layouts/main/main-layout";
@@ -23,6 +24,8 @@ const PedidoNovo = () => {
 
     const [mesa, setMesa] = useState<string>( '' );
     const [filterDesc, setFilterDesc] = useState<string>( '' );
+    const [quantidade, setQuantidade] = useState<string>( '' );
+    const [selectedItemId, setSelectedItemId] = useState<number>(0);
 
     const [pageItemsFiltered, setPageItemsFiltered] = useState<CardapioItem[]>([]);
 
@@ -32,8 +35,12 @@ const PedidoNovo = () => {
         addItem,
         removeItem,
         filtraCardapioItems,
+        geraSavePedidoItems,
+        alterItemQuantidade,
+        getItemDescricao,
         itemsFiltered,
         itemsAdded,
+        itemsQuantsAdded,
         errorMessage,
         infoMessage,
         loading,
@@ -46,36 +53,43 @@ const PedidoNovo = () => {
 
     const onChangeFilterDesc = async ( e : ChangeEvent<HTMLInputElement>) => {
         setFilterDesc( e.target.value );
-        filtraCardapioItems( e.target.value );
+        await filtraCardapioItems( e.target.value );
     }
 
     const onAddItem = async ( itemId : number ) => {
-        addItem( itemId );
-        filtraCardapioItems( filterDesc );
+        await addItem( itemId );
+        await filtraCardapioItems( filterDesc );
     };
 
     const onRemoveItem = async ( itemId : number ) => {
-        removeItem( itemId );
-        filtraCardapioItems( filterDesc );
+        await removeItem( itemId );
+        await filtraCardapioItems( filterDesc );
     };
 
     const onSave = async () => {
-        const cardapioItemsIDs : number[] = [];
-        itemsAdded.forEach( item => {
-            cardapioItemsIDs.push( item.id );
-        } );
-
         if ( isNaN( parseInt( mesa ) ) ) {
             setErrorMessage( 'Informe um número de mesa numérico.' );
             return;
         }
 
+        const pedidoItems = await geraSavePedidoItems();
+
         const pedido : SavePedido = {            
             mesa : parseInt( mesa ),
-            cardapioItems: cardapioItemsIDs
+            items: pedidoItems
         }
 
-        createPedido( pedido );
+        await createPedido( pedido );
+    };
+
+    const onSetQuantidade = async () => {
+        const quant = parseInt( quantidade  );
+        if ( isNaN( quant ) ) {
+            setErrorMessage( 'A quantidade deve ser um valor inteiro.' );
+            return;
+        }
+
+        await alterItemQuantidade( selectedItemId, quant );
     };
 
     return (
@@ -93,18 +107,36 @@ const PedidoNovo = () => {
                         <h1 className="text-2xl font-bold">Adicione os pratos</h1>
                         <br />
 
-                        <Painel className="p-1">
+                        <Painel className="p-1 bg-blue-100">
                             <h1 className="text-3md font-bold">Pratos adicionados</h1>
                             { itemsAdded.map( (item, index) => (
                                 <div key={index} className="inline-block mx-1">
-                                    <Chip text={item.descricao} onRemove={() => onRemoveItem( item.id )} />    
+                                    <Chip 
+                                        text={`${item.descricao} (${itemsQuantsAdded[ index ]})`} 
+                                        onSelect={() => setSelectedItemId( item.id )}
+                                        onRemove={() => onRemoveItem( item.id )} />    
                                 </div>
                             ) ) }
+                            <br />
+                            <div>
+                                <Field name="Item selecionado: ">                                  
+                                    <span className="mx-2">
+                                        { selectedItemId > 0 
+                                            ? getItemDescricao( selectedItemId ) 
+                                            : "Nenhum item selecionado." }
+                                    </span>
+                                </Field>
+                            </div>
+                            <div className="flex flex-row items-center">
+                                <Label>Quantidade: </Label>
+                                <DivItemMX2>
+                                    <InputText width="w-50" value={quantidade} onChange={(e) => setQuantidade( e.target.value )} />
+                                </DivItemMX2>
+                                <Button onClick={onSetQuantidade}>
+                                    Alterar quantidade
+                                </Button>
+                            </div>
                         </Painel>
-
-                        <br />
-
-                        <InputText value={filterDesc} onChange={onChangeFilterDesc} />
 
                         <Message type="error" message={errorMessage} />
                         <Message type="info" message={infoMessage} />
@@ -112,6 +144,10 @@ const PedidoNovo = () => {
                         <DivItemsCenter>
                             <Spinner visible={loading} />
                         </DivItemsCenter>
+
+                        <br />
+
+                        <InputText value={filterDesc} onChange={onChangeFilterDesc} />
 
                         <Table>
                             <TableHead>

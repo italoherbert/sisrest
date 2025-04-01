@@ -1,4 +1,4 @@
-import { PedidoItem } from "./PedidoItem";
+import { PedidoItem, SavePedidoItem } from "./PedidoItem";
 
 export interface Pedido {
     id : number;
@@ -8,5 +8,5 @@ export interface Pedido {
 
 export interface SavePedido {
     mesa : number;
-    cardapioItems: number[];
+    items: SavePedidoItem[];
 }
