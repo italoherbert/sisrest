@@ -98,12 +98,15 @@ const Paginator = ({
     };
 
     const calcQuantPages = () => {
-        return parseInt( (datalist.length / pageSize).toString() ) + datalist.length % pageSize;
+        let quantPages =  Math.floor( datalist.length / pageSize );
+        if ( datalist.length % pageSize !== 0 )
+            quantPages++;
+        return quantPages;
     }
 
     const calcQuantPageGroups = () => {
-        let quantPageGroups = parseInt( (datalist.length / ( pageSize * maxPagesByGroup )).toString() );
-        if ( datalist.length % ( pageSize * maxPagesByGroup ) != 0 )
+        let quantPageGroups = Math.floor( datalist.length / ( pageSize * maxPagesByGroup ) );
+        if ( datalist.length % ( pageSize * maxPagesByGroup ) !== 0 )
             quantPageGroups++;
         return quantPageGroups;
     };

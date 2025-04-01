@@ -5,15 +5,19 @@ interface InputTextProps {
     value: string;
     placeholder?: string;
     onChange?( e : ChangeEvent<HTMLInputElement> ) : void;
+    onKeyDown?( e : KeyboardEvent<HTMLInputElement> ) : void;
     onEnterTyped?( e : KeyboardEvent<HTMLInputElement> ) : void;
 };
 
 
-const InputText = ({type, value, placeholder, onChange, onEnterTyped} : InputTextProps ) => {
+const InputText = ({type, value, placeholder, onChange, onKeyDown, onEnterTyped} : InputTextProps ) => {
     const handleOnKeyDown = async ( e : KeyboardEvent<HTMLInputElement> ) => {
+        if ( onKeyDown !== undefined )
+            onKeyDown( e );
+
         if ( e.key === 'Enter' )
-            if ( onEnterTyped !== undefined && onEnterTyped != null )
-                onEnterTyped( e );
+            if ( onEnterTyped !== undefined )
+                onEnterTyped( e );        
     };
 
     return (

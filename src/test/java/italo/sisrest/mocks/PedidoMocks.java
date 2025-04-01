@@ -32,7 +32,7 @@ public class PedidoMocks {
     public static PedidoRequest mockPedidoRequest() {
         return PedidoRequest.builder()
             .mesa( faker.number().numberBetween( 1, 10 ) )
-            .items( new ArrayList<>() )
+            .cardapioItems( new ArrayList<>() )
             .build();
     }
 

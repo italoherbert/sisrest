@@ -25,14 +25,16 @@ export const Table = ({bgColor, textColor, children} : TableProps ) => {
 interface TableHeadProps {
     bgColor?: string;
     textColor?: string;
+    divideBorderColor?: string;
     children: ReactNode;
 }
 
-export const TableHead = ({bgColor, textColor, children} : TableHeadProps ) => {
-    let className = "w-full text-sm text-left rtl:text-right dark:text-gray-400";
+export const TableHead = ({bgColor, textColor, divideBorderColor, children} : TableHeadProps ) => {
+    let className = "w-full text-sm text-left rtl:text-right dark:text-gray-400 border-b";    
     if ( bgColor !== undefined && bgColor !== null )
         className += " "+bgColor;
     className += " "+(textColor ?? 'text-gray-500');
+    className += " "+(divideBorderColor ?? 'text-gray-100')
 
     return (
         <thead className={className}>
@@ -45,13 +47,11 @@ export const TableHead = ({bgColor, textColor, children} : TableHeadProps ) => {
 interface TableBodyProps {
     bgColor?: string;
     textColor?: string;
-    divideColor?: string;
     children: ReactNode;
 }
 
-export const TableBody = ({bgColor, textColor, divideColor, children} : TableBodyProps ) => {
+export const TableBody = ({bgColor, textColor, children} : TableBodyProps ) => {
     let className = "divide-y";
-    className += " "+(divideColor ?? 'divide-gray-200');
     className += " "+(bgColor ?? 'bg-white');    
     if ( textColor !== undefined && textColor !== null )
         className += " "+textColor;

@@ -41,8 +41,8 @@ const Sidebar = ({visible, onToggleVisible} : SidebarProps) => {
                         </SidebarLink>
                     </li>
                     <li>
-                        <SidebarLink href="/cardapio-item/novo">
-                            Novo
+                        <SidebarLink href="/pedido/novo">
+                            Novo pedido
                         </SidebarLink>
                     </li>
                 </ul>
