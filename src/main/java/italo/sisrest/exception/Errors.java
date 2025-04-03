@@ -13,4 +13,6 @@ public interface Errors {
 
     public final static String CARDAPIO_ITEM_NAO_ENCONTRADO_ID = "O item de cardápio de ID: '$1' não foi encontrado.";
 
+    public final static String PEDIDO_NAO_ENCONTRADO = "Pedido não encontrado.";
+
 }

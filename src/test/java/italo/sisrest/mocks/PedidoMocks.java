@@ -16,9 +16,19 @@ public class PedidoMocks {
 
     public static Pedido mockPedido() {
         return Pedido.builder()
+            .id( faker.number().randomNumber() ) 
             .mesa( faker.number().numberBetween( 1, 10 ) )
             .items( new ArrayList<>() )
             .build();
+    }
+
+    public static Pedido mockPedidoCompleto() {
+        Pedido pedido = mockPedido();
+        pedido.getItems().add( mockPedidoItem() );
+        pedido.getItems().add( mockPedidoItem() );
+        pedido.getItems().add( mockPedidoItem() );
+        pedido.getItems().add( mockPedidoItem() );
+        return pedido;
     }
 
     public static PedidoItem mockPedidoItem() {
@@ -30,7 +40,7 @@ public class PedidoMocks {
     }
 
     public static PedidoRequest mockPedidoRequest() {
-        return PedidoRequest.builder()
+        return PedidoRequest.builder()            
             .mesa( faker.number().numberBetween( 1, 10 ) )
             .items( new ArrayList<>() )
             .build();

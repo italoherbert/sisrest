@@ -90,6 +90,8 @@ const PedidoNovo = () => {
         }
 
         await alterItemQuantidade( selectedItemId, quant );
+
+        setQuantidade( '' );
     };
 
     return (

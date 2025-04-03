@@ -25,7 +25,7 @@ public class PedidoController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('pedidoWRITE')")
-    public ResponseEntity<Object> insert( @RequestBody PedidoRequest request ) {
+    public ResponseEntity<Object> insert( @RequestBody PedidoRequest request ) throws Exception {
         request.validate();
 
         Pedido pedido = pedidoMapper.map( request );
