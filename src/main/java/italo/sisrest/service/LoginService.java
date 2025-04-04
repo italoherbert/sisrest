@@ -22,10 +22,12 @@ public class LoginService {
             Long uid = 0L;
             String username = "italo";
             List<String> roles = Arrays.asList( 
-                "cardapioItemREAD",
-                "cardapioItemWRITE",
-                "cardapioItemDELETE",
-                "pedidoWRITE"
+                    "cardapioItemREAD",
+                    "cardapioItemWRITE",
+                    "cardapioItemDELETE",
+                    "pedidoWRITE",
+                    "pedidoREAD",
+                    "pedidoDELETE"
             );
             return jwtTokenUtil.geraToken( username, roles, uid );
         }

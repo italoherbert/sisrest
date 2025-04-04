@@ -1,11 +1,16 @@
 package italo.sisrest.mocks;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.github.javafaker.Faker;
 
 import italo.sisrest.controller.dto.request.PedidoItemRequest;
 import italo.sisrest.controller.dto.request.PedidoRequest;
+import italo.sisrest.controller.dto.response.CardapioItemResponse;
+import italo.sisrest.controller.dto.response.PedidoItemResponse;
+import italo.sisrest.controller.dto.response.PedidoResponse;
 import italo.sisrest.model.Pedido;
 import italo.sisrest.model.PedidoItem;
 import italo.sisrest.model.dto.PedidoItemDTO;
@@ -58,6 +63,33 @@ public class PedidoMocks {
             .cardapioItemId( faker.number().randomNumber() )
             .quantidade( faker.number().numberBetween( 1, 10 ) )
             .build();
+    }
+
+    public static PedidoResponse mockPedidoResponse() {
+        List<PedidoItemResponse> items = Arrays.asList(
+                mockPedidoItemResponse(),
+                mockPedidoItemResponse(),
+                mockPedidoItemResponse(),
+                mockPedidoItemResponse()
+        );
+
+        return PedidoResponse.builder()
+                .id( faker.number().randomNumber() )
+                .mesa( faker.number().numberBetween( 1, 30 ) )
+                .items( items )
+                .build();
+    }
+
+    public static PedidoItemResponse mockPedidoItemResponse() {
+        return PedidoItemResponse.builder()
+                .id( faker.number().randomNumber() )
+                .quantidade( faker.number().numberBetween( 1, 20 ) )
+                .item( CardapioItemResponse.builder()
+                        .id( faker.number().randomNumber() )
+                        .descricao( faker.name().title() )
+                        .preco( faker.number().randomDouble( 2, 1, 100 ) )
+                        .build() )
+                .build();
     }
 
 }

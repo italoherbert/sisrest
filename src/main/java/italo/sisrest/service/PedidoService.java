@@ -88,6 +88,14 @@ public class PedidoService {
         return pedidoRepository.findAll();
     }
 
+    public Pedido get( Long pedidoId ) {
+        Optional<Pedido> pedidoOp = pedidoRepository.findById( pedidoId );
+        if ( !pedidoOp.isPresent() )
+            throw new BusinessException( Errors.PEDIDO_NAO_ENCONTRADO );
+
+        return pedidoOp.get();
+    }
+
     public void delete( Long pedidoId ) {
         if ( !pedidoRepository.existsById( pedidoId ) )
             throw new BusinessException( Errors.PEDIDO_NAO_ENCONTRADO );

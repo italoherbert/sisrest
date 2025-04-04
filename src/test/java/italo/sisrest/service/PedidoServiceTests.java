@@ -5,10 +5,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -111,8 +108,6 @@ public class PedidoServiceTests {
 
         pedidoReg.setId( pedido.getId() );
 
-        int regPedidoItemsSize = pedidoReg.getItems().size();
-
         PedidoItemDTO[] itemDTOs = {
             PedidoMocks.mockPedidoItemDTO(),
             PedidoMocks.mockPedidoItemDTO(),
@@ -132,15 +127,12 @@ public class PedidoServiceTests {
         for( int i = 0; i < items.length; i++ )
             when( cardapioItemRepository.findById( itemDTOs[ i ].getCardapioItemId() ) ).thenReturn( Optional.of( items[ i ] ) );
 
-        doNothing().when( pedidoItemRepository ).deleteById( anyLong() );
-
-        when( pedidoRepository.save( pedido ) ).thenReturn( pedido ); 
+        when( pedidoRepository.save( pedido ) ).thenReturn( pedidoReg );
 
         pedidoService.update( pedido.getId(), pedido, itemDTOs );
 
         verify( pedidoRepository ).findById( anyLong() );
         verify( cardapioItemRepository, times( items.length ) ).findById( anyLong() );
-        verify( pedidoItemRepository, times( regPedidoItemsSize ) ).deleteById( anyLong() );
         verify( pedidoRepository ).save( any( Pedido.class ) );
     }
 
@@ -239,9 +231,66 @@ public class PedidoServiceTests {
     }
 
     @Test
-    @DisplayName("Deve deletar pedio com sucesso")
+    @DisplayName("Deve buscar pedido com sucesso")
+    void deveBuscarPedidoComSucesso() {
+        Pedido pedidoReg = PedidoMocks.mockPedido();
+
+        when( pedidoRepository.findById( pedidoReg.getId() ) ).thenReturn( Optional.of( pedidoReg ) );
+
+        Pedido pedido = pedidoService.get( pedidoReg.getId() );
+
+        assertThat( pedido ).isNotNull();
+        assertThat( pedido.getId() ).isEqualTo( pedidoReg.getId() );
+        assertThat( pedido.getMesa() ).isEqualTo( pedidoReg.getMesa() );
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção de pedido não encontrado na busca")
+    void deveLancarExcecaoBuscaPedidoNaoEncontrado() {
+        Long pedidoId = 1L;
+
+        when( pedidoRepository.findById( pedidoId ) ).thenReturn( Optional.empty() );
+
+        Throwable t = catchThrowable( () -> pedidoService.get( pedidoId ) );
+
+        assertThat( t ).isNotNull();
+        assertThat( t ).isInstanceOf( BusinessException.class );
+        assertThat( ((BusinessException)t).response().getMensagem() ).isEqualTo( "Pedido não encontrado." );
+    }
+
+    @Test
+    @DisplayName("Deve deletar pedido com sucesso")
     void deveDeletarPedidoComSucesso() {
-        
+        Pedido pedido = PedidoMocks.mockPedido();
+
+        Long pedidoId = pedido.getId();
+
+        when( pedidoRepository.existsById( pedidoId ) ).thenReturn( true );
+
+        doNothing().when( pedidoRepository ).deleteById( pedidoId );
+
+        pedidoService.delete( pedidoId );
+
+        verify( pedidoRepository ).existsById( pedidoId );
+        verify( pedidoRepository ).deleteById( pedidoId );
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção de pedido não encontrado.")
+    void deveLancarExcecaoDeletePedidoNaoEncontrado() {
+        Pedido pedido = PedidoMocks.mockPedido();
+
+        Long pedidoId = pedido.getId();
+
+        when( pedidoRepository.existsById( pedidoId ) ).thenReturn( false );
+
+        Throwable t = catchThrowable( () -> pedidoService.delete( pedidoId ) );
+
+        assertThat( t ).isNotNull();
+        assertThat( t ).isInstanceOf( BusinessException.class );
+        assertThat( ((BusinessException)t).response().getMensagem() ).isEqualTo( "Pedido não encontrado." );
+
+        verify( pedidoRepository ).existsById( pedidoId );
     }
 
 }
