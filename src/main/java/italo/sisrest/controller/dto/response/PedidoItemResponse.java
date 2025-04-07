@@ -15,7 +15,7 @@ public class PedidoItemResponse {
     
     private Long id;
 
-    private CardapioItemResponse item;
+    private CardapioItemResponse cardapioItem;
 
     private int quantidade;
 

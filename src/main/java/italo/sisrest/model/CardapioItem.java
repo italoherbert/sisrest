@@ -31,7 +31,7 @@ public class CardapioItem {
 
     private double preco;
 
-    @OneToOne(mappedBy = "item", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "item", cascade = CascadeType.REMOVE)
     private PedidoItem item;
 
 }

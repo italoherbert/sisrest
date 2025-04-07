@@ -7,13 +7,13 @@ import { RealFormatter } from '../../../components/NumberFormatter';
 import Message from '../../../components/Message';
 import Spinner from '../../../components/Spinner';
 
-import MainLayout from '../../../components/layouts/main/main-layout';
+import MainLayout from '../../../layouts/main/main-layout';
 import BackButton from '../../../components/buttons/BackButton';
 import useDetalhesCardapioItemViewModel from '../../../viewModels/cardapio-item/useDetalhesCardapioItemViewModel';
 import { NextPageContext } from 'next';
 
 interface Props {
-    id : number;
+    id : string;
 }
 
 const CardapioItemDetalhes = ( props : Props ) => {
@@ -25,7 +25,7 @@ const CardapioItemDetalhes = ( props : Props ) => {
     }, [] );
 
     const onLoadItem = async () => {
-        const id = props.id;
+        const id = parseInt( props.id );
 
         try {
             await loadItem( id );            

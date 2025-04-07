@@ -7,7 +7,7 @@ import Painel from "../../components/Painel";
 import Message from "../../components/Message";
 import Button from "../../components/buttons/Button";
 
-import MainLayout from "../../components/layouts/main/main-layout";
+import MainLayout from "../../layouts/main/main-layout";
 import PageTitle from "../../components/PageTitle";
 import BackButton from "../../components/buttons/BackButton";
 import Spinner from "../../components/Spinner";

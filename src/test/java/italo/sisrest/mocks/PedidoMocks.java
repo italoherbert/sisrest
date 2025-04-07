@@ -84,7 +84,7 @@ public class PedidoMocks {
         return PedidoItemResponse.builder()
                 .id( faker.number().randomNumber() )
                 .quantidade( faker.number().numberBetween( 1, 20 ) )
-                .item( CardapioItemResponse.builder()
+                .cardapioItem( CardapioItemResponse.builder()
                         .id( faker.number().randomNumber() )
                         .descricao( faker.name().title() )
                         .preco( faker.number().randomDouble( 2, 1, 100 ) )

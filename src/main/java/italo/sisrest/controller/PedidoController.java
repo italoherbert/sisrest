@@ -76,6 +76,16 @@ public class PedidoController {
         return ResponseEntity.ok( resp );
     }
 
+    @PreAuthorize("hasAuthority('pedidoWRITE')")
+    @PostMapping("/set-atendido/{pedidoId}")
+    public ResponseEntity<Object> setAtendido(
+            @PathVariable Long pedidoId, @RequestParam("atendido") boolean atendido ) {
+
+        pedidoService.setAtendido( pedidoId, atendido );
+
+        return ResponseEntity.ok().build();
+    }
+
     @PreAuthorize("hasAuthority('pedidoDELETE')")
     @DeleteMapping("/{pedidoId}")
     public ResponseEntity<Object> delete( @PathVariable Long pedidoId ) {

@@ -67,6 +67,7 @@ public class PedidoMapperTests {
         assertThat( resp ).isNotNull();
         assertThat( resp.getId() ).isEqualTo( pedido.getId() );
         assertThat( resp.getMesa() ).isEqualTo( pedido.getMesa() );
+        assertThat( resp.isAtendido() ).isEqualTo( pedido.isAtendido() );
 
         List<PedidoItem> pedidoItems = pedido.getItems();
         List<PedidoItemResponse> pedidoItemsResponses = resp.getItems();
@@ -82,7 +83,7 @@ public class PedidoMapperTests {
             assertThat( pedItemResp.getQuantidade() ).isEqualTo( pedidoItem.getQuantidade() );
 
             CardapioItem cardapioItem = pedidoItem.getItem();
-            CardapioItemResponse cadItemResp = pedItemResp.getItem();
+            CardapioItemResponse cadItemResp = pedItemResp.getCardapioItem();
 
             assertThat( cadItemResp.getId() ).isEqualTo( cardapioItem.getId() );
             assertThat( cadItemResp.getDescricao() ).isEqualTo( cardapioItem.getDescricao() );

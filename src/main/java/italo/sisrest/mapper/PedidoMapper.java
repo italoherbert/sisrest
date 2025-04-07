@@ -53,16 +53,17 @@ public class PedidoMapper {
             itemsResp.add( 
                 PedidoItemResponse.builder()
                     .id( item.getId() )
-                    .item( carItemResp )
+                    .cardapioItem( carItemResp )
                     .quantidade( item.getQuantidade() )
                     .build() );
         }
 
         return PedidoResponse.builder()
-            .id( pedido.getId() )
-            .mesa( pedido.getMesa() )
-            .items( itemsResp )
-            .build();
+                .id( pedido.getId() )
+                .mesa( pedido.getMesa() )
+                .atendido( pedido.isAtendido() )
+                .items( itemsResp )
+                .build();
     }
 
 }

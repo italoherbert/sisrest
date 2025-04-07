@@ -234,6 +234,7 @@ public class PedidoServiceTests {
     @DisplayName("Deve buscar pedido com sucesso")
     void deveBuscarPedidoComSucesso() {
         Pedido pedidoReg = PedidoMocks.mockPedido();
+        pedidoReg.setAtendido( false );
 
         when( pedidoRepository.findById( pedidoReg.getId() ) ).thenReturn( Optional.of( pedidoReg ) );
 
@@ -256,6 +257,38 @@ public class PedidoServiceTests {
         assertThat( t ).isNotNull();
         assertThat( t ).isInstanceOf( BusinessException.class );
         assertThat( ((BusinessException)t).response().getMensagem() ).isEqualTo( "Pedido não encontrado." );
+    }
+
+    @Test
+    @DisplayName("Deve marcar pedido como atendido com sucesso.")
+    void deveMarcarPedidoComoAtendidoComSucesso() {
+        Pedido pedidoReg = PedidoMocks.mockPedido();
+
+        Long pedidoId = pedidoReg.getId();
+
+        when( pedidoRepository.findById( pedidoId ) ).thenReturn( Optional.of( pedidoReg ) );
+        when( pedidoRepository.save( pedidoReg ) ).thenReturn( pedidoReg );
+
+        pedidoService.setAtendido( pedidoId, true );
+
+        assertThat( pedidoReg.isAtendido() ).isEqualTo( true );
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção de pedido não encontrado para marcar como atendido")
+    void deveLancarExcecaoPedidoNaoEncontradoMarcarAtendido() {
+        Pedido pedido = PedidoMocks.mockPedido();
+        Long pedidoId = pedido.getId();
+
+        when( pedidoRepository.findById( pedidoId ) ).thenReturn( Optional.empty() );
+
+        Throwable t = catchThrowable( () -> pedidoService.setAtendido( pedidoId, true ) );
+
+        assertThat( t ).isNotNull();
+        assertThat( t ).isInstanceOf( BusinessException.class );
+        assertThat( ((BusinessException)t).response().getMensagem() ).isEqualTo( "Pedido não encontrado." );
+
+        verify( pedidoRepository ).findById( pedidoId );
     }
 
     @Test

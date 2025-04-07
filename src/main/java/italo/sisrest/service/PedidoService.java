@@ -39,9 +39,10 @@ public class PedidoService {
             CardapioItem item = itemOp.get();
 
             PedidoItem pedidoItem = PedidoItem.builder()
-                .item( item )
-                .quantidade( quantidade )                
-                .build();
+                    .item( item )
+                    .quantidade( quantidade )
+                    .pedido( pedido )
+                    .build();
 
             pedido.getItems().add( pedidoItem );
         }
@@ -55,10 +56,12 @@ public class PedidoService {
         if ( !regPedidoOp.isPresent() )
             throw new BusinessException( Errors.PEDIDO_NAO_ENCONTRADO );
 
-        Pedido regPedido = regPedidoOp.get();        
+        Pedido regPedido = regPedidoOp.get();
         regPedido.setMesa( pedido.getMesa() );
+        pedidoRepository.save( regPedido );
 
-        regPedido.getItems().clear();
+        pedidoItemRepository.deleteByPedidoId( pedidoId );
+
         for( PedidoItemDTO itemDTO : pedidoItemsDTOs ) {
             Long itemId = itemDTO.getCardapioItemId();
             int quantidade = itemDTO.getQuantidade();
@@ -70,14 +73,24 @@ public class PedidoService {
             CardapioItem item = itemOp.get();
 
             PedidoItem pedidoItem = PedidoItem.builder()
-                .item( item )
-                .quantidade( quantidade )                
-                .build();
+                    .pedido( regPedido )
+                    .item( item )
+                    .quantidade( quantidade )
+                    .build();
 
-            regPedido.getItems().add( pedidoItem );
+            pedidoItemRepository.save( pedidoItem );
         }
-        
-        pedidoRepository.save( regPedido );
+    }
+
+    public void setAtendido( Long pedidoId, boolean atendido ) {
+        Optional<Pedido> pedidoOp = pedidoRepository.findById( pedidoId );
+        if ( !pedidoOp.isPresent() )
+            throw new BusinessException( Errors.PEDIDO_NAO_ENCONTRADO );
+
+        Pedido pedido = pedidoOp.get();
+        pedido.setAtendido( atendido );
+
+        pedidoRepository.save( pedido );
     }
 
     public List<Pedido> listByMesa( int mesa ) {

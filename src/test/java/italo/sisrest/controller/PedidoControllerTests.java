@@ -158,6 +158,22 @@ public class PedidoControllerTests {
     }
 
     @Test
+    @WithMockUser(username = "italo", authorities = {"pedidoWRITE"})
+    @DisplayName("Deve marcar pedido como removido com sucesso.")
+    void deveMarcarPedidoComoRemovidoComSucesso() throws Exception {
+        Long pedidoId = 1L;
+
+        doNothing().when( pedidoService ).setAtendido( pedidoId, true );
+
+        mockMvc.perform(
+                post( "/api/sisrest/v1/pedido/set-atendido/"+pedidoId )
+                    .param( "atendido", "true" )
+        ).andExpect( status().isOk() );
+
+        verify( pedidoService ).setAtendido( pedidoId, true );
+    }
+
+    @Test
     @WithMockUser(username="italo", authorities = {"pedidoDELETE"})
     @DisplayName("Deve deletar um pedido com sucesso.")
     void deveDeletarPedidoComSucesso() throws Exception {

@@ -14,10 +14,10 @@ import InputText from "../../components/InputText";
 import Button from "../../components/buttons/Button";
 import Paginator from "../../components/Paginator";
 import { DivItemsCenter } from "../../components/Divs";
-import MainLayout from "../../components/layouts/main/main-layout";
+import MainLayout from "../../layouts/main/main-layout";
 import ActionItems from "../../components/ActionItems";
-import CardapioItemRemover from "./ModalRemover";
 import { CardapioItem } from "@/models/dtos/CardapioItem";
+import ModalRemover from "@/components/ModalRemover";
 
 const CardapioItemTela = ({}) => {
 
@@ -69,12 +69,20 @@ const CardapioItemTela = ({}) => {
     };
 
     return (
-        <>
-            <CardapioItemRemover 
-                visible={deleteModalVisible}
-                setVisible={setDeleteModalVisible}
-                itemDesc={deleteCardapioItemDescricao}
-                onRemover={onRemover} />
+        <>           
+            <ModalRemover 
+                    title="Remoção de items"
+                    visible={deleteModalVisible}
+                    setVisible={setDeleteModalVisible}
+                    onRemover={onRemover}>
+
+                Confirme se deseja remover o ítem de cardápio de descrição: 
+                <span className="mx-1 text-red-500"> 
+                    {deleteCardapioItemDescricao}
+                </span>
+                ?   
+
+            </ModalRemover>
            
             <MainLayout>            
                 <Painel className="p-5 w-300 bg-blue-50">

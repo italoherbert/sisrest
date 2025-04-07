@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import MainLayout from "../../../components/layouts/main/main-layout";
+import MainLayout from "../../../layouts/main/main-layout";
 import PageTitle from "../../../components/PageTitle";
 import Painel from "../../../components/Painel";
 import Form from '../../../components/Form';
@@ -18,7 +18,7 @@ import { SaveCardapioItem } from "../../../models/dtos/CardapioItem";
 import { NextPageContext } from "next";
 
 interface Props {
-    id : number;
+    id : string;
 }
 
 const CardapioItemEditar = (props : Props) => {
@@ -33,7 +33,7 @@ const CardapioItemEditar = (props : Props) => {
     }, [] );
 
     const onLoadItem = async () => {
-        const id = props.id;
+        const id = parseInt( props.id );
 
         try {
             const item = await loadItem( id );
@@ -45,7 +45,7 @@ const CardapioItemEditar = (props : Props) => {
     };
 
     const onSalvar = async () => {       
-        const id = props.id;
+        const id = parseInt( props.id );
 
         try {
             const item : SaveCardapioItem = {

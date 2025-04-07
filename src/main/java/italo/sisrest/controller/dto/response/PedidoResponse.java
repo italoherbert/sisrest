@@ -19,6 +19,8 @@ public class PedidoResponse {
 
     private int mesa;
 
+    private boolean atendido;
+
     private List<PedidoItemResponse> items;
 
 }
