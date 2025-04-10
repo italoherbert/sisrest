@@ -8,27 +8,26 @@ import com.github.javafaker.Faker;
 
 import italo.sisrest.controller.dto.request.PedidoItemRequest;
 import italo.sisrest.controller.dto.request.PedidoRequest;
+import italo.sisrest.controller.dto.request.filter.PedidoFilterRequest;
 import italo.sisrest.controller.dto.response.CardapioItemResponse;
 import italo.sisrest.controller.dto.response.PedidoItemResponse;
 import italo.sisrest.controller.dto.response.PedidoResponse;
 import italo.sisrest.model.Pedido;
 import italo.sisrest.model.PedidoItem;
 import italo.sisrest.model.dto.PedidoItemDTO;
+import italo.sisrest.model.enums.AtendimentoOption;
 
 public class PedidoMocks {
     
     private final static Faker faker = new Faker();
 
     public static Pedido mockPedido() {
-        return Pedido.builder()
-            .id( faker.number().randomNumber() ) 
-            .mesa( faker.number().numberBetween( 1, 10 ) )
-            .items( new ArrayList<>() )
-            .build();
-    }
+        Pedido pedido = Pedido.builder()
+                .id( faker.number().randomNumber() )
+                .mesa( faker.number().numberBetween( 1, 10 ) )
+                .items( new ArrayList<>() )
+                .build();
 
-    public static Pedido mockPedidoCompleto() {
-        Pedido pedido = mockPedido();
         pedido.getItems().add( mockPedidoItem() );
         pedido.getItems().add( mockPedidoItem() );
         pedido.getItems().add( mockPedidoItem() );
@@ -89,6 +88,13 @@ public class PedidoMocks {
                         .descricao( faker.name().title() )
                         .preco( faker.number().randomDouble( 2, 1, 100 ) )
                         .build() )
+                .build();
+    }
+
+    public static PedidoFilterRequest mockPedidoFilterRequest() {
+        return PedidoFilterRequest.builder()
+                .mesa( faker.number().digit() )
+                .atendidoOption( AtendimentoOption.TODOS.name() )
                 .build();
     }
 

@@ -15,58 +15,54 @@ import { DivItemsCenter } from "@/components/Divs";
 import Spinner from "@/components/Spinner";
 import ActionItems from "@/components/ActionItems";
 import ModalRemover from "@/components/ModalRemover";
+import SelectBox from "@/components/SelectBox";
 
 const PedidoTela = () => {
 
     const [mesa, setMesa] = useState<string>('*');
+    const [atendidoOption, setAtendidoOption] = useState<string>('');
 
     const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>( false );
     const [removerId, setRemoverId] = useState<number>( -1 );
 
     const { 
-        loadPedidos, 
-        loadPedidosPelaMesa,
+        loadOptions,
+        filtraPedidos, 
         loadPedido,
         setAtendido,
         removePedido,
         limpaMessages,
         pedidos,  
-        pedido,       
+        pedido,    
+        atendidoOptions,   
         loading, 
         errorMessage, 
-        infoMessage,
-        setErrorMessage 
+        infoMessage 
     } = useTelaPedidoViewModel();
 
-    useEffect( () => {
-        onLoadPedidos();
+    useEffect( () => {        
+        onLoad();
     }, [] );
 
-    const onLoadPedidos = async () => {
+    const onLoad = async () => {
         limpaMessages();
         try {
-            await loadPedidos();
+            const resp = await loadOptions();
+            const atenOpt = resp.atendidoOptions[ 0 ].value;
+            setAtendidoOption( atenOpt );
+
+            await filtraPedidos( '*', atenOpt );
         } catch ( error ) {
             console.error( error );
         }
     };
 
-    const onListarPorMesa = async ( limparMessages : boolean ) => {
+    const onFiltrar = async ( limparMessages : boolean ) => {
         if ( limparMessages === true )
             limpaMessages();
 
         try {
-            if ( mesa === '*' ) {
-                await loadPedidos();
-            } else {
-                const mesaNum = parseInt( mesa );
-                if ( isNaN( mesaNum ) ) {
-                    setErrorMessage( 'Informe um número de mesa numérico' );
-                    return;
-                }
-
-                await loadPedidosPelaMesa( mesaNum );
-            }
+            await filtraPedidos( mesa, atendidoOption );            
         } catch ( error ) {
             console.error( error );
         }
@@ -77,7 +73,7 @@ const PedidoTela = () => {
 
         try {
             await setAtendido( pedidoId, !atendido );
-            await onListarPorMesa( false );
+            await onFiltrar( false );
         } catch ( error ) {
             console.error( error );
         }
@@ -91,7 +87,7 @@ const PedidoTela = () => {
 
             await removePedido( removerId );
 
-            await onListarPorMesa( false );
+            await onFiltrar( false );
         } catch ( error ) {
             console.error( error );
         }
@@ -138,7 +134,12 @@ const PedidoTela = () => {
                     
                     <br />
                     
-                    <Painel className="w-full p-3">
+                    <Painel className="w-full p-3">                        
+                        <div className="mb-2">
+                            <SelectBox 
+                                    options={atendidoOptions} 
+                                    onChange={(e) => setAtendidoOption( e.target.value )} />
+                        </div>
                         <div className="flex flex-row items-center">
                             <Label>Mesa: </Label>
                             <div className="mx-2">
@@ -147,8 +148,8 @@ const PedidoTela = () => {
                                     value={mesa} 
                                     onChange={ (e) => setMesa( e.target.value ) } />
                             </div>
-                            <Button onClick={() => onListarPorMesa( true )}>
-                                Listar
+                            <Button onClick={() => onFiltrar( true )}>
+                                Filtrar
                             </Button>
                         </div>
                     </Painel>

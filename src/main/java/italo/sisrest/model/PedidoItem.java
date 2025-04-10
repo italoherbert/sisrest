@@ -22,7 +22,7 @@ public class PedidoItem {
 
     private int quantidade;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="cardapio_item_id")
     private CardapioItem item;
 

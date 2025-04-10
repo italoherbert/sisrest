@@ -26,13 +26,13 @@ public class PedidoRequest implements Validator {
     public void validate() {
         List<Validator> validators = new ArrayList<>();
 
-        validators.addAll( 
+        validators.addAll(
             ValidationBuilder.of( "mesa", String.valueOf( mesa ) )
                 .deveSerMaiorQueZero()
                 .build()
         );
 
-        validators.forEach( v -> v.validate() );
+        validators.forEach(Validator::validate);
     }
 
 }

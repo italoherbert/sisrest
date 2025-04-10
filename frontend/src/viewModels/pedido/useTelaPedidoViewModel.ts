@@ -1,8 +1,10 @@
 import { AuthContext } from "@/context/AuthProvider";
 import { Pedido } from "@/models/dtos/Pedido";
 import PedidoModel from "@/models/PedidoModel";
+import TypesModel from "@/models/TypesModel";
 import { extractErrorMessage } from "@/util/SistemaUtil";
 import { useContext, useState } from "react";
+import SelectOption from "@/models/dtos/SelectOption";
 
 const useTelaPedidoViewModel = () => {
 
@@ -18,35 +20,23 @@ const useTelaPedidoViewModel = () => {
         items: []
     });
 
+    const [atendidoOptions, setAtendidoOptions] = useState<SelectOption[]>([]);
+
     const {token} = useContext(AuthContext);
 
     const pedidoModel = new PedidoModel();
+    const typesModel = new TypesModel();
 
-    const loadPedidos = async () => {        
+    const filtraPedidos = async ( mesa : string, atendidoOption : string ) => {
         setLoading( true );
 
         try {
-            const response = await pedidoModel.listar( token );
+            const response = await pedidoModel.filtrar( mesa, atendidoOption, token );            
             setPedidos( response.data );
-            setLoading( false );
+            setLoading( false );            
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
             setLoading( false );
-            throw error;
-        }
-    };
-
-    const loadPedidosPelaMesa = async ( mesa : number ) => {        
-        setLoading( true );
-
-        try {
-            const response = await pedidoModel.listarPorMesa( mesa, token );
-            setPedidos( response.data );
-            setLoading( false );
-        } catch ( error ) {
-            setErrorMessage( extractErrorMessage( error ) );
-            setLoading( false );
-            throw error;
         }
     };
 
@@ -97,24 +87,47 @@ const useTelaPedidoViewModel = () => {
         }
     };
 
+    const loadOptions = async () : Promise<{atendidoOptions: SelectOption[]}>=> {
+        setLoading( true );
+        try {
+            const response = await typesModel.getAtendidoTypes( token );
+
+            const atenOptions : SelectOption[] = [];
+            response.data.forEach( ( op ) => {
+                atenOptions.push( { label : op.label, value : op.name } )
+            } );
+            setAtendidoOptions( atenOptions );
+
+            setLoading( false );
+
+            return {
+                atendidoOptions : atenOptions
+            }
+        } catch ( error ) {
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );    
+            throw error;        
+        } 
+    };
+
     const limpaMessages = () => {
         setErrorMessage( null );
         setInfoMessage( null );
     }
 
     return {
-        loadPedidos,
-        loadPedidosPelaMesa,
+        loadOptions,
+        filtraPedidos,
         setAtendido,
         removePedido,
         loadPedido,
         limpaMessages,
         pedidos,
         pedido,
+        atendidoOptions,
         errorMessage,
         infoMessage,
-        loading,
-        setErrorMessage
+        loading
     }
 
 };

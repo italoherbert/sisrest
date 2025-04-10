@@ -1,5 +1,6 @@
 package italo.sisrest.controller;
 
+import italo.sisrest.controller.dto.request.filter.PedidoFilterRequest;
 import italo.sisrest.controller.dto.response.PedidoResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,6 +64,26 @@ public class PedidoController {
     public ResponseEntity<List<PedidoResponse>> listByMesa( @PathVariable int mesa ) {
         List<Pedido> pedidos = pedidoService.listByMesa( mesa );
         List<PedidoResponse> responses = pedidos.stream().map( pedidoMapper::map ).toList();
+
+        return ResponseEntity.ok( responses );
+    }
+
+    @PreAuthorize("hasAuthority('pedidoREAD')")
+    @GetMapping("/filter")
+    public ResponseEntity<List<PedidoResponse>> filter(
+            @RequestParam("mesa") String mesa,
+            @RequestParam("atendidoOption") String atendidoOption ) {
+
+        PedidoFilterRequest request = PedidoFilterRequest.builder()
+                .mesa( mesa )
+                .atendidoOption( atendidoOption )
+                .build();
+
+        request.validate();
+
+        List<PedidoResponse> responses = pedidoService.filter( request ).stream()
+                .map( pedidoMapper::map )
+                .toList();
 
         return ResponseEntity.ok( responses );
     }

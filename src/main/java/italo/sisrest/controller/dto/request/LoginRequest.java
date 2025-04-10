@@ -36,7 +36,7 @@ public class LoginRequest implements Validator {
                 .required()
                 .build() );
 
-        validators.forEach( v -> v.validate() );
+        validators.forEach(Validator::validate);
     }
 
 }

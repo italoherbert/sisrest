@@ -54,10 +54,7 @@ const useSavePedidoViewModel = () => {
         }
     }
 
-    const alterItemQuantidade = async ( itemId : number, quantidade : number ) => {
-        setErrorMessage( null );
-        setInfoMessage( null );
-
+    const alterItemQuantidade = async ( itemId : number, quantidade : number ) => {        
         const list = [];
 
         let achou = false;
@@ -118,9 +115,7 @@ const useSavePedidoViewModel = () => {
         setItemsFiltered( list );
     };
 
-    const loadAllCardapioItems = async () => {
-        setErrorMessage( null );
-        setInfoMessage( null );
+    const loadAllCardapioItems = async () => {        
         setLoading( true );
 
         try {
@@ -129,6 +124,7 @@ const useSavePedidoViewModel = () => {
             setItems( response.data );
             setItemsFiltered( response.data );
             setItemsQuantsAdded( [] );
+            setItemsAdded( [] );
             
             setLoading( false );
         } catch ( error ) {
@@ -138,9 +134,7 @@ const useSavePedidoViewModel = () => {
         }
     };
 
-    const loadPedido = async ( pedidoId : number ) : Promise<Pedido> => {
-        setErrorMessage( null );
-        setInfoMessage( null );
+    const loadPedido = async ( pedidoId : number ) : Promise<Pedido> => {        
         setLoading( true );
 
         try {
@@ -183,9 +177,7 @@ const useSavePedidoViewModel = () => {
         }
     };
 
-    const createPedido = async ( pedido : SavePedido ) => {
-        setErrorMessage( null );
-        setInfoMessage( null );
+    const createPedido = async ( pedido : SavePedido ) => {        
         setLoading( true );
 
         try {
@@ -199,9 +191,7 @@ const useSavePedidoViewModel = () => {
         }
     };
 
-    const alteraPedido = async ( pedidoId : number, pedido : SavePedido ) => {
-        setErrorMessage( null );
-        setInfoMessage( null );
+    const alteraPedido = async ( pedidoId : number, pedido : SavePedido ) => {        
         setLoading( true );
 
         try {
@@ -215,6 +205,11 @@ const useSavePedidoViewModel = () => {
         }
     };
 
+    const limpaMessages = () => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+    }
+
     return {
         loadAllCardapioItems,
         loadPedido,
@@ -227,6 +222,7 @@ const useSavePedidoViewModel = () => {
         geraSavePedidoItems,
         alterItemQuantidade,
         getItemDescricao,
+        limpaMessages,
         items,
         itemsFiltered,
         itemsAdded,

@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import italo.sisrest.controller.dto.request.filter.PedidoFilterRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +105,7 @@ public class PedidoServiceTests {
     @DisplayName("Deve atualizar pedido com sucesso.")
     void deveAtualizarPedidoComSucesso() {    
         Pedido pedido = PedidoMocks.mockPedido();
-        Pedido pedidoReg = PedidoMocks.mockPedidoCompleto();
+        Pedido pedidoReg = PedidoMocks.mockPedido();
 
         pedidoReg.setId( pedido.getId() );
 
@@ -124,8 +125,11 @@ public class PedidoServiceTests {
 
         when( pedidoRepository.findById( pedido.getId() ) ).thenReturn( Optional.of( pedidoReg ) );
 
-        for( int i = 0; i < items.length; i++ )
-            when( cardapioItemRepository.findById( itemDTOs[ i ].getCardapioItemId() ) ).thenReturn( Optional.of( items[ i ] ) );
+        doNothing().when( pedidoItemRepository ).deleteByPedidoId( pedido.getId() );
+
+        for( int i = 0; i < items.length; i++ ) {
+            when( cardapioItemRepository.findById( itemDTOs[i].getCardapioItemId() ) ).thenReturn( Optional.of( items[i] ) );
+        }
 
         when( pedidoRepository.save( pedido ) ).thenReturn( pedidoReg );
 
@@ -134,6 +138,7 @@ public class PedidoServiceTests {
         verify( pedidoRepository ).findById( anyLong() );
         verify( cardapioItemRepository, times( items.length ) ).findById( anyLong() );
         verify( pedidoRepository ).save( any( Pedido.class ) );
+        verify( pedidoItemRepository ).deleteByPedidoId( pedido.getId() );
     }
 
     @Test
@@ -179,6 +184,7 @@ public class PedidoServiceTests {
         Long itemId = itemDTOs[ 0 ].getCardapioItemId();
 
         when( pedidoRepository.findById( pedidoId ) ).thenReturn( Optional.of( pedidoReg ) );
+        doNothing().when( pedidoItemRepository ).deleteByPedidoId( pedidoId );
         when( cardapioItemRepository.findById( itemId ) ).thenReturn( Optional.empty() );
 
         Throwable t = catchThrowable( () -> pedidoService.update( pedidoId, pedido, itemDTOs ) );
@@ -188,6 +194,7 @@ public class PedidoServiceTests {
         assertThat( ((BusinessException)t).response().getMensagem() ).isEqualTo( "O item de cardápio de ID: '"+itemId+"' não foi encontrado." );
 
         verify( pedidoRepository ).findById( anyLong() );
+        verify( pedidoItemRepository ).deleteByPedidoId( pedidoId );
         verify( cardapioItemRepository ).findById( anyLong() );
     }
 
@@ -195,10 +202,10 @@ public class PedidoServiceTests {
     @DisplayName("Deve listar pedidos com sucesso.")
     void deveListarPedidosComSucesso() {
         List<Pedido> regPedidos = Arrays.asList(
-            PedidoMocks.mockPedidoCompleto(),
-            PedidoMocks.mockPedidoCompleto(),
-            PedidoMocks.mockPedidoCompleto(),
-            PedidoMocks.mockPedidoCompleto()
+            PedidoMocks.mockPedido(),
+            PedidoMocks.mockPedido(),
+            PedidoMocks.mockPedido(),
+            PedidoMocks.mockPedido()
         );
 
         when( pedidoRepository.findAll() ).thenReturn( regPedidos );
@@ -213,10 +220,10 @@ public class PedidoServiceTests {
     @DisplayName("Deve listar por mesa com sucesso.")
     void deveListarPorMesaComSucesso() {
         List<Pedido> regPedidos = Arrays.asList(
-            PedidoMocks.mockPedidoCompleto(),
-            PedidoMocks.mockPedidoCompleto(),
-            PedidoMocks.mockPedidoCompleto(),
-            PedidoMocks.mockPedidoCompleto()
+            PedidoMocks.mockPedido(),
+            PedidoMocks.mockPedido(),
+            PedidoMocks.mockPedido(),
+            PedidoMocks.mockPedido()
         );
 
         int mesa = 1;
@@ -228,6 +235,29 @@ public class PedidoServiceTests {
         assertThat( pedidos ).isEqualTo( regPedidos );
 
         verify( pedidoRepository ).findByMesa( anyInt() );
+    }
+
+    @Test
+    @DisplayName("Deve filtrar com sucesso")
+    void deveFiltrarPedidosComSucesso() {
+        List<Pedido> regPedidos = Arrays.asList(
+                PedidoMocks.mockPedido(),
+                PedidoMocks.mockPedido(),
+                PedidoMocks.mockPedido(),
+                PedidoMocks.mockPedido()
+        );
+
+        PedidoFilterRequest request = PedidoMocks.mockPedidoFilterRequest();
+        request.setAtendidoOption("TODOS");
+
+        when( pedidoRepository.filter( anyInt(), isNull() ) ).thenReturn( regPedidos );
+
+        List<Pedido> pedidos = pedidoService.filter( request );
+
+        assertThat( pedidos ).isNotEmpty();
+        assertThat( pedidos ).isEqualTo( regPedidos );
+
+        verify( pedidoRepository ).filter( anyInt(), isNull() );
     }
 
     @Test

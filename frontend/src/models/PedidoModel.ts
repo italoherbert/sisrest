@@ -47,6 +47,18 @@ class PedidoModel {
         } );
     }
 
+    async filtrar( mesa : string, atendidoOption : string, token : string ) : Promise<AxiosResponse<Pedido[]>> {
+        return await axios.get( BASE_URL + "/pedido/filter", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: {
+                mesa : mesa,
+                atendidoOption : atendidoOption
+            }
+        } )
+    }
+
     async get( pedidoId : number, token : string ) : Promise<AxiosResponse<Pedido>> {
         return await axios.get( BASE_URL + "/pedido/"+pedidoId, {
             headers: {

@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import italo.sisrest.controller.dto.request.filter.PedidoFilterRequest;
 import italo.sisrest.controller.dto.response.PedidoResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -137,7 +138,28 @@ public class PedidoControllerTests {
         ).andExpect( status().isOk() );
 
         verify( pedidoService ).listByMesa( mesa );
+    }
 
+    @Test
+    @WithMockUser(username="italo", authorities = {"pedidoREAD"})
+    @DisplayName("Deve filtrar pedidos com sucesso.")
+    void deveFiltrarPedidosComSucesso() throws Exception {
+        List<Pedido> pedidos = Arrays.asList(
+                PedidoMocks.mockPedido(),
+                PedidoMocks.mockPedido(),
+                PedidoMocks.mockPedido(),
+                PedidoMocks.mockPedido()
+        );
+
+        when( pedidoService.filter( any( PedidoFilterRequest.class ) ) ).thenReturn( pedidos );
+
+        mockMvc.perform(
+                get( "/api/sisrest/v1/pedido/filter" )
+                        .param( "mesa", "1" )
+                        .param( "atendidoOption", "TODOS" )
+        ).andExpect( status().isOk() );
+
+        verify( pedidoService ).filter( any( PedidoFilterRequest.class ) );
     }
 
     @Test

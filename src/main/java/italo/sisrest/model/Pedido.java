@@ -32,7 +32,7 @@ public class Pedido {
 
     private boolean atendido;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pedido", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<PedidoItem> items;
 
 }

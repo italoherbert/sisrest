@@ -44,6 +44,7 @@ const PedidoSave = ( { id } : Props ) => {
         geraSavePedidoItems,
         alterItemQuantidade,
         getItemDescricao,
+        limpaMessages,
         itemsFiltered,
         itemsAdded,
         itemsQuantsAdded,
@@ -58,6 +59,8 @@ const PedidoSave = ( { id } : Props ) => {
     }, [] );
 
     const onLoad = async () => {
+        limpaMessages();
+
         const pedidoId = parseInt( id );
         try {
             if ( pedidoId === -1 ) {
@@ -72,6 +75,8 @@ const PedidoSave = ( { id } : Props ) => {
     };
 
     const onSave = async () => {
+        limpaMessages();
+        
         if ( isNaN( parseInt( mesa ) ) ) {
             setErrorMessage( 'Informe um número de mesa numérico.' );
             return;
@@ -91,6 +96,8 @@ const PedidoSave = ( { id } : Props ) => {
             } else {
                 await alteraPedido( pedidoId, pedido );
             }
+            await loadAllCardapioItems();
+            setMesa( '' );
         } catch ( error ) {
             console.error( error );
         }
@@ -112,6 +119,8 @@ const PedidoSave = ( { id } : Props ) => {
     };
 
     const onSetQuantidade = async () => {        
+        limpaMessages();
+
         const quant = parseInt( quantidade  );
         if ( isNaN( quant ) ) {
             setErrorMessage( 'A quantidade deve ser um valor inteiro.' );
