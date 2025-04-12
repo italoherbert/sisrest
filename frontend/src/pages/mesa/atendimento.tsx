@@ -20,6 +20,7 @@ const MesaAtendimento = () => {
 
     const {
         loadMesa,
+        atendeMesa,
         limpaMessages,
         mesaItems,
         total,
@@ -48,7 +49,20 @@ const MesaAtendimento = () => {
     };
 
     const onAtenderMesa = async () => {
-        
+        limpaMessages();
+
+        const mesaInt = parseInt( mesa );
+
+        if ( isNaN( mesaInt ) ) {
+            setErrorMessage( 'Informe um número de mesa numérico.' );
+            return;
+        }
+
+        try {
+            await atendeMesa( mesaInt );
+        } catch ( error ) {
+            console.error( error );
+        }
     };
 
     return (
@@ -113,14 +127,14 @@ const MesaAtendimento = () => {
                         <RealFormatter value={total} />
                     </SimpleField>
 
-                    <br />
-
-                    <Message type="error" message={errorMessage} />
-                    <Message type="info" message={infoMessage} />
-                    <DivItemsCenter>
-                        <Spinner visible={loading} />
-                    </DivItemsCenter>
-
+                    <div className="my-2">
+                        <Message type="error" message={errorMessage} />
+                        <Message type="info" message={infoMessage} />
+                        <DivItemsCenter>
+                            <Spinner visible={loading} />
+                        </DivItemsCenter>
+                    </div>
+                    
                     <Button onClick={onAtenderMesa} disabled={atenderDisabled}>
                         Atender mesa
                     </Button>

@@ -3,6 +3,7 @@ import PedidoModel from "@/models/PedidoModel";
 import { AuthContext } from "@/context/AuthProvider";
 import { extractErrorMessage } from "@/util/SistemaUtil";
 import MesaItem from "@/models/dtos/MesaItem";
+import MesaModel from "@/models/MesaModel";
 
 const useMesaAtendimentoViewModel = () => {
 
@@ -16,6 +17,7 @@ const useMesaAtendimentoViewModel = () => {
     const {token} = useContext(AuthContext);
 
     const pedidoModel = new PedidoModel();
+    const mesaModel = new MesaModel();
 
     const loadMesa = async ( mesa : number ) : Promise<boolean> => {
         setLoading( true );
@@ -54,6 +56,20 @@ const useMesaAtendimentoViewModel = () => {
         }
     };
 
+    const atendeMesa = async ( mesa : number ) => {
+        setLoading( true );
+
+        try {
+            await mesaModel.atendeMesa( mesa, token );
+            setInfoMessage( "Conta encerrada com sucesso.")
+            setLoading( false );
+        } catch ( error ) {
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );
+            throw error;
+        }
+    };
+
     const limpaMessages = () => {
         setErrorMessage( null );
         setInfoMessage( null );
@@ -61,6 +77,7 @@ const useMesaAtendimentoViewModel = () => {
 
     return {
         loadMesa,
+        atendeMesa,
         limpaMessages,
         mesaItems,
         total,

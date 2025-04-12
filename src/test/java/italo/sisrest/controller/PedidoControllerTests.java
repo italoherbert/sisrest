@@ -181,8 +181,8 @@ public class PedidoControllerTests {
 
     @Test
     @WithMockUser(username = "italo", authorities = {"pedidoWRITE"})
-    @DisplayName("Deve marcar pedido como removido com sucesso.")
-    void deveMarcarPedidoComoRemovidoComSucesso() throws Exception {
+    @DisplayName("Deve marcar pedido como atendido com sucesso.")
+    void deveMarcarPedidoComoAtendidoComSucesso() throws Exception {
         Long pedidoId = 1L;
 
         doNothing().when( pedidoService ).setAtendido( pedidoId, true );
