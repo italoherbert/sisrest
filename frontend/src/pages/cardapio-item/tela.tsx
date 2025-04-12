@@ -17,7 +17,7 @@ import { DivItemsCenter } from "../../components/Divs";
 import MainLayout from "../../layouts/main/main-layout";
 import ActionItems from "../../components/ActionItems";
 import { CardapioItem } from "@/models/dtos/CardapioItem";
-import ModalRemover from "@/components/ModalRemover";
+import ModalRemover from "@/components/modal/ModalRemover";
 
 const CardapioItemTela = ({}) => {
 

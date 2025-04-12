@@ -16,13 +16,6 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
             "where (?1 is null or p.mesa=?1) and (?2 is null or p.atendido=?2)")
     List<Pedido> filter( Integer mesa, Boolean atendido );
 
-    @Query("select p from Pedido p where p.atendido=?1")
-    List<Pedido> filterOnlyByAtendido( boolean atendido );
-
-    @Query("select p from Pedido p where p.mesa=?1")
-    List<Pedido> filterOnlyByMesa( int mesa );
-
-
     List<Pedido> findByMesa(int mesa);
 
 }

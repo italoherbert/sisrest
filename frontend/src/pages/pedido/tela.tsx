@@ -14,7 +14,7 @@ import Message from "@/components/Message";
 import { DivItemsCenter } from "@/components/Divs";
 import Spinner from "@/components/Spinner";
 import ActionItems from "@/components/ActionItems";
-import ModalRemover from "@/components/ModalRemover";
+import ModalRemover from "@/components/modal/ModalRemover";
 import SelectBox from "@/components/SelectBox";
 
 const PedidoTela = () => {
@@ -23,7 +23,7 @@ const PedidoTela = () => {
     const [atendidoOption, setAtendidoOption] = useState<string>('');
 
     const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>( false );
-    const [removerId, setRemoverId] = useState<number>( -1 );
+    const [pedidoToActionId, setPedidoToActionId] = useState<number>( -1 );
 
     const { 
         loadOptions,
@@ -71,9 +71,9 @@ const PedidoTela = () => {
     const onSetAtendido = async ( pedidoId : number, atendido : boolean ) => {
         limpaMessages();
 
-        try {
+        try {            
             await setAtendido( pedidoId, !atendido );
-            await onFiltrar( false );
+            await onFiltrar( false );            
         } catch ( error ) {
             console.error( error );
         }
@@ -85,7 +85,7 @@ const PedidoTela = () => {
         try {
             setDeleteModalVisible( false );
 
-            await removePedido( removerId );
+            await removePedido( pedidoToActionId );
 
             await onFiltrar( false );
         } catch ( error ) {
@@ -99,7 +99,7 @@ const PedidoTela = () => {
         try {
             await loadPedido( pedidoId );
             
-            setRemoverId( pedidoId );
+            setPedidoToActionId( pedidoId );
             setDeleteModalVisible( true );
         } catch ( error ) {
             console.error( error );
@@ -127,7 +127,7 @@ const PedidoTela = () => {
                     ))}
                 </div>
             </ModalRemover>
-
+            
             <MainLayout>
                 <Painel className="w-300 p-3">
                     <PageTitle>Lista de pedidos</PageTitle>

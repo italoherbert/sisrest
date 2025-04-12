@@ -120,29 +120,6 @@ public class PedidoService {
         Integer mesaInt = ( mesa.equals( "*" ) ? null : Integer.parseInt( mesa ) );
 
         return pedidoRepository.filter( mesaInt, atendidoBool );
-        /*
-        if ( mesa.equals( "*" ) ) {
-            switch( atenOption ) {
-                case AtendimentoOption.TODOS:
-                    return pedidoRepository.findAll();
-                case AtendimentoOption.SOMENTE_ATENDIDOS:
-                    return pedidoRepository.filterOnlyByAtendido( true );
-                default:
-                    return pedidoRepository.filterOnlyByAtendido( false );
-            }
-        } else {
-            int mesaInt = Integer.parseInt( mesa );
-
-            switch( atenOption ) {
-                case AtendimentoOption.TODOS:
-                    return pedidoRepository.filterOnlyByMesa( mesaInt );
-                case AtendimentoOption.SOMENTE_ATENDIDOS:
-                    return pedidoRepository.filter( mesaInt, true );
-                default:
-                    return pedidoRepository.filter( mesaInt, false );
-            }
-        }
-        */
     }
 
     public Pedido get( Long pedidoId ) {
